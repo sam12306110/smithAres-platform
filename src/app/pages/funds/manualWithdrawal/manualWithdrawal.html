@@ -1,0 +1,209 @@
+<div class="widgets" ng-controller="manualWithdrawal">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="人工存入" ng-click="openTab(1)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">入款会员账号</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="queryParam.memberName" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-primary  btn-with-icon"
+                                        ng-click="onSearch()"><i
+                                        class="ion-search"></i>查询
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-title="账户信息" ba-panel-class="with-scroll">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">会员账号</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="entity.memberName"
+                                       disabled/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账户余额</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                                <input class="form-control" placeholder="" ng-model="entity.amount" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-title="存入配置" ba-panel-class="with-scroll">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">存入项目</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.depositTypeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="存入项目">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.depositType | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">存入金额</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                                <input type="number " class="form-control" placeholder="{{depositText}}" ng-model="charge.chargeAmount" required >
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label">备注</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="charge.chargeRemark">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-inline custom-checkbox nowrap col-sm-2 control-label">
+                            <input type="checkbox" value="checkMode[0].id" ng-model="checkMode[0].isCheck"
+                                   ng-disabled="selectParam.depositTypeSelected.id!=10">
+                            <span>{{checkMode[0].value}}</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                                <input class="form-control" placeholder="" ng-model="charge.depDiscount" maxlength="18"
+                                       ng-disabled="!checkMode[0].isCheck||selectParam.depositTypeSelected.id!=10">
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label">备注</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="charge.depRemark"
+                                       ng-disabled="!checkMode[0].isCheck||selectParam.depositTypeSelected.id!=10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="onCharge()"><i
+                                    class="ion-checkmark"></i>确认
+                            </button>
+                            <button type="button" class="btn btn-primary btn-with-icon" ng-click="onCancel()"><i
+                                    class="ion-android-exit"></i>取消
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-tab>
+        <uib-tab heading="人工提出" ng-click="openTab(2)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">提款会员帐号</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="queryParam.memberName" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-primary  btn-with-icon"
+                                        ng-click="onSearch()"><i
+                                        class="ion-search"></i>查询
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-title="账户信息" ba-panel-class="with-scroll">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">会员账号</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="entity.memberName" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账户余额</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                                <input class="form-control" placeholder="" ng-model="entity.amount" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-title="提款配置" ba-panel-class="with-scroll">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">提款项目</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.withdrawalTypeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="提款项目">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.withdrawalType | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">提款金额</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                                <input class="form-control" placeholder="" ng-model="draw.drawAmount" maxlength="18">
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label">备注</label>
+                        <div class="col-sm-4">
+                            <div class="">
+                                <input class="form-control" placeholder="" ng-model="draw.drawRemark">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-primary btn-with-icon" ng-click="onDraw()"><i
+                                    class="ion-checkmark"></i>确认
+                            </button>
+                            <button type="button" class="btn btn-primary btn-with-icon" ng-click="onCancel()"><i
+                                    class="ion-android-exit"></i>取消
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>
+

@@ -1,0 +1,24 @@
+<div class="page-top clearfix" scroll-position="scrolled" max-height="50" ng-class="{'scrolled': scrolled}">
+    <div class="" ng-controller="logoutCtrl" >
+    <a href="#/dashboard" class="al-logo clearfix"><span id="headerName"> {{headerName}}</span></a>
+    <a href class="collapse-menu-link ion-navicon" ba-sidebar-toggle-menu id="menuBtn"></a>
+    <div class="user-profile clearfix" >
+        <a ng-click="openOnline()" style="color:#fff">
+            <span  style="font-size: 14px;line-height: 50px;margin-left: -100px" ng-show="agentFlag">当前在线会员数 <b style="color: #ffbf00;font-size: 18px;margin-left: 3px">{{MemberNum}}</b> </span>
+        </a>
+        <div class="al-user-profile" uib-dropdown>
+
+            <a uib-dropdown-toggle class="profile-toggle-link">
+                <img ng-src="{{::( 'Andrey' | profilePicture )}}">
+            </a>
+            <ul class="top-dropdown-menu profile-dropdown" uib-dropdown-menu>
+                <li><i class="dropdown-arr"></i></li>
+                <!--<li><a href="#/profile"><i class="fa fa-user"></i>Profile</a></li>-->
+                <!--<li><a href><i class="fa fa-cog"></i>Settings</a></li>-->
+                <li><a href class="" ng-click="logout()"><i class="fa fa-power-off"></i>登出</a></li>
+            </ul>
+        </div>
+        <!--<msg-center></msg-center>-->
+    </div>
+    </div>
+</div>

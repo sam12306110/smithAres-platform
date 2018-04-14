@@ -1,0 +1,257 @@
+<div class="widgets" ng-controller="riskOrderTabCtrl">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="风险方案监控列表" ng-click="clickRiskOrderCtrl()">
+            <div class="widgets" ng-controller="riskOrderCtrl">
+                <!--search-->
+                <div class="row">
+                    <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">方案编号</label>
+                                <div class=" col-sm-2 col-xs-6">
+                                    <input class="form-control" ng-model="viewParam.orderId" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">用户名</label>
+                                <div class=" col-sm-2 col-xs-6">
+                                    <input class="form-control" ng-model="viewParam.memberName" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">审核状态</label>
+                                <div class=" col-sm-2 col-xs-6">
+                                    <ui-select ng-model="viewParam.auditSelectStatus"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="请选择">
+                                            <span> {{$select.selected.desc}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in statusList">
+                                            <span ng-bind-html="item.desc"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <label class="col-sm-1 control-label">审核人</label>
+                                <div class=" col-sm-2 col-xs-6">
+                                    <input class="form-control" ng-model="viewParam.modifyUserName" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">开始时间</label>
+                                <div class=" col-sm-2 col-xs-6">
+                                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                                           ng-model="viewParam.startTime"/>
+                                </div>
+                                <label class="col-sm-1 control-label">结束时间</label>
+                                <div class=" col-sm-2 col-xs-6">
+                                    <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                                           ng-model="viewParam.endTime"/>
+                                </div>
+                                <div class="col-sm-6 align-right">
+                                    <a ng-click="onReset()">重置</a>
+                                    <button type="submit" class="btn btn-primary  btn-with-icon"
+                                            ng-click="selectPage(1)"><i
+                                            class="ion-search"></i>搜索
+                                    </button>
+                                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()">
+                                        <i
+                                                class="ion-i"></i>导出
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--result-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>方案编号</th>
+                                    <th>用户名</th>
+                                    <th>所属平台</th>
+                                    <!-- <th>所属业主</th> -->
+                                    <th>投注时间</th>
+                                    <th>投注金额</th>
+                                    <th>奖金</th>
+                                    <th>是否为追号单</th>
+                                    <th>风险值</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                    <th>审核人</th>
+                                    <th>审核时间</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in list">
+                                    <td>{{$index+1}}</td>
+                                    <td><a ng-click="openDetail(item.orderId,1)">{{item.orderId}}</a></td>
+                                    <td>{{item.memberName}}</td>
+                                    <td>{{item.platInfoName}}</td>
+                                    <!--  <td>{{item.ownerName}}</td> -->
+                                    <td>{{item.betTimeString}}</td>
+                                    <td>{{item.betAmount/100}}</td>
+                                    <td>{{item.payoff/100}}</td>
+                                    <td>{{item.ifChaseString}}</td>
+                                    <td><a ng-mousemove="onMouseenter(item.reason)" ng-mouseout="onMouseout()"
+                                           href="javeScript:;">查看</a></td>
+                                    <!--0:待审核, 1: 已锁定,2:未通过, 3:已通过 -->
+                                    <td>
+                                        <p ng-show="item.status==0">
+                                            {{item.statusString}}</p>
+                                        <p ng-show="item.status==1" style="color:#FF8000">{{item.statusString}}</p>
+                                        <p ng-show="item.status==2" style="color:red">{{item.statusString}}</p>
+                                        <p ng-show="item.status==3" style="color:green">{{item.statusString}}</p>
+                                    </td>
+                                    <td>
+                                        <button ng-show="item.status==0" type="button"
+                                                class="btn btn-primary  btn-with-icon" ng-click="onLock(item)">锁定
+                                        </button>
+                                        <button ng-show="item.status==1" type="button"
+                                                class="btn btn-primary  btn-with-icon" ng-click="onAudit(item)">审核
+                                        </button>
+                                    </td>
+                                    <td>{{item.modifyUserName}}</td>
+                                    <td>{{item.modifyTimeString}}</td>
+                                    <td>{{item.remark}}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="12" class="text-center">
+                                        <!-- <div ng-include="'app/pages/template/pagination.custom.nosmarttable.html'"/> -->
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div id="page"></div>
+                            <div id="so-pop"
+                                 style="display: none;width: 200px;position: fixed;top: 0;left: 0;z-index: 1000;background-color: #FFFFFF;color: #000000">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-id"
+                                            style="line-height:30px;text-align: center !important;margin: auto">风险参数名
+                                        </th>
+                                        <th style="line-height:30px;text-align: center !important;margin: auto">值</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="e in popObjArr">
+                                        <td style="height: 36px;border: inherit;text-align: center !important;margin: auto">
+                                            {{e.k}}
+                                        </td>
+                                        <td style="height: 36px;width:50px;border: inherit;text-align: center !important;margin: auto">
+                                            {{e.v}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <!---->
+        <uib-tab heading="恶意方案监控列表" ng-click="clickHostileOrderCtrl()">
+            <div class="widgets" ng-controller="hostileOrderCtrl">
+                <!--search-->
+                <div class="row">
+                    <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">方案编号</label>
+
+                                <div class=" col-sm-2">
+                                    <input class="form-control" ng-model="viewParam.orderId" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">用户名</label>
+
+                                <div class=" col-sm-2">
+                                    <input class="form-control" ng-model="viewParam.memberName" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">开始时间</label>
+
+
+                                <div class=" col-sm-2">
+                                    <input id="startTime2" so-date type="text" class="form-control" placeholder="开始时间"
+                                           ng-model="viewParam.startTime"/>
+                                </div>
+                                <label class="col-sm-1 control-label">结束时间</label>
+
+                                <div class=" col-sm-2">
+                                    <input id="endTime2" so-date type="text" class="form-control" placeholder="结束时间"
+                                           ng-model="viewParam.endTime"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 align-right">
+                                    <a ng-click="onReset()">重置</a>
+                                    <button type="submit" class="btn btn-primary  btn-with-icon"
+                                            ng-click="selectPage(1)"><i
+                                            class="ion-search"></i>搜索
+                                    </button>
+                                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()">
+                                        <i
+                                                class="ion-i"></i>导出
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--result-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="table-id">序号</th>
+                                    <th>方案编号</th>
+                                    <th>用户名</th>
+                                    <th>所属平台</th>
+                                    <!--  <th>所属业主</th> -->
+                                    <th>投注时间</th>
+                                    <th>投注金额</th>
+                                    <th>奖金</th>
+                                    <th>异常原因</th>
+                                    <th>用户状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in list">
+                                    <td>{{$index+1}}</td>
+                                    <td><a ng-click="openDetail(item.orderId,2)">{{item.orderId}}</a></td>
+                                    <td>{{item.memberName}}</td>
+                                    <td>{{item.platInfoName}}</td>
+                                    <!--  <td>{{item.ownerName}}</td> -->
+                                    <td>{{item.betTimeString}}</td>
+                                    <td>{{item.betAmount/100}}</td>
+                                    <td>{{item.payoff/100}}</td>
+                                    <td ng-mouseenter="onMouseenter(item.reason)">{{item.reason}}</td>
+                                    <td>{{item.userStatusString}}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="12" class="text-center">
+                                        <!-- <div ng-include="'app/pages/template/pagination.custom.nosmarttable.html'"/>  -->
+                                        <div id="page2"></div>
+                                    </td>
+                                </tr>
+                                </tfoot>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

@@ -1,0 +1,78 @@
+<div class="widgets" ng-controller="memberLevel">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">层级名称</label>
+                <div class="col-sm-5">
+                    <input class="form-control" ng-model="queryParam.name" placeholder="">
+                </div>
+                <div class="col-sm-6  align-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                            ng-click="openEdit(true,null)"><i class="ion-plus"></i>新增会员层级
+                    </button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <div class="horizontal-scroll">
+        <table id="table" class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th rowspan="2">序号</th>
+                <th rowspan="2">层级名称</th>
+                <th rowspan="2">创建时间</th>
+                <th rowspan="2">会员人数</th>
+                <th colspan="5">分层条件</th>
+                <th rowspan="2">返水方案</th>
+                <th rowspan="2">出入款优惠方案</th>
+                <th rowspan="2">操作</th>
+            </tr>
+            <tr class="black-muted-bg">
+                <th>存款次数</th>
+                <th>存款总额</th>
+                <th>最大存款数</th>
+                <th>取款次数</th>
+                <th>取款总额</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.memberCount}}</td>
+                <td>{{item.depositCount}}</td>
+                <td>{{item.depositLumpSum}}</td>
+                <td>{{item.maxDeposit}}</td>
+                <td>{{item.withdrawalCount}}</td>
+                <td>{{item.withdrawalLumpSum}}</td>
+                <td><a ng-click="openRebateProgramView(item.rebateProgramId)">{{item.rebateProgramName}}</a></td>
+                <td><a ng-click="openAccessDiscountView(item.accessDiscountId)">{{item.accessDiscountName}}</a></td>
+                <td>
+                    <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                            ng-click="openEdit(true,item)">修改
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="15">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>
+<style>
+    #table th {
+        vertical-align: middle;
+    }
+</style>

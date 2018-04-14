@@ -1,0 +1,269 @@
+<div class="modal-content" ng-controller="agentAuditEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel panel-default bootstrap-panel">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" style="color:#7d7d7d;">代理账号</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" placeholder="" ng-model="entity.agentAccount" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default bootstrap-panel">
+            <div class="panel-heading">代理详细信息</div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">姓名</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.agentName" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">银行卡号</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.bankNo" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">开户行</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.bank" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">银行名称</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.bankName" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">手机</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.phone" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">电子邮箱</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.email" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">QQ</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.qq" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">微信</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.wechat" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default bootstrap-panel" ng-if="edit || entity.auditStatus == 1">
+            <div class="panel-heading">方案配置</div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">退佣方案</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.retirementSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择退佣方案">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.retirement | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">行政成本</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.administrativeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择行政成本">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.administrative | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">手续费</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.feePlanSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择手续费">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.feePlan | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">优惠成本</label>
+                        <div class="col-sm-1">
+                            <label class="checkbox-inline custom-checkbox nowrap" style="color:#7d7d7d;">
+                                <input type="checkbox" value="1" ng-model="selectParam.preferentialCostCheck" ng-true-value="1" ng-false-value="0" ng-disabled="!edit">
+                                <span></span>
+                            </label>
+                        </div>
+                        <label class="col-sm-1 control-label" style="color:#7d7d7d;">返水成本</label>
+                        <div class="col-sm-1">
+                            <label class="checkbox-inline custom-checkbox nowrap" style="color:#7d7d7d;">
+                                <input type="checkbox" value="2" ng-model="selectParam.rebateCostCheck" ng-true-value="1" ng-false-value="0" ng-disabled="!edit">
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">会员注册优惠</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.registDiscountSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择优惠">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.registDiscount | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-2 control-label" style="color:#7d7d7d;">会员默认层级</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.memberLevelSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择层级">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.memberLevel | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default bootstrap-panel xsmall-panel" style="height: auto" ng-if=" entity.auditStatus == 0">
+            <div class="panel-heading">域名</div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="col-sm-6 ">
+                        <div class="url_area clearfix">
+                            <label class="col-sm-12 labelParent">
+                                <input type="text" placeholder="请搜索域名" class="col-sm-12" ng-model="valUrl">
+                                <i class="ion-search" style="font-size: 20px"></i>
+                            </label>
+                            <ul class="urlList col-sm-12">
+                                <li ng-repeat="item in selectParam.rsUrl | filter:valUrl " ng-click="removeCurrentEl(item)">{{item.value}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="url_area clearfix">
+                            <label class="col-sm-12 labelParent">
+                                <input type="text" placeholder="请搜索域名" class="col-sm-12" ng-model="ValUrlT">
+                                <i class="ion-search" style="font-size: 20px"></i>
+                            </label>
+                            <ul class="urlList col-sm-12">
+                                <li ng-repeat="item in selectParam.ringhtRsUrl | filter:ValUrlT"> {{item.value}} <span ng-click="removeCurrentEl2(item)" class="ion-close-round"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default bootstrap-panel xsmall-panel" style="height: auto" ng-if=" entity.auditStatus == 1">
+            <div class="panel-heading">域名</div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="col-sm-6 ">
+                        <div class="url_area clearfix">
+                            <ul class="urlList col-sm-12">
+                                <li ng-repeat="item in selectParam.ringhtRsUrl | filter:ValUrlT"> {{item.value}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" id="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave(1)" ng-if="edit"><i
+                class="ion-checkmark"></i>通过
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave(2)" ng-if="edit"><i
+                class="ion-android-exit"></i>不通过
+        </button>
+    </div>
+</div>
+
+<style>
+    #modal-footer {
+        padding-top: 25px;
+        padding-bottom: 20px;
+    }
+
+    .labelParent {
+        position: relative;
+    }
+
+    .labelParent i {
+        position: absolute;
+        top: 6%;
+        left: 90%;
+        cursor: pointer;
+
+    }
+
+    .urlList li {
+        border-bottom: 1px solid #888;
+        line-height: 30px;
+        padding-left: 10px;
+
+    }
+
+    .urlList li span {
+        color: red;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        font-size: 14px;
+        cursor: pointer;
+        line-height: 30px;
+        padding-left: 30px;
+
+    }
+
+    .url_area {
+        border: 1px solid #888;
+        height: 290px;
+        overflow-y: scroll;
+        padding-top: 10px;
+
+    }
+</style>
+
+

@@ -1,0 +1,136 @@
+<div class="modal-content" ng-controller="periodManageAddCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">父级</label>
+                <div class="col-sm-6" >
+                    <input type="text" class="form-control" placeholder="" ng-model="parentName" style="border-color:#b5b9b9" ng-disabled="true">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">权限名称</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.name" style="border-color:#b5b9b9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">英文标识</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.engKey" style="border-color:#b5b9b9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">级别</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="level" style="border:0" ng-disabled="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">菜单类型</label>
+                <div class="col-sm-6">
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="typeMenu" ng-model="typeMenu" ng-value="1">
+                        <span style="color: #7d7d7d;">菜单</span>
+                    </label>
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="menuType" ng-model="typeMenu" ng-value="2">
+                        <span style="color: #7d7d7d;padding-left: 50px">按钮</span>
+                    </label>
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="menuType" ng-model="typeMenu" ng-value="3">
+                        <span style="color: #7d7d7d;padding-left: 50px">子菜单</span>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">叶子节点</label>
+                <div class="col-sm-6">
+                    <label class="custom-checkbox" >
+                        <!--checked="checked"-->
+                        <input type="radio" value="option1" name="node" ng-model="leafNodes" ng-value="1" >
+                        <span style="color: #7d7d7d">不是</span>
+                    </label>
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="node" ng-model="leafNodes" ng-value="0">
+                        <span style="color: #7d7d7d;padding-left: 50px">是</span>
+                    </label>
+                </div>
+            </div>
+           <!-- <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">级别菜单</label>
+                <div class="col-sm-6">
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="status" ng-model="status"  ng-value="1">
+                        <span style="color: #7d7d7d">可用</span>
+                    </label>
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="status" ng-model="status" ng-value="0">
+                        <span style="color: #7d7d7d;padding-left: 50px">不可用</span>
+                    </label>
+
+                </div>
+            </div>-->
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">状态</label>
+                <div class="col-sm-6">
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="status" ng-model="status"  ng-value="1">
+                        <span style="color: #7d7d7d">可用</span>
+                    </label>
+                    <label class="custom-checkbox" >
+                        <input type="radio" value="option1" name="status" ng-model="status" ng-value="0">
+                        <span style="color: #7d7d7d;padding-left: 50px">不可用</span>
+                    </label>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">排序标识</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.sort" style="border-color:#b5b9b9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">权限路径</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.resUri" style="border-color:#b5b9b9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">静态路径</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.staticUrl" style="border-color:#b5b9b9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">描述</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.description" style="border-color:#b5b9b9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">图标</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="selectParam.icon" style="border-color:#b5b9b9">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>
+

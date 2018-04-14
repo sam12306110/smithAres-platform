@@ -1,0 +1,139 @@
+<div class="modal-content" ng-controller="platSideEditCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">新增平台账号</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">平台商账号</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.platAccount"
+                           ng-readonly="platAccountReadonly">
+                </div>
+
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">平台商名称</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.platName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">联系电话</label>
+                <div class="col-sm-3">
+                    <input type="tel" class="form-control" placeholder="" ng-model="entity.telephone">
+                </div>
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">电子邮箱</label>
+                <div class="col-sm-3">
+                    <input type="email" class="form-control" placeholder="" ng-model="entity.email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">真实姓名</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.realName">
+                </div>
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">银行名称</label>
+                <div class="col-sm-3">
+                    <ui-select ng-model="selectParam.banksSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="false"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择银行">
+                            <span> {{$select.selected.bankName}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.banks | filter: $select.search">
+                            <span ng-bind-html="item.bankName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">开户行</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.depositBank">
+                </div>
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">银行卡号</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.bankNo">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="col-sm-3 control-label" style="color:#7d7d7d;"><input type="radio"
+                                                                                    ng-model="entity.settleType"
+                                                                                    value="1"/>现金方案</label>
+                <div class="col-sm-5">
+                    <ui-select ng-model="selectParam.settleCashPlanIdSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="false"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.settleCashPlanIds | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" style="color:#7d7d7d;"><input type="radio"
+                                                                                    ng-model="entity.settleType"
+                                                                                    value="2"/>信用方案</label>
+                <div class="col-sm-5">
+                    <ui-select ng-model="selectParam.settleCreditPlanIdSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="false"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.settleCreditPlanIds | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div ng-repeat="lottery in selectParam.lotteries">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">{{lottery.value}}</label>
+                    <div class="col-sm-3">
+                        <ui-select ng-model="lottery.ngModel" id="oddsSelect_{{lottery.id}}"
+                                   class="btn-group bootstrap-select form-control"
+                                   ng-disabled="false"
+                                   append-to-body="false"
+                                   search-enabled="false">
+                            <ui-select-match placeholder="请选择">
+                                <span>{{$select.selected.value}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in lottery.odds | filter: $select.search">
+                                <span ng-bind-html="item.value"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

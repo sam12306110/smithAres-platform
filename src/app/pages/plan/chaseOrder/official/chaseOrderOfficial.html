@@ -1,0 +1,295 @@
+<div class="widgets" ng-controller="chaseOrderOfficialTabCtrl">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="当天追号记录" ng-click="clickChaseOrderTodayListCtrl()">
+            <div class="widgets" ng-controller="chaseOrderOfficialTodayCtrl">
+                <!--search-->
+                <div class="row">
+                    <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">选择彩种</label>
+                                <div class=" col-sm-2 ">
+                                    <ui-select ng-model="viewParam.selectedLottery"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="请选择">
+                                            <span> {{$select.selected.value}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in viewParam.lotteryList">
+                                            <span ng-bind-html="item.value"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <label class="col-sm-1 control-label">方案编号</label>
+
+                                <div class=" col-sm-2 ">
+                                    <input class="form-control" ng-model="viewParam.orderId" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">用户名</label>
+                                <div class=" col-sm-2 ">
+                                    <input class="form-control" ng-model="viewParam.memberName" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">选择来源</label>
+                                <div class=" col-sm-2 ">
+                                    <ui-select ng-model="viewParam.selectedSource"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="请选择">
+                                            <span> {{$select.selected.mes}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                                repeat="item in viewParam.sourceList | filter: $select.search">
+                                            <span ng-bind-html="item.mes"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">选择状态</label>
+                                <div class=" col-sm-2 ">
+                                    <ui-select ng-model="viewParam.selectedStatus"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="状态">
+                                            <span>{{$select.selected.mes}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in viewParam.statusList">
+                                            <span ng-bind-html="item.mes"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class=" col-sm-6  align-right">
+                                    <a ng-click="onReset()">重置</a>
+                                    <button type="submit" class="btn btn-primary  btn-with-icon"
+                                            ng-click="selectPage(1)"><i
+                                            class="ion-search"></i>搜索
+                                    </button>
+                                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()">
+                                        <i
+                                                class="ion-i"></i>导出
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--result-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>追号编号</th>
+                                    <th>用户名</th>
+                                    <th>所属平台</th>
+                                    <!--<th>所属业主</th>-->
+                                    <th>彩种名称</th>
+                                    <th>起始期号</th>
+                                    <th>追号时间</th>
+                                    <th>追号期数</th>
+                                    <th>完成期数</th>
+                                    <th>取消期数</th>
+                                    <th>追号总金额</th>
+                                    <th>完成金额</th>
+                                    <th>取消金额</th>
+                                    <th>已获奖金</th>
+                                    <th>中奖停追</th>
+                                    <th>状态</th>
+                                    <th>来源</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in list">
+                                    <td>{{$index+1}}</td>
+                                    <td><a ng-click="openDetail(item.orderId)">{{item.orderId}}</a></td>
+                                    <td>{{item.memberName}}</td>
+                                    <td>{{item.platInfoName}}</td>
+                                    <!--<td>{{item.ownerName}}</td>-->
+                                    <td>{{item.lotteryName}}</td>
+                                    <td>{{item.firstBetPcodeString}}</td>
+                                    <td>{{item.firstBetTimeString}}</td>
+                                    <td>{{item.chasePNum}}</td>
+                                    <td>{{item.completePNum}}</td>
+                                    <td>{{item.cancelPNum}}</td>
+                                    <td>{{item.totalAmount/100}}</td>
+                                    <td>{{item.completeAmount/100}}</td>
+                                    <td>{{item.cancelAmount/100}}</td>
+                                    <td>{{item.winAmount/100}}</td>
+                                    <td>{{item.chaseStopString}}</td>
+                                    <td>{{item.statusString}}</td>
+                                    <td>{{item.sourceString}}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="18" class="text-center">
+                                        <div ng-include="'app/pages/template/pagination.custom.nosmarttable.html'"/>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+
+
+        <!---->
+        <uib-tab heading="历史追号记录" ng-click="clickChaseOrderOfficialHistoryListCtrl()">
+            <div class="widgets" ng-controller="chaseOrderOfficialHistoryOrderCtrl">
+                <!--search-->
+                <div class="row">
+                    <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">选择彩种</label>
+                                <div class=" col-sm-2 ">
+                                    <ui-select ng-model="viewParam.selectedLottery"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="请选择">
+                                            <span> {{$select.selected.value}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in viewParam.lotteryList">
+                                            <span ng-bind-html="item.value"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <label class="col-sm-1 control-label">方案编号</label>
+                                <div class=" col-sm-2 ">
+                                    <input class="form-control" ng-model="viewParam.orderId" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">用户名</label>
+                                <div class=" col-sm-2 ">
+                                    <input class="form-control" ng-model="viewParam.memberName" placeholder="">
+                                </div>
+                                <label class="col-sm-1 control-label">选择来源</label>
+                                <div class=" col-sm-2 ">
+                                    <ui-select ng-model="viewParam.selectedSource"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="请选择">
+                                            <span> {{$select.selected.mes}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                                repeat="item in viewParam.sourceList | filter: $select.search">
+                                            <span ng-bind-html="item.mes"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">开始时间</label>
+                                <div class=" col-sm-2 ">
+                                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                                           ng-model="viewParam.startTime"/>
+                                </div>
+                                <label class="col-sm-1 control-label">结束时间</label>
+                                <div class=" col-sm-2 ">
+                                    <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                                           ng-model="viewParam.endTime"/>
+                                </div>
+                                <label class="col-sm-1 control-label">选择状态</label>
+                                <div class=" col-sm-2 ">
+                                    <ui-select ng-model="viewParam.selectedStatus"
+                                               class="btn-group bootstrap-select form-control"
+                                               ng-disabled="false"
+                                               append-to-body="true"
+                                               search-enabled="false">
+                                        <ui-select-match placeholder="状态">
+                                            <span>{{$select.selected.mes}}</span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="item in viewParam.statusList">
+                                            <span ng-bind-html="item.mes"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class=" col-sm-12  align-right">
+                                    <a ng-click="onReset()">重置</a>
+                                    <button type="submit" class="btn btn-primary  btn-with-icon"
+                                            ng-click="selectPage(1)"><i
+                                            class="ion-search"></i>搜索
+                                    </button>
+                                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()">
+                                        <i
+                                                class="ion-i"></i>导出
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--result-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="table-id">序号</th>
+                                    <th>追号编号</th>
+                                    <th>用户名</th>
+                                    <th>所属平台</th>
+                                    <!--<th>所属业主</th>-->
+                                    <th>彩种名称</th>
+                                    <th>起始期号</th>
+                                    <th>追号时间</th>
+                                    <th>追号期数</th>
+                                    <th>完成期数</th>
+                                    <th>取消期数</th>
+                                    <th>追号总金额</th>
+                                    <th>完成金额</th>
+                                    <th>取消金额</th>
+                                    <th>已获奖金</th>
+                                    <th>中奖停追</th>
+                                    <th>状态</th>
+                                    <th>来源</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in list">
+                                    <td>{{$index+1}}</td>
+                                    <td><a ng-click="openDetail(item.orderId)">{{item.orderId}}</a></td>
+                                    <td>{{item.memberName}}</td>
+                                    <td>{{item.platInfoName}}</td>
+                                    <!--<td>{{item.ownerName}}</td>-->
+                                    <td>{{item.lotteryName}}</td>
+                                    <td>{{item.firstBetPcodeString}}</td>
+                                    <td>{{item.firstBetTimeString}}</td>
+                                    <td>{{item.chasePNum}}</td>
+                                    <td>{{item.completePNum}}</td>
+                                    <td>{{item.cancelPNum}}</td>
+                                    <td>{{item.totalAmount/100}}</td>
+                                    <td>{{item.completeAmount/100}}</td>
+                                    <td>{{item.cancelAmount/100}}</td>
+                                    <td>{{item.winAmount/100}}</td>
+                                    <td>{{item.chaseStopString}}</td>
+                                    <td>{{item.statusString}}</td>
+                                    <td>{{item.sourceString}}</td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

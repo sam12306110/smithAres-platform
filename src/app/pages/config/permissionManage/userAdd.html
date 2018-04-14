@@ -1,0 +1,58 @@
+<div class="modal-content" ng-controller="userAddCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">新增账号</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">账号</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.account"
+                           ng-readonly="accountReadonly">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">密码</label>
+                <div class="col-sm-6">
+                    <input type="password" class="form-control" placeholder="******" ng-model="entity.password">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">昵称</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.nickName">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">所属角色</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="selectParam.roleSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="false"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span> {{$select.selected.roleName}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.role | filter: $select.search">
+                            <span ng-bind-html="item.roleName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

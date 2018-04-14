@@ -1,0 +1,180 @@
+<div class="widgets" ng-controller="AccessStatistics">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">会员账号</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.memberName" placeholder="会员账号">
+                </div>
+                <label class="col-sm-1 control-label" ng-show="agentFlag">代理账号</label>
+                <div class="col-sm-2" ng-show="agentFlag">
+                    <input class="form-control" ng-model="queryParam.agentName" placeholder="代理账号">
+                </div>
+
+                <label class="col-sm-1 control-labe2"ng-show="!agentFlag"></label>
+                <label class="col-sm-2 control-label">出款/入款时间</label>
+
+                <div class=" col-sm-2 ">
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <div class=" col-sm-2 ">
+                    <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+                <!--<label class="col-sm-1 control-label"></label>-->
+                <!--<label class="col-sm-1 control-label">次数</label>-->
+                <!--<div class=" col-sm-2 ">-->
+                    <!--<input class="form-control" ng-model="queryParam. withdrawalCountStart" placeholder="">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<label class="col-sm-1 control-label">&#45;&#45;&#45;&#45;</label>&ndash;&gt;-->
+                <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+                <!--<div class=" col-sm-2 ">-->
+                    <!--<input class="form-control" ng-model="queryParam.withdrawalCountEnd" placeholder="">-->
+                <!--</div>-->
+                <!--<label class="col-sm-1 control-label"></label>-->
+            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-sm-1 control-label">方式</label>-->
+                <!--<div class=" col-sm-2 ">-->
+                    <!--<input class="form-control" ng-model="queryParam. withdrawalCountStart" placeholder="">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<label class="col-sm-1 control-label">&#45;&#45;&#45;&#45;</label>&ndash;&gt;-->
+                <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+                <!--<div class=" col-sm-2 ">-->
+                    <!--<input class="form-control" ng-model="queryParam.withdrawalCountEnd" placeholder="">-->
+                <!--</div>-->
+                <!--<label class="col-sm-1 control-label"></label>-->
+                <!--<label class="col-sm-1 control-label">金额</label>-->
+                <!--<div class=" col-sm-2 ">-->
+                    <!--<input class="form-control" ng-model="queryParam.withdrawalLumpSumStart" placeholder="">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<label class="col-sm-1 control-label"></label>&ndash;&gt;-->
+
+                <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+                <!--<div class=" col-sm-2 ">-->
+                    <!--<input class="form-control" ng-model="queryParam.withdrawalLumpSumEnd" placeholder="">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+               <!--<label class="col-sm-1 control-label">账号</label>-->
+                  <!--<div class="col-sm-2">-->
+                   <!--<input class="form-control" ng-model="queryParam.login" placeholder="">-->
+                  <!--</div>-->
+            <!--</div>-->
+
+
+            <div class="form-group align-right">
+                <div class="col-sm-10" >
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+
+
+            </div>
+
+        </form>
+    </div>
+    <div ba-panel ba-panel-title="出入款总计">
+    <table class="table table-hover">
+        <thead>
+        <tr class="black-muted-bg">
+            <th>总入款次数</th>
+            <th>总入款金额</th>
+            <th>总出款次数</th>
+            <th>总出款金额</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr >
+            <td>{{summary.inMoneyTimes}}</td>
+            <td>{{summary.inMoneyAmount/100 | number :2}}</td>
+            <td>{{summary.outMoneyTimes}}</td>
+            <td>{{summary.outMoneyAmount/100 | number :2}}</td>
+        </tr>
+        </tbody>
+        <tbody ng-if="summary == null ">
+        <tr>
+            <td colspan="13">暂无数据</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div ba-panel ba-panel-title="会员出入款详情">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>会员账号</th>
+                <th>所属代理</th>
+                <th>会员层级</th>
+                <th>入款次数</th>
+                <th>入款金额</th>
+                <th>出款次数</th>
+                <th>出款金额</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.memberName}}</td>
+                <td>{{item.agentName}}</td>
+                <td>{{item.levelName}}</td>
+                <td><a ng-click="gogogo(item,'1')">{{!item.inMoneyTimes ? 0 :item.inMoneyTimes }}</a></td>
+                <td><a ng-click="gogogo(item,'1')">{{!item.inMoneyAmount ? 0:item.inMoneyAmount /100 | number :2}}</a></td>
+                <td><a ng-click="gogogo(item,'2')">{{!item.outMoneyTimes ? 0 :item.outMoneyTimes }}</a></td>
+                <td><a ng-click="gogogo(item,'2')">{{!item.outMoneyAmount ? 0:item.outMoneyAmount /100 | number :2}}</a></td>
+            </tr><tr>
+                <td>小计</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{!oldsummary.inMoneyTimes ? 0 :oldsummary.inMoneyTimes}}</td>
+                <td>{{!oldsummary.inMoneyAmount?0:oldsummary.inMoneyAmount/100 | number :2}}</td>
+                <td>{{!oldsummary.outMoneyTimes ? 0: oldsummary.outMoneyTimes}}</td>
+                <td>{{!oldsummary.outMoneyAmount ? 0:  oldsummary.outMoneyAmount/100 | number :2}}</td>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{!summary.inMoneyTimes?0:summary.inMoneyTimes}}</td>
+                <td>{{!summary.inMoneyAmount?0:summary.inMoneyAmount/100 | number :2}}</td>
+                <td>{{!summary.outMoneyTimes?0:summary.outMoneyTimes}}</td>
+                <td>{{!summary.outMoneyAmount?0:summary.outMoneyAmount/100 | number :2}}</td>
+            </tr>
+            </tbody>
+
+
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

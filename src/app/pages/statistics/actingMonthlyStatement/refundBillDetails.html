@@ -1,0 +1,88 @@
+<div class="widgets" ng-controller="refundBillDetails">
+    <div ba-panel ba-panel-title="当期汇总">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>代理账号</th>
+                <th>有效会员数量</th>
+                <th>上期有效投注</th>
+                <th>上期损益</th>
+                <th>当期有效投注</th>
+                <th>当期损益</th>
+                <th>当期费用</th>
+                <th>退佣方案</th>
+                <th>可获退佣</th>
+                <th>上期未结算</th>
+                <th>实际退佣</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="summary != null ">
+                <td>{{summary.inMoneyTimes}}</td>
+                <td>{{summary.inMoneyAmount/100 | number :2}}</td>
+                <td>{{summary.outMoneyTimes}}</td>
+                <td>{{summary.outMoneyAmount/100 | number :2}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tbody ng-if="summary == null ">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ba-panel ba-panel-title="退佣详情">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th rowspan="2">序号</th>
+                <th rowspan="2">分类</th>
+                <th rowspan="2">上期有效投注额</th>
+                <th rowspan="2">上期派彩</th>
+                <th rowspan="2">当期有效投注</th>
+                <th rowspan="2">当期损益</th>
+                <th colspan="4">当期费用</th>
+                <th rowspan="2">可获退佣</th>
+            </tr>
+            <tr>
+                <th>返水</th>
+                <th>行政</th>
+                <th>手续费</th>
+                <th>优惠</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.memberName}}</td>
+                <td>{{item.agentName}}</td>
+                <td>{{item.levelName}}</td>
+                <td><a ng-click="gogogo(item,'1')">{{!item.inMoneyTimes ? 0 :item.inMoneyTimes }}</a></td>
+                <td><a ng-click="gogogo(item,'1')">{{!item.inMoneyAmount ? 0:item.inMoneyAmount /100 | number :2}}</a></td>
+                <td><a ng-click="gogogo(item,'2')">{{!item.outMoneyTimes ? 0 :item.outMoneyTimes }}</a></td>
+                <td><a ng-click="gogogo(item,'2')">{{!item.outMoneyAmount ? 0:item.outMoneyAmount /100 | number :2}}</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

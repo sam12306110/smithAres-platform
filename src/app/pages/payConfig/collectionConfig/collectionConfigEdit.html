@@ -1,0 +1,48 @@
+<div class="modal-content" ng-controller="collectionConfigEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <div class="modal-body clearfix" >
+        <div class="col-sm-12" >
+            <label class=" control-label col-sm-2" style="line-height: 34px">收款方式</label>
+             <input type="text" class="col-sm-8 "  ng-model="entity.rsName" style="height: 34px">
+        </div>
+        <div class="col-sm-12" style="margin-top: 20px" >
+            <div class="clearfix">
+                <label class=" control-label col-sm-2" style="line-height: 34px">收款域名</label>
+                <input type="text" class="col-sm-8" ng-model="entity.rsUrl" style="height: 34px" placeholder="如(https://www.vip.com)">
+            </div>
+
+
+              <p id="collection_tips">请严格按照域名规范录入，示例：<span style="color: red">http://www.vip.com</span></p>
+
+        </div>
+
+    </div>
+    <div class="modal-footer" id="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()" ><i
+                class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>
+
+<style>
+    #modal-footer{
+        padding-top: 25px;
+        padding-bottom: 20px;
+    }
+    .border-r{
+        border-radius: 8px;
+    }
+    #collection_tips{
+        padding-left: 18%;
+        line-height: 30px;
+        font-size: 14px;
+    }
+</style>

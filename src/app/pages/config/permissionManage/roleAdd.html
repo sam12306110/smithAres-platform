@@ -1,0 +1,91 @@
+<div class="modal-content" ng-app="myApp" ng-controller="roleAddCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
+    </div>
+    <div class="modal-body ">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">角色名称</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.roleName">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">角色描述</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.description">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group" style="display: none">
+                <label class="col-sm-6 control-label" style="color:#7d7d7d;">选择权限</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.resIds">
+                </div>
+            </div>
+
+            <ul id="roleUl" class="clearfix "  >
+                <h3>选择权限</h3>
+                <li ng-repeat="item in tree" class=" col-md-10" id="{{item.id}}" on-finish-render="ngRepeatFinished" style="color: #7d7d7d">
+                    <div class="checkbox" style="float: left">
+                        <label class="custom-checkbox" ng-click="selectAll($event,this)" >
+                            <input type="checkbox" value="option1" class="one_le_in {{item.idName}}" data-id="{{item.id}}" flag="{{item.checkedFlag}} ">
+                            <span>全选</span>
+                        </label>
+
+                    </div>
+                    <div class="col-md-10 menu-name clearfix"  ng-click="showLevelOne($event,this)" >
+                        <div class="leve1_txt">{{item.text}}
+                        <i class="fa  fa-angle-down " ng-show="item.nodes.length" ng-class="{'rotate_i':item.flag}"></i>
+                        </div>
+                        <div class="" ng-show="item.flag" >
+
+                            <div class="" ng-repeat="key in item.nodes" id="{{key.id}}" >
+                                <div class="checkbox" style="float: left">
+                                    <label class="custom-checkbox" ng-click="selectChild($event,this)" >
+                                        <input type="checkbox" value="option1" class="two_le_in two_l_input {{key.idName}}" data-id="{{key.id}} " flag="{{key.checkedFlag}} " >
+                                        <span></span>
+                                    </label>
+
+                                </div>
+                                <div class="col-md-11 clearfix menu-name"   ng-click="showLeveTwo($event,this)">
+                                    <div class="leve2_txt">{{key.text}}
+                                    <i class="fa  fa-angle-down " ng-show="key.nodes.length" ng-class="{'rotate_i':key.flag}"></i>
+                                    </div>
+                                    <div class="" ng-show="key.flag">
+
+                                        <div class="col-md-10" ng-repeat="k in key.nodes"  ng-click="showLeveThree($event)" id="{{k.id}}" >
+                                            <div class="checkbox" style="float: left" >
+                                                <label class="custom-checkbox" ng-click="selectCurrent($event,this)">
+                                                    <input type="checkbox" value="option1" class="two_le_in three_le_in {{k.idName}}" data-id="{{k.id}}" flag="{{key.checkedFlag}} " >
+                                                    <span></span>
+                                                </label>
+
+                                            </div>
+                                            <div class="col-md-9 col-sm-6 menu-name leve3_txt">{{k.text}}</div>
+
+                                             </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </li>
+            </ul>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

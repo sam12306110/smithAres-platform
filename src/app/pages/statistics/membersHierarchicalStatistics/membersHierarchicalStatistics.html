@@ -1,0 +1,166 @@
+<div class="widgets" ng-controller="membersHierarchicalStatistics">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class=" col-sm-1 control-label">会员层级</label>
+                <div class=" col-sm-2">
+                    <ui-select multiple ng-model="selectParam.memberLevelSelected"
+                               ng-disabled="false"
+                               search-enabled="true"
+                               append-to-body="true"
+                               class="form-control btn-group bootstrap-select">
+                        <ui-select-match placeholder="请选择会员层级">
+                            {{$item.value}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.memberLevel ">
+                            {{item.value}}
+                        </ui-select-choices>
+                    </ui-select>
+
+                </div>
+                <label class="col-sm-1 control-label">彩种选择</label>
+                <div class="col-sm-2">
+                    <ui-select multiple ng-model="selectParam.lotterySelected"
+                               ng-disabled="false"
+                               search-enabled="true"
+                               append-to-body="true"
+                               class="form-control btn-group bootstrap-select">
+                        <ui-select-match placeholder="请选择彩种">
+                            {{$item.value}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.lottery | filter: $select.search | filter: {sideType:2}">
+                            {{item.value}}
+                        </ui-select-choices>
+                    </ui-select>
+
+                </div>
+                <label class="col-sm-1 control-label">时间范围</label>
+                <div class=" col-sm-2 ">
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <div class=" col-sm-2 ">
+                    <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+            </div>
+
+            <div class="form-group align-right">
+                <div class="col-sm-10" >
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+
+
+            </div>
+
+        </form>
+    </div>
+    <div ba-panel ba-panel-title="分层注单汇总">
+        <div class="horizontal-scroll">
+            <table class="table table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th>序号</th>
+                    <!--<th>层级数量</th>-->
+                    <!--<th>彩种数量</th>-->
+                    <th>注单量</th>
+                    <th>投注金额</th>
+                    <th>有效投注</th>
+                    <th>公司损益</th>
+                </tr>
+                </thead>
+                <tbody ng-if="summary != null">
+                <tr>
+                    <td>1</td>
+                    <!--<td>{{summary.levelSum}}</td>-->
+                    <!--<td>{{summary.lotterySum}}</td>-->
+                    <td>{{summary.totalBet}}</td>
+                    <td>{{summary.betAmount/100| number :2 }}</td>
+                    <td>{{summary.validBetAmount/100 | number :2 }}</td>
+                    <td>{{(0-summary.payOff)/100 | number :2 }}</td>
+                </tr>
+                </tbody>
+                <tbody ng-if="summary == null">
+                <tr>
+                    <td colspan="13">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ba-panel ba-panel-title="分层注单明细">
+        <div class="horizontal-scroll">
+            <table class="table table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th>序号</th>
+                    <th>层级名称</th>
+                    <th>彩种名称</th>
+                    <th>注单量</th>
+                    <th>投注金额</th>
+                    <th>有效投注</th>
+                    <th>会员派彩</th>
+                </tr>
+                </thead>
+                <tbody ng-if="entity != null && entity.length >0">
+                <tr ng-repeat="item in entity">
+                    <td>{{$index+1}}</td>
+                    <td><a  ng-click="gogogo(item)">{{item.levelName}}</a></td>
+                    <td>{{item.lotteryName}}</td>
+                    <td>{{!item.totalBet?0: item.totalBet}}</td>
+                    <td>{{!item.betAmount?0:item.betAmount/100 | number : 2}}</td>
+                    <td>{{!item.validBetAmount?0:item.validBetAmount/100| number : 2}}</td>
+                    <td>{{!item.payOff?0:item.payOff/100| number : 2}}</td>
+                </tr><tr>
+                    <td>小计</td>
+                    <td></td>
+
+                    <td></td>
+                    <td>{{!oldsummary.totalBet?0:oldsummary.totalBet}}</td>
+                    <td>{{!oldsummary.betAmount?0:oldsummary.betAmount/100| number : 2}}</td>
+                    <td>{{!oldsummary.validBetAmount?0:oldsummary.validBetAmount/100|number:2}}</td>
+                    <td>{{!oldsummary.payOff?0: oldsummary.payOff/100| number : 2}}</td>
+                </tr>
+                <tr>
+                    <td>总计</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{!summary.totalBet?0:summary.totalBet}}</td>
+                    <td>{{!summary.betAmount?0:summary.betAmount/100| number :2 }}</td>
+                    <td>{{!summary.validBetAmount?0:summary.validBetAmount/100 | number :2 }}</td>
+                    <td>{{!summary.payOff?0:(0-summary.payOff)/100 | number :2 }}</td>
+                </tr>
+                </tbody>
+                <tbody ng-if="entity == null || entity.length ==0">
+                <tr>
+                    <td colspan="14">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>

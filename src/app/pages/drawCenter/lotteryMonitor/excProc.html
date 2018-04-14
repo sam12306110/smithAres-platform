@@ -1,0 +1,176 @@
+<div class="modal-content" ng-controller="excProcCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">异常处理</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">彩种名称</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" placeholder="" ng-model="item.lotteryName" disabled>
+                </div>
+                <label class="col-sm-1 control-label" style="color:#7d7d7d;">期号</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" placeholder="" ng-model="item.issue" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">选择操作项</label>
+                <div class="col-sm-6">
+                    <ui-select ng-model="selectParam.fixedCodeSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="false"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span> {{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.fixedCode | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 1">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">录入官方实际开奖时间</label>
+                    <div class="col-sm-6">
+                        <input id="ptime" so-date type="text" class="form-control" placeholder="开始时间"
+                               ng-model="selectParam.ptime"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>录入官方实际开奖实际及开奖号码后，系统将自动执行以下操作：</strong> <br>
+                    1.系统执行封单操作，该期不可继续购买<br>
+                    2.撤销开奖时间之后的投注单，返还本金，扣除返点，扣除奖金<br>
+                    3.继续派奖 <br>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 2">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">录入官方实际开奖时间</label>
+                    <div class="col-sm-6">
+                        <input id="ptime1" so-date type="text" class="form-control" placeholder="开始时间"
+                               ng-model="selectParam.ptime"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">录入官方实际开奖号码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.numbers">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">请再次确认开奖号码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.numbers">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>录入官方实际开奖实际及开奖号码后，系统将自动执行以下操作：</strong> <br>
+                    1.撤销开奖时间之后的投注单，返还本金，扣除返点 <br>
+                    2.继续判断中奖及派奖 <br>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 3">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>选择撤销本期方案后，系统将自动执行以下操作：</strong> <br>
+                    1.撤销本期所有注单，返还本金，扣除返点，扣除奖金<br>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 4">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>选择撤销后续追号后，系统将自动执行以下操作：</strong> <br>
+                    1.撤销后期所有追号注单<br>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 5">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>选择暂缓派奖后，系统将自动执行以下操作：</strong> <br>
+                    1.暂停本期派奖，等待处理<br>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>选择继续派奖后，系统将自动执行以下操作：</strong> <br>
+                    1.继续进行本期派奖<br>
+                </div>
+            </div>
+            <div ng-if="selectParam.fixedCodeSelected.id == 7">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">录入官方实际开奖号码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.numbers">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">请再次确认开奖号码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.numbers1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="entity.comments">
+                    </div>
+                </div>
+                <div class="alert bg-info">
+                    <strong>选择录入开奖号码后，系统将自动执行以下操作：</strong> <br>
+                    1.撤销本期所有派奖，扣除奖金<br>
+                    2.重新对本期进行中奖判断<br>
+                    3.继续派奖<br>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

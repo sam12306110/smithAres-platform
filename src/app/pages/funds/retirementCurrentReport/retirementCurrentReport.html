@@ -1,0 +1,188 @@
+<div class="widgets" ng-controller="retirementCurrentReport">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">代理账号</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.agentName" placeholder="代理账号">
+                </div>
+                <label class="col-sm-1 control-label">期数选择</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.agentPeriodSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.agentPeriod | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">退佣判定</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.retirementJudgeSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.retirementJudge | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">退佣状态</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.retirementStatusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.retirementStatus | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 text-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div ba-panel ba-panel-title="当期汇总">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>期数名称</th>
+                <th>代理数量</th>
+                <th>当期总投注额</th>
+                <th>当期总有效投注额</th>
+                <th>当期总损益</th>
+                <th>当期总费用</th>
+                <th>上期未结算</th>
+                <th>当期可获退佣</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>{{currentSummary.agentPeriod}}</td>
+                <td>{{currentSummary.agentNum}}</td>
+                <td>{{currentSummary.currentSumBettingAmount | number :2 }}</td>
+                <td>{{currentSummary.currentSumValidBettingAmount | number :2 }}</td>
+                <td>{{currentSummary.currentSumPeriodProfitAndLoss | number :2 }}</td>
+                <td>{{currentSummary.currentSumCost | number :2 }}</td>
+                <td>{{currentSummary.lastPeriodUnsettlementSum | number :2 }}</td>
+                <td>{{currentSummary.currentPeriodRetirementSum | number :2 }}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="currentSummary == null">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ba-panel ba-panel-title=" 代理退佣明细">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>代理账号</th>
+                <th>有效会员数量</th>
+                <th>上期有效投注</th>
+                <th>上期损益</th>
+                <th>当期有效投注</th>
+                <th>当期损益</th>
+                <th>当期费用</th>
+                <th>退佣方案</th>
+                <th>上期未结算</th>
+                <th>可获退佣</th>
+                <th>实际退佣</th>
+                <th>退佣判定</th>
+                <th>退佣状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.agentAccount}}</td>
+                <td>{{item.memberNum}}</td>
+                <td>{{item.lastValidBettingAmount | number : 2}}</td>
+                <td>{{item.lastPeriodProfitAndLoss | number : 2}}</td>
+                <td>{{item.currentValidBettingAmount | number : 2}}</td>
+                <td>{{item.currentPeriodProfitAndLoss | number : 2}}</td>
+                <td>{{item.currentCost | number : 2}}</td>
+                <td><a ng-click="openRetirementProgram(item.retirementJudge)"></a>{{item.retirementName}}</td>
+                <td>{{item.lastPeriodUnsettlement | number : 2}}</td>
+                <td>{{item.retirementAmount | number : 2}}</td>
+                <td>{{item.actualRetirement | number : 2}}</td>
+                <td>{{item.retirementJudge | formatRetirementJudge}}</td>
+                <td>{{item.status | formatRetirementStatus}}</td>
+                <td>
+                    <button class="status-button btn btn-xs btn-danger" ng-if="item.status ==0">已取消</button>
+                    <button class="status-button btn btn-xs btn-danger" ng-if="item.status ==0">已挂账</button>
+                    <button class="status-button btn btn-xs btn-success" ng-if="item.status ==0">已退佣</button>
+                </td>
+            </tr><tr>
+                <td>小计</td>
+                <td></td>
+                <td>{{subtotal.memberNum}}</td>
+                <td>{{subtotal.lastValidBettingAmount | number : 2}}</td>
+                <td>{{subtotal.lastPeriodProfitAndLoss | number : 2}}</td>
+                <td>{{subtotal.currentValidBettingAmount | number : 2}}</td>
+                <td>{{subtotal.currentPeriodProfitAndLoss | number : 2}}</td>
+                <td>{{subtotal.currentCost | number : 2}}</td>
+                <td></td>
+                <td>{{subtotal.lastPeriodUnsettlement | number : 2}}</td>
+                <td>{{subtotal.retirementAmount | number : 2}}</td>
+                <td>{{subtotal.actualRetirement | number : 2}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td>{{sumtotal.memberNum}}</td>
+                <td>{{sumtotal.lastValidBettingAmount | number : 2}}</td>
+                <td>{{sumtotal.lastPeriodProfitAndLoss | number : 2}}</td>
+                <td>{{sumtotal.currentValidBettingAmount | number : 2}}</td>
+                <td>{{sumtotal.currentPeriodProfitAndLoss | number : 2}}</td>
+                <td>{{sumtotal.currentCost | number : 2}}</td>
+                <td></td>
+                <td>{{sumtotal.lastPeriodUnsettlement | number : 2}}</td>
+                <td>{{sumtotal.retirementAmount | number : 2}}</td>
+                <td>{{sumtotal.actualRetirement | number : 2}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="14">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

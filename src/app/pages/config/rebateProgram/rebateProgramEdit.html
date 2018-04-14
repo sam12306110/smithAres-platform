@@ -1,0 +1,48 @@
+<div class="modal-content" ng-controller="rebateProgramEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <form class="form-horizontal">
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">方案名称</label>
+                <div class="col-sm-6">
+                    <input class="form-control" ng-model="entity.name" placeholder="" ng-readonly="!edit" required>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>彩种名称</th>
+                    <th>返水比例</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" ng-repeat="item in itemPO | orderBy :'lotteryType'">
+                    <td>{{item.value}}</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" class="form-control" ng-model="item.percentage" placeholder="" style="text-align: right"
+                                   ng-readonly="!edit" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/" >
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                    class="ion-checkmark"></i>确认
+            </button>
+            <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                    class="ion-android-exit"></i>取消
+            </button>
+        </div>
+    </form>
+
+</div>

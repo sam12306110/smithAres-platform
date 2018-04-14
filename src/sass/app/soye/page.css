@@ -1,0 +1,64 @@
+.so-page {
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+a {
+    cursor: pointer;
+}
+
+.so-page>div {
+    float: left;
+}
+
+.so-page>div:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.so-page>div>a {
+    cursor: pointer;
+    display: block;
+    min-width: 34px;
+    height: 34px;
+    border-top: solid 1px #ddd;
+    border-left: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+    float: left;
+    line-height: 34px;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: relative;
+    left: 0;
+    color: #ffffff;
+}
+
+.so-page>div>a:hover {
+    background-color: #cccccc;
+    color: #FFFFFF;
+}
+
+.so-page>div>a.active {
+    background-color: #209e91;
+    color: #FFFFFF;
+}
+
+.so-page>div>a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.so-page>div>a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-right: solid 1px #ddd;
+}
+
+.so-page .input-group {
+    width: 120px;
+    position: relative;
+    left: 10px;
+}

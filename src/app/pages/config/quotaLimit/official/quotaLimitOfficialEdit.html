@@ -1,0 +1,121 @@
+<div class="modal-content" ng-controller="quotaLimitOfficialEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">彩种名称</label>
+                <div class="col-sm-7">
+                    <ui-select ng-model="selectParam.lotterySelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="false"
+                               search-enabled="false" required="false">
+                        <ui-select-match placeholder="彩种名称">
+                            <span> {{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="item in selectParam.lottery|filter: {sideType:1} | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">撤单手续费起始金额</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                        <input type="number" class="form-control" ng-model="entity.cancelStartAmount" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">撤单手续费比例</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.cancelFeeRateClone" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">单期单会员投注限额</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                        <input type="number" class="form-control" ng-model="entity.periodLimitAmount" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">追号期数限制</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.chaseCountLimit" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">期</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">手工录入最大注数限制</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.manulOrderCountLimit" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">注</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">连续投注间隔时间</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.continueOrderIntval" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">秒</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">管理员后台撤单时间</label>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.managerCancelTime" placeholder=""
+                               required>
+                        <span class="input-group-addon addon-right input-group-addon-primary">秒</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" style="color:#7d7d7d;">元角分模式选择</label>
+                <div class="col-sm-7">
+                    <div ng-repeat="x in moneyMode" style="display:inline;">
+                        <label class="checkbox-inline custom-checkbox nowrap" style="color:#7d7d7d;">
+                            <input type="checkbox" value="x.id" ng-model="x.isCheck">
+                            <span>{{x.value}}</span>
+                        </label>
+                    </div>
+                </div>
+                <label class="col-sm-1" style="color:#7d7d7d;"></label>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

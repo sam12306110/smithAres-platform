@@ -1,0 +1,83 @@
+<div class="widgets" ng-controller="domain">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">域名</label>
+                <div class="col-sm-3">
+                    <input class="form-control" ng-model="queryParam.domain" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">代理账号</label>
+                <div class="col-sm-3">
+                    <input class="form-control" ng-model="queryParam.agentAccount" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">域名类型</label>
+                <div class="col-sm-3">
+                    <ui-select ng-model="selectParam.domainTypeSelected"
+                               class="btn-group bootstrap-select form-control"
+                               append-to-body="true"
+                               search-enabled="false" required="false">
+                        <ui-select-match placeholder="请选择">
+                            <span> {{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.domainType | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12  align-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                            ng-click="openEdit(true,null)"><i class="ion-plus"></i>新增域名
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                            class="ion-ios-cloud-download"></i>导出
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>域名</th>
+                <th>域名类型</th>
+                <th>推广所属代理</th>
+                <th>创建时间</th>
+                <th>创建人</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.domain}}</td>
+                <td>{{item.type | formatDomainType}}</td>
+                <td>{{item.agentAccount?item.agentAccount:'未绑定'}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.createUsername}}</td>
+                <td ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                <td>
+                    <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                            ng-click="onStatus(item)">{{item.status==1?'停用':'启用'}}
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="11">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="widgets" ng-controller="accessDiscount">
+    <div ba-panel ba-panel-class="">
+            <form class="row form-inline">
+                <div class="form-group col-sm-12 col-xs-6 align-right">
+                    <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                            ng-click="openEdit(true,null)">
+                        <i class="ion-plus"></i>新增出入款优惠方案
+                    </button>
+                </div>
+            </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>方案名称</th>
+                <th>创建时间</th>
+                <th>操作人</th>
+                <th>操作时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.modifyUsername}}</td>
+                <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                <td>
+                    <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                            ng-click="onStatus(item)">{{item.status==1?'停用':'启用'}}
+                    </button>
+                    <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                            ng-click="openEdit(true,item)">修改
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

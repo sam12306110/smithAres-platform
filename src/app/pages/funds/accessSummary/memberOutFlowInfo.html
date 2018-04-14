@@ -1,0 +1,87 @@
+<div class="widgets" ng-controller="memberOutFlowInfo">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">开始时间</label>
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <label class="col-sm-1 control-label">结束时间</label>
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+                <div class=" col-sm-6 align-right">
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"
+                            ng-disabled="isEdit"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>项目</th>
+                <th>金额</th>
+                <th>次数</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.actionTypeName}}</td>
+                <td>{{!item.totalAmount?0:item.totalAmount/100|number:2}}</td>
+                <td>{{item.tradeNum}}</td>
+                <td><a>查看</a></td>
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td></td>
+                <td>{{summary.subAmount/100|number:2}}</td>
+                <td>{{summary.subTradeNum}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td>{{summary.totalAmount/100|number:2}}</td>
+                <td>{{summary.totalTradeNum}}</td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="11">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

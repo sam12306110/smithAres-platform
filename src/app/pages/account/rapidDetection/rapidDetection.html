@@ -1,0 +1,543 @@
+<div class="widgets" ng-controller="rapidDetection">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <!--<div class="col-sm-3"></div>-->
+                <label class="col-sm-3 control-label">账号</label>
+                <div class="col-sm-1">
+                    <ui-select ng-model="selectParam.typesSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.typesName | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-sm-3">
+                    <input class="form-control" ng-model="queryParam.username" placeholder="">
+                </div>
+                <div class=" col-sm-1">
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--会员-->
+    <div ng-if="mainFlag">
+        <div ba-panel ba-panel-class="">
+            <h5 class="col-sm-2" style="line-height: 30px;padding-top: 5px;font-size: 20px;">{{loginNum}}</h5>
+            <div class="col-sm-9" style="margin:5px 0 0 2%">
+                <button type="submit" class="btn btn-primary  " ng-click="openEdit(0,main,'member')"><i
+                        class=""></i>重置登陆密码
+                </button>
+                <button type="submit" class="btn btn-primary  " ng-click="openEdit(1,main,'member')"><i
+                        class=""></i>重置取款密码
+                </button>
+                <button type="submit" class="btn btn-primary  " ng-click="offLine(loginNum)"><i
+                        class=""></i>强制下线
+                </button>
+            </div>
+        </div>
+        <div ba-panel ba-panel-title="会员基础信息" ba-panel-class="with-scroll">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">真实姓名</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">{{main.realName}}</div>
+                    </label>
+                    <label class="col-sm-1 control-label">银行名称</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">
+                            <span ng-if="stutesArr.bankName==0">{{main.bankName}}</span>
+                            <ui-select ng-model="selectParam.bankNameSelect"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="false"
+                                       search-enabled="false"
+                                       ng-if="stutesArr.bankName==1"
+                                       ng-if="stutesArr.bankName==1">
+                                <ui-select-match placeholder="请选择银行">
+                                    <span> {{$select.selected.bankName}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.banks | filter: $select.search">
+                                    <span ng-bind-html="item.bankName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <!-- <input ng-if="stutesArr.bankName==1" class="form-control col-sm-2"
+                                    ng-model="main.bankName"
+                                    placeholder="">-->
+                        </div>
+                        <div class="col-sm-3">
+                            <button ng-show="stutesArr.bankName==0" class="status-button btn btn-xs btn-info"
+                                    ng-click="stutesEdit('bankName')">修改
+                            </button>
+                            <button ng-show="stutesArr.bankName==1" class="status-button btn btn-xs btn-success"
+                                    ng-click="stutesSave('bankName',1)">保存
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">注册时间</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9 ">
+                            {{main.createTime| date:'yyyy-MM-dd HH:mm:ss'}}
+                        </div>
+                        <div class=" col-sm-3">
+
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">银行卡号</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.bankCard==0">{{main.bankCard}}</span>
+                            <input ng-if="stutesArr.bankCard==1" class="form-control col-sm-2"
+                                   ng-model="main.bankCard"
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.bankCard==0" class="status-button btn btn-xs btn-info"
+                                    ng-click="stutesEdit('bankCard')">修改
+                            </button>
+                            <button ng-if="stutesArr.bankCard==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('bankCard',1)">保存
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">电子邮箱</label>
+                    <label class=" col-sm-4">
+                        <div class=" col-sm-9">
+                            <span ng-if="stutesArr.email==0">{{main.email}}</span>
+                            <input ng-if="stutesArr.email==1" class="form-control col-sm-2" ng-model="main.email"
+
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.email==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('email')">修改
+                            </button>
+                            <button ng-if="stutesArr.email==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('email',0)">保存
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">开户地址</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.bankAddress==0">{{main.bankAddress}}</span>
+                            <input ng-if="stutesArr.bankAddress==1" class="form-control col-sm-2"
+                                   ng-model="main.bankAddress"
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.bankAddress==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('bankAddress')">修改
+                            </button>
+                            <button ng-if="stutesArr.bankAddress==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('bankAddress',1)">保存
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">手机号码</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 "
+                        >{{main.mobile}}
+                        </div>
+                        <div class=" col-sm-3">
+
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">QQ</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+
+                            <span ng-if="stutesArr.qq==0">{{main.qq}}</span>
+                            <input ng-if="stutesArr.qq==1" class="form-control col-sm-2" ng-model="main.qq"
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.qq==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('qq')">修改
+                            </button>
+                            <button ng-if="stutesArr.qq==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('qq',0)">保存
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">当前状态</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9" ng-style="{color: main.status == 0?'red':''}">
+                            {{main.status==1?'启用中':'已冻结'}}
+                        </div>
+                        <div class=" col-sm-3">
+                            <button class="status-button btn btn-xs btn-{{main.status == 0?'info':'danger'}}" ng-click="onStatus(main.memberId,main.status)">
+                                {{main.status == 0?'启用':'冻结'}}
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">微信号</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.wechat==0">{{main.wechat}}</span>
+                            <input ng-if="stutesArr.wechat==1" class="form-control" ng-model="main.wechat" placeholder="">
+                        </div>
+                        <div class="col-sm-3">
+                            <button ng-if="stutesArr.wechat==0" class="status-button btn btn-xs btn-info" ng-click="stutesEdit('wechat')">修改
+                            </button>
+                            <button ng-if="stutesArr.wechat==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('wechat',0)">保存
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">注册IP</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            {{main.registIp}}
+                        </div>
+                        <div class=" col-sm-3">
+                        </div>
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div ba-panel ba-panel-title="优惠方案" ba-panel-class="with-scroll">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">所属层级</label>
+                <label class="col-sm-3">
+                    <div class="col-sm-9">{{main.memberLevel.name}}</div>
+                    <div class="col-sm-3">
+                        <button class="status-button btn btn-xs btn-info" ng-click="openEditLevel(main.memberId,main.memberLevel)">修改</button>
+                    </div>
+                </label>
+                <label class="col-sm-1 control-label">优惠方案</label>
+                <label class="col-sm-3">
+                    <div class="col-sm-9">{{main.accessDiscount.title}}</div>
+                    <div class="col-sm-3"></div>
+                </label>
+                <label class="col-sm-1 control-label">返水方案</label>
+                <label class="col-sm-3">
+                    <div class="col-sm-9">{{main.rebateProgram.name}}</div>
+                    <div class="col-sm-3"></div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <!--代理-->
+    <div ng-if="agentDataFlag">
+        <div ba-panel ba-panel-class="">
+            <h5 class="col-sm-2" style="line-height: 30px;padding-top: 5px;font-size: 20px;">{{agentData.agentAccount}}</h5>
+            <div class="col-sm-9" style="margin:5px 0 0 2%">
+                <button type="submit" class="btn btn-primary  " ng-click="openEdit(0,agentData,'agent')"><i
+                        class=""></i>重置登陆密码
+                </button>
+
+            </div>
+        </div>
+
+        <div ba-panel ba-panel-title="代理个人资料" ba-panel-class="with-scroll">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">真实姓名</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">
+                            <span ng-if="stutesArr.agentName==0">{{agentData.agentName}}</span>
+                            <input ng-if="stutesArr.agentName==1" class="form-control col-sm-2"
+                                   ng-model="agentData.agentName"
+                                   placeholder="">
+                            {{maagentDatain.agentName}}
+                        </div>
+                        <div class="col-sm-3">
+                            <button ng-show="stutesArr.agentName==0" class="status-button btn btn-xs btn-info"
+                                    ng-click="stutesEdit('agentName')">修改
+                            </button>
+                            <button ng-show="stutesArr.agentName==1" class="status-button btn btn-xs btn-success"
+                                    ng-click="stutesSave('agentName',1)">保存
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">当前状态</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">
+                            {{agentData.status==1? '启用':'停用'}}
+                        </div>
+
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">银行名称</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">
+                            <span ng-if="stutesArr.bankName==0">{{agentData.bankName}}</span>
+                            <ui-select ng-model="selectParam.bankNameSelect"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="false"
+                                       search-enabled="false"
+                                       ng-if="stutesArr.bankName==1">
+                                <ui-select-match placeholder="请选择银行">
+                                    <span> {{$select.selected.bankName}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.banks | filter: $select.search">
+                                    <span ng-bind-html="item.bankName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <button ng-show="stutesArr.bankName==0" class="status-button btn btn-xs btn-info"
+                                    ng-click="stutesEdit('bankName')">修改
+                            </button>
+                            <button ng-show="stutesArr.bankName==1" class="status-button btn btn-xs btn-success"
+                                    ng-click="stutesSave('bankName')">保存
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">开户行</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.bank==0">{{agentData.bank}}</span>
+                            <input ng-if="stutesArr.bank==1" class="form-control col-sm-2"
+                                   ng-model="agentData.bank"
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.bank==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('bank')">修改
+                            </button>
+                            <button ng-if="stutesArr.bank==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('bank')">保存
+                            </button>
+                        </div>
+                    </label>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">银行卡号</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.bankNo==0">{{agentData.bankNo}}</span>
+                            <input ng-if="stutesArr.bankNo==1" class="form-control col-sm-2"
+                                   ng-model="agentData.bankNo"
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.bankNo==0" class="status-button btn btn-xs btn-info"
+                                    ng-click="stutesEdit('bankNo')">修改
+                            </button>
+                            <button ng-if="stutesArr.bankNo==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('bankNo')">保存
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">注册时间</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9 ">
+                            {{agentData.createTime| date:'yyyy-MM-dd HH:mm:ss'}}
+                        </div>
+
+                    </label>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">注册IP</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            {{agentData.registerIp}}
+
+                        </div>
+
+                    </label>
+                    <label class="col-sm-1 control-label">最近登入IP</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9 ">
+
+                        </div>
+
+                    </label>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">审核时间</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            {{agentData.auditTime| date:'yyyy-MM-dd HH:mm:ss'}}
+
+                        </div>
+
+                    </label>
+                    <label class="col-sm-1 control-label">绑定域名</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9 ">
+
+                        </div>
+                        <div class=" col-sm-3">
+                            <button class="status-button btn btn-xs btn-info"
+                                    ng-click="openEditDomain(agentData)">查看
+                            </button>
+                        </div>
+
+                    </label>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">电子邮箱</label>
+                    <label class=" col-sm-4">
+                        <div class=" col-sm-9">
+                            <span ng-if="stutesArr.email==0">{{agentData.email}}</span>
+                            <input ng-if="stutesArr.email==1" class="form-control col-sm-2" ng-model="agentData.email"
+
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.email==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('email')">修改
+                            </button>
+                            <button ng-if="stutesArr.email==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('email',0)">保存
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">手机号码</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.phone==0">{{agentData.phone}}</span>
+                            <input ng-if="stutesArr.phone==1" class="form-control col-sm-2" ng-model="agentData.phone"
+
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.phone==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('phone')">修改
+                            </button>
+                            <button ng-if="stutesArr.phone==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('phone')">保存
+                            </button>
+                        </div>
+                    </label>
+
+                </div>
+                <div class="form-group">
+
+                    <label class="col-sm-1 control-label">QQ</label>
+                    <label class=" col-sm-4">
+                        <div class="col-sm-9 ">
+
+                            <span ng-if="stutesArr.qq==0">{{agentData.qq}}</span>
+                            <input ng-if="stutesArr.qq==1" class="form-control col-sm-2" ng-model="agentData.qq"
+                                   placeholder="">
+                        </div>
+                        <div class=" col-sm-3">
+                            <button ng-if="stutesArr.qq==0" class="status-button btn btn-xs btn-info"
+
+                                    ng-click="stutesEdit('qq')">修改
+                            </button>
+                            <button ng-if="stutesArr.qq==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('qq',0)">保存
+                            </button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">微信号</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9 ">
+                            <span ng-if="stutesArr.wechat==0">{{agentData.wechat}}</span>
+                            <input ng-if="stutesArr.wechat==1" class="form-control" ng-model="agentData.wechat" placeholder="">
+                        </div>
+                        <div class="col-sm-3">
+                            <button ng-if="stutesArr.wechat==0" class="status-button btn btn-xs btn-info" ng-click="stutesEdit('wechat')">修改
+                            </button>
+                            <button ng-if="stutesArr.wechat==1" class="status-button btn btn-xs btn-success"
+
+                                    ng-click="stutesSave('wechat')">保存
+                            </button>
+                        </div>
+                    </label>
+                </div>
+
+            </form>
+        </div>
+        <div ba-panel ba-panel-title="方案配置" ba-panel-class="with-scroll">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">退佣方案</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">{{agentData.retirementName}}</div>
+                        <div class="col-sm-3">
+                            <button class="status-button btn btn-xs btn-info" ng-click="openAgentConfig(agentData)">修改</button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">行政成本</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">{{agentData.administrativeName}}</div>
+                        <div class="col-sm-3">
+                            <button class="status-button btn btn-xs btn-info" ng-click="openAgentConfig(agentData)">修改</button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">手续费方案</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">{{agentData.feePlanName}}</div>
+                        <div class="col-sm-3">
+                            <button class="status-button btn btn-xs btn-info" ng-click="openAgentConfig(agentData)">修改</button>
+                        </div>
+                    </label>
+                    <label class="col-sm-1 control-label">会员默认层级</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">{{agentData.memberLevel.name}}</div>
+                        <div class="col-sm-3">
+                            <button class="status-button btn btn-xs btn-info" ng-click="openAgentConfig(agentData)">修改</button>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">会员注册优惠方案</label>
+                    <label class="col-sm-4">
+                        <div class="col-sm-9">{{agentData.registDiscountName}}</div>
+                        <div class="col-sm-3">
+                            <button class="status-button btn btn-xs btn-info" ng-click="openAgentConfig(agentData)">修改</button>
+                        </div>
+                    </label>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+</style>

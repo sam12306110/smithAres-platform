@@ -1,0 +1,85 @@
+<div class="widgets" ng-controller="periodManageSide">
+    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">期数名称</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.name" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">状态</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">创建人</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.createUsername" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=" col-sm-12  align-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                            ng-click="openEdit(true,null)"><i class="ion-plus"></i>新增配置
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                            class="ion-ios-cloud-download"></i>导出
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <div class="horizontal-scroll">
+            <table class="table table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th>序号</th>
+                    <th>期数名称</th>
+                    <th>期数起点时间</th>
+                    <th>期数终点时间</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody ng-if="entity != null || entity.length >0">
+                <tr ng-repeat="item in entity">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.startTime | date:'yyyy-MM-dd '}}</td>
+                    <td>{{item.endTime | date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.createUsername}}</td>
+                    <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td  ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                    <td>
+                        <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                                ng-click="onStatus(item.cid,item.status)">{{item.status==1?'停用':'启用'}}
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tbody ng-if="entity == null || entity.length ==0">
+                <tr>
+                    <td colspan="11">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>

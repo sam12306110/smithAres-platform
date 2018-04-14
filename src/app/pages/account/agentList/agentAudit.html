@@ -1,0 +1,100 @@
+<div class="widgets" ng-controller="agentAudit">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">代理账号</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.agentAccount" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">状态</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.auditStatusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.auditStatus | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">自动刷新</label>
+                <div class="col-sm-2  align-right">
+                    <ui-select ng-model="selectParam.cycled"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.msg}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.cycle | filter: $select.search">
+                            <span ng-bind-html="item.msg"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="col-sm-3  align-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                            class="ion-ios-cloud-download"></i>导出
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>代理账号</th>
+                <th>联系电话</th>
+                <th>电子邮箱</th>
+                <th>加入来源</th>
+                <th>注册IP</th>
+                <th>注册时间</th>
+                <th>审核人</th>
+                <th>审核时间</th>
+                <th>状态</th>
+                <th>操作</th>
+                <th>来源</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.agentAccount}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.joinSource}}</td>
+                <td>{{item.registerIp}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.auditUsername}}</td>
+                <td>{{item.auditTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.auditStatus | formatAuditStatus}}</td>
+                <td>
+                    <button class="status-button btn btn-xs btn-success"
+                            ng-click="openEdit(true,item)" ng-if="item.auditStatus == 0">审核
+                    </button>
+                    <button class="status-button btn btn-xs btn-info"
+                            ng-click="openEdit(false,item)" ng-if="item.auditStatus != 0">查看
+                    </button>
+                </td>
+                <td>{{item.sourceType | formatSourceType}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="12">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

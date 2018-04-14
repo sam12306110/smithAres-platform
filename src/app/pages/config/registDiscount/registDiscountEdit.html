@@ -1,0 +1,45 @@
+<div class="modal-content" ng-controller="registDiscountEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <form class="form-horizontal">
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">注册优惠名称</label>
+                <div class="col-sm-8">
+                    <input class="form-control" placeholder="" id="name" name="name" ng-model="entity.name" required>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': mForm.discountedPrice.$invalid && (mForm.discountedPrice.$dirty || mForm.$submitted)}">
+                <label class="col-sm-3 control-label" for="discountedPrice">注册优惠金额</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="discountedPrice" name="discountedPrice" ng-model="entity.discountedPrice" placeholder="" required min="0" max="9999999.99"  step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                        <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" >优惠稽核</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.auditMultiple" placeholder="" required min="0" max="9999999" ng-pattern="/^\d+(.\d{1,2})?$/">
+                        <span class="input-group-addon addon-right input-group-addon-primary">倍</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                    class="ion-checkmark"></i>确认
+            </button>
+            <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                    class="ion-android-exit"></i>取消
+            </button>
+        </div>
+    </form>
+
+</div>

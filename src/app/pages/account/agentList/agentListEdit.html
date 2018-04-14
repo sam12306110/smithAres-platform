@@ -1,0 +1,276 @@
+<div class="modal-content" ng-controller="agentListEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <form class="form-horizontal">
+        <div class="modal-body">
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" >代理账号</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" placeholder="" id="agentAccount" ng-model="entity.agentAccount" ng-change="checkagentAccount()" required >
+                            <span class="text-danger" ng-show="checkagentAccount() && entity.agentAccount.length>1">代理账号不能为中文</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" ><span style="color: red;font-size: 18px">*</span>登陆密码</label>
+                        <div class="col-sm-8">
+                            <input  type="password" class="form-control" placeholder="" ng-model="entity.loginPwd" ng-change="checkpassword()"   required>
+                            <span class="text-danger" ng-show="checkpassword() && entity.loginPwd.length>1">请输入6~20位密码</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" ><span style="color: red;font-size: 18px">*</span>确认登陆密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" placeholder="" ng-model="selectParam.confirmPassword"  ng-change="checkIsEqual()" >
+                            <span class="text-danger" ng-show="checkIsEqual() && selectParam.confirmPassword.length<6 && selectParam.confirmPassword.length>1">请输入6~20位英数密码</span>
+                            <span class="text-danger" ng-show="checkIsEqual() && selectParam.confirmPassword.length>=6 && selectParam.confirmPassword.length>1">两次密码输入不一致</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-heading">代理详细信息</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" ><span style="color: red;font-size: 18px">*</span>姓名</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.agentName" ng-change="checkrealyName()" required  >
+                            <span class="text-danger" ng-show="checkrealyName() &&  entity.agentName.length*2>1">请输入真实姓名</span>
+                        </div>
+                        <label class="col-sm-2 control-label" ><span style="color: red;font-size: 18px">*</span>银行卡号</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.bankNo" required>
+                            <span class="text-danger" ng-show="checkBankNum() && entity.bankNo.length>=1 ">请输入格式正确银行卡</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" ><span style="color: red;font-size: 18px">*</span>开户行</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.bank" required>
+                        </div>
+                        <label class="col-sm-2 control-label" ><span style="color: red;font-size: 18px">*</span>银行名称</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.bankNameSelect"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="false"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择银行">
+                                    <span> {{$select.selected.bankName}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.banks | filter: $select.search">
+                                    <span ng-bind-html="item.bankName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" ><span style="color: red;font-size: 18px">*</span>手机</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.phone" ng-change="checktelphone()" required>
+                            <span class="text-danger" ng-show="checktelphone() && entity.phone.length>=1 " >请输入格式正确的手机号码</span>
+                        </div>
+                        <label class="col-sm-2 control-label" >电子邮箱</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.email" ng-change="checkeMails()">
+                            <span class="text-danger" ng-show="checkeMails() && entity.email>=1 " >请新输入格式正确E-mail格式</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" >QQ</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.qq" ng-change="checkQQ()">
+                            <span class="text-danger" ng-show="checkQQ() && entity.qq>=1 ">请新输入格式正确QQ号码</span>
+                        </div>
+                        <label class="col-sm-2 control-label" >微信</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" placeholder="" ng-model="entity.wechat" ng-change="checkweixin()">
+                            <span class="text-danger" ng-show="checkweixin() && entity.wechat>=1 " >请新输入格式正确微信号</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-heading">方案配置</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" >退佣方案</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.retirementSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择退佣方案">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.retirement | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-2 control-label" >行政成本</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.administrativeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择行政成本">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.administrative | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" >手续费</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.feePlanSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择手续费">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.feePlan | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-2 control-label" >优惠成本</label>
+                        <div class="col-sm-1">
+                            <label class="checkbox-inline custom-checkbox nowrap" >
+                                <input type="checkbox" value="1" ng-model="selectParam.preferentialCostCheck" ng-true-value="1" ng-false-value="0" ng-disabled="!edit">
+                                <span></span>
+                            </label>
+                        </div>
+                        <label class="col-sm-1 control-label" >返水成本</label>
+                        <div class="col-sm-1">
+                            <label class="checkbox-inline custom-checkbox nowrap" >
+                                <input type="checkbox" value="2" ng-model="selectParam.rebateCostCheck" ng-true-value="1" ng-false-value="0" ng-disabled="!edit">
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" >会员注册优惠</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.registDiscountSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择优惠">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.registDiscount | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-2 control-label" >会员默认层级</label>
+                        <div class="col-sm-4">
+                            <ui-select ng-model="selectParam.memberLevelSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="!edit"
+                                       append-to-body="false"
+                                       search-enabled="false" required="false">
+                                <ui-select-match placeholder="请选择层级">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.memberLevel | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-heading">域名</div>
+                <div class="panel-body">
+                    <div class="col-sm-6 ">
+                        <div class="url_area clearfix">
+                            <label class="col-sm-12 labelParent">
+                                <input type="text" placeholder="请搜索域名" class="col-sm-12" ng-model="valUrl">
+                                <i class="ion-search" style="font-size: 20px"></i>
+                            </label>
+                            <ul class="urlList col-sm-12">
+                                <li ng-repeat="item in selectParam.rsUrl | filter:valUrl " ng-click="removeCurrentEl(item)">{{item.value}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="url_area clearfix">
+                            <label class="col-sm-12 labelParent">
+                                <input type="text" placeholder="请搜索域名" class="col-sm-12" ng-model="ValUrlT">
+                                <i class="ion-search" style="font-size: 20px"></i>
+                            </label>
+                            <ul class="urlList col-sm-12">
+                                <li ng-repeat="item in selectParam.ringhtRsUrl | filter:ValUrlT"> {{item.value}} <span ng-click="removeCurrentEl2(item)" class="ion-close-round"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" >
+            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i
+                    class="ion-checkmark">确认</i>
+            </button>
+            <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                    class="ion-android-exit">取消</i>
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .text-danger{
+        font-size: 12px;
+    }
+
+
+    .labelParent {
+        position: relative;
+    }
+
+    .labelParent i {
+        position: absolute;
+        top: 6%;
+        left: 90%;
+        cursor: pointer;
+
+    }
+    .urlList li {
+        border-bottom: 1px solid #888;
+        line-height: 30px;
+        padding-left: 10px;
+
+    }
+    .urlList li span {
+        color: red;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        font-size: 14px;
+        cursor: pointer;
+        line-height: 30px;
+        padding-left: 30px;
+
+    }
+    .url_area {
+        border: 1px solid #888;
+        height: 290px;
+        overflow-y: scroll;
+        padding-top: 10px;
+    }
+</style>

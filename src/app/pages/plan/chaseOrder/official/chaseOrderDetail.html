@@ -1,0 +1,95 @@
+<div class="widgets" ng-controller="chaseOrderDetailCtrl">
+    <uib-tabset>
+        <uib-tab heading="追号订单详情">
+            <div class="row">
+                <div class="col-md-12">
+                    <div ba-panel ba-panel-class="with-scroll">
+                        <div class="horizontal-scroll">
+                            <table class="table table-hover">
+                                <tr>
+                                    <td>追号编号</td>
+                                    <td>{{order.orderId}}</td>
+                                    <td>彩种名称</td>
+                                    <td>{{order.lotteryName}}</td>
+                                    <td>来源</td>
+                                    <td>{{order.sourceString}}</td>
+                                </tr>
+                                <tr>
+                                    <td>用户名</td>
+                                    <td>{{order.memberName}}</td>
+                                    <td>所属平台</td>
+                                    <td>{{order.platInfoName}}</td>
+                                    <td>所属业主</td>
+                                    <td>{{order.ownerInfo}}</td>
+                                </tr>
+                                <tr>
+                                    <td>起始期号</td>
+                                    <td>{{order.firstBetPcodeString}}</td>
+                                    <td>追号时间</td>
+                                    <td>{{order.firstBetTimeString}}</td>
+                                    <td>玩法</td>
+                                    <td>{{order.playName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>模式</td>
+                                    <td>{{order.moneyModeChinese}}</td>
+                                    <td>已获奖金</td>
+                                    <td>{{order.winAmount/100}}</td>
+                                    <td>追号进度</td>
+                                    <td>{{order.chaseProcess}}</td>
+                                </tr>
+                                <tr>
+                                    <td>已追号金额</td>
+                                    <td>{{order.completeAmount/100}}</td>
+                                    <td>取消金额</td>
+                                    <td>{{order.cancelAmount/100}}</td>
+                                    <td>追号总金额</td>
+                                    <td>{{order.totalAmount/100}}</td>
+                                </tr>
+                                <tr>
+                                    <td>追中即停</td>
+                                    <td>{{order.chaseStopString}}</td>
+                                    <td>追号状态</td>
+                                    <td>{{order.statusString}}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <span class="input-group-addon input-group-addon-primary addon-left"
+                                  id="basic-addon1">投注内容</span>
+                            <input type="text" class="form-control with-primary-addon" placeholder="Username"
+                                   ng-model="order.betContent"
+                                   aria-describedby="basic-addon1">
+                            <button type="button" class="btn btn-primary" ng-click="stopChase()">停止追号</button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>期号</th>
+                                        <th>追号倍数</th>
+                                        <th>追号状态</th>
+                                        <th>注单详情</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in order.sonList">
+                                        <td>{{item.firstBetPcodeString}}</td>
+                                        <td>{{item.multiple}}</td>
+                                        <td>{{item.statusString}}</td>
+                                        <td><a ng-click="openOrderDetail(item.orderId)">{{item.orderId}}</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

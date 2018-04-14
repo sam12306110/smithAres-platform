@@ -1,0 +1,332 @@
+<div class="widgets" ng-controller="manualWithdrawalRecord">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="人工存入" ng-click="openTab(1)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">会员账号</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.memberName" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">单号</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.orderNo" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">开始时间</label>
+                        <div class="col-sm-2">
+                            <!--添加指令（so-date）指定id type="text"-->
+                            <input id="startTime" so-date type="text" class="form-control "
+                                   placeholder="开始时间"
+                                   ng-model="selectParam.startTime"/>
+                        </div>
+                        <label class="col-sm-1 control-label">结束时间</label>
+                        <div class=" col-sm-2 ">
+                            <!--添加指令（so-date）指定id type="text"-->
+                            <input type="text" id="endTime" class="form-control  " placeholder="结束时间"
+                                   ng-model="selectParam.endTime"/>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ng-show="agentFlag">代理账号</label>
+                        <div class=" col-sm-2 " ng-show="agentFlag">
+                            <input class="form-control" ng-model="queryParam.agentName" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">项目</label>
+                        <div class=" col-sm-2 ">
+                            <ui-select ng-model="selectParam.depositTypeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="状态">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.depositType | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label">开始金额</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.startMoney" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">结束金额 </label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam. endMoney" placeholder="">
+                        </div>
+
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0">
+
+                        <div class="col-sm-12 align-right">
+
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun(0)">今天
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun(1)">昨天
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun(2)">上周
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun(3)">本周
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun(4)">上月
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun(5)">本月
+                            </button>
+
+                            <a ng-click="onReset()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    ng-click="onSearch1()"><i
+                                    class="ion-search"></i>搜索
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div ba-panel ba-panel-class="">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>单号</th>
+                        <th>会员帐号</th>
+                        <th ng-show="agentFlag">所属代理</th>
+                        <th>会员层级</th>
+                        <th>项目</th>
+                        <th>金额</th>
+                        <th>类型</th>
+                        <th>存操作人</th>
+                        <th>时间</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-if="entity != null && entity.length >0">
+                    <tr ng-repeat="item in entity">
+                        <td>{{item.orderNo}}</td>
+                        <td>{{item.memberName}}</td>
+                        <td ng-show="agentFlag">{{item.agentName}}</td>
+                        <td>{{item.levelName}}</td>
+                        <td>{{item.actionTypeName}}</td>
+                        <td>{{item.tradeAmount/100 | number :2}}</td>
+                        <td>{{item.typeName}}</td>
+                        <td>{{item.handlerName}}</td>
+                        <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+                    <tr>
+                        <td>小计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{summary.subAmount /100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>总计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{summary.totalAmount /100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="entity == null || entity.length ==0">
+                    <tr>
+                        <td colspan="13">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="page"></div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="人工提出" ng-click="openTab(2)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">会员账号</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="withdrawalQueryParam.memberName"
+                                   placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">单号</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="withdrawalQueryParam.orderNo"
+                                   placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">开始时间</label>
+                        <div class="col-sm-2">
+                            <!--添加指令（so-date）指定id type="text"-->
+                            <input id="startTime2" so-date type="text" class="form-control "
+                                   placeholder="开始时间"
+                                   ng-model="selectParam.startTime"/>
+                        </div>
+                        <label class="col-sm-1 control-label">结束时间</label>
+                        <div class=" col-sm-2 ">
+                            <!--添加指令（so-date）指定id type="text"-->
+                            <input type="text" id="endTime2" class="form-control  " placeholder="结束时间"
+                                   ng-model="selectParam.endTime"/>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ng-show="agentFlag">代理账号</label>
+                        <div class=" col-sm-2 " ng-show="agentFlag">
+                            <input class="form-control" ng-model="withdrawalQueryParam.agentName" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">项目</label>
+                        <div class=" col-sm-2 ">
+                            <ui-select ng-model="selectParam.withdrawalTypeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="状态">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.withdrawalType | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label">开始金额</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="withdrawalQueryParam.startMoney"
+                                   placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">结束金额 </label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="withdrawalQueryParam. endMoney"
+                                   placeholder="">
+                        </div>
+
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0">
+
+                        <div class="col-sm-12 align-right">
+
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun2(0)">今天
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun2(1)">昨天
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun2(2)">上周
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun2(3)">本周
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun2(4)">上月
+                            </button>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    style="margin-top: 0;"
+                                    ng-click="dateFun2(5)">本月
+                            </button>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <a ng-click="onReset()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon"
+                                    ng-click="onSearch2()"><i
+                                    class="ion-search"></i>搜索
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div ba-panel ba-panel-class="">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>单号</th>
+                        <th>会员帐号</th>
+                        <th ng-show="agentFlag">所属代理</th>
+                        <th>会员层级</th>
+                        <th>项目</th>
+                        <th>金额</th>
+                        <!-- <th>类型</th>-->
+                        <th>存操作人</th>
+                        <th>时间</th>
+                        <th>备注</th>
+
+                    </tr>
+                    </thead>
+                    <tbody ng-if="withdrawalEntity != null && withdrawalEntity.length >0">
+                    <tr ng-repeat="item in withdrawalEntity">
+                        <td>{{item.orderNo}}</td>
+                        <td>{{item.memberName}}</td>
+                        <td ng-show="agentFlag">{{item.agentName}}</td>
+                        <td>{{item.levelName}}</td>
+                        <td>{{item.actionTypeName}}</td>
+                        <td>{{item.tradeAmount/100 | number :2}}</td>
+                        <!--<td>{{item.typeName}}</td>-->
+                        <td>{{item.handlerName}}</td>
+                        <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+                    <tr>
+                        <td>小计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{withdrawalSummary.subAmount /100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <td>总计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{withdrawalSummary.totalAmount /100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="withdrawalEntity == null || withdrawalEntity.length ==0">
+                    <tr>
+                        <td colspan="13">暂无数据</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <div id="page-2"></div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

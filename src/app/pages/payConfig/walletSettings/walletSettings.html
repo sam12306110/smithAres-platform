@@ -1,0 +1,148 @@
+<div class="widgets" ng-controller="walletSettings">
+    <div class="">
+        <uib-tabset active="$tabSetStatus.activeTab">
+            <uib-tab heading="微信" ng-click="openTab(1)">
+                <div ba-panel ba-panel-class=" horizontal-tabs tabs-panel ">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">状态</label>
+                            <div class="col-sm-2">
+                                <ui-select ng-model="selectParam.statued"
+                                            class="btn-group bootstrap-select form-control"
+                                            ng-disabled="false" append-to-body="true"
+                                            search-enabled="false">
+                                    <ui-select-match placeholder="请选择">
+                                        <span> {{$select.selected.value}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="e in selectParam.statues">
+                                        <span ng-bind-html="e.value"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class=" col-sm-9 align-right">
+                                <button type="submit" class="btn btn-primary  btn-with-icon "
+                                        ng-click="onSearch()">
+                                    <i class="ion-search"></i>搜索
+                                </button>
+                                <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                        ng-click="openAdd(2)">
+                                    <i class="ion-plus"></i>新增
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div ba-panel ba-panel-class=" horizontal-tabs tabs-panel ">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>入款微信名称</th>
+                            <th>入款微信账号</th>
+                            <th>真实姓名</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-if="entity != null && entity.length >0">
+                        <tr class="text-center" ng-repeat="e in entity">
+                            <td>{{$index+1}}</td>
+                            <td>{{e.accountName}}</td>
+                            <td>{{e.accountNo}}</td>
+                            <td>{{e.realName}}</td>
+                            <td ng-style="{'color':e.status== 0?'red':''}">{{e.status |
+                                formatConfigStatus}}
+                            </td>
+                            <td>
+                                <button class="status-button btn btn-xs btn-{{e.status == 1?'danger':'info'}}"
+                                        ng-click="onSave(e)">{{e.status == 1?'停用':'启用'}}
+                                </button>
+                                <button class="status-button btn btn-xs btn-info"
+                                        ng-click="openEdit(e)">修改
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="entity == null || entity.length ==0">
+                        <tr>
+                            <td colspan="6">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="page-1"></div>
+                </div>
+            </uib-tab>
+            <uib-tab heading="支付宝" ng-click="openTab(2)">
+                <div ba-panel ba-panel-class=" horizontal-tabs tabs-panel ">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">状态</label>
+                            <div class="col-sm-2">
+                                <ui-select ng-model="selectParam.statued"
+                                            class="btn-group bootstrap-select form-control"
+                                            ng-disabled="false" append-to-body="true"
+                                            search-enabled="false">
+                                    <ui-select-match placeholder="请选择">
+                                        <span> {{$select.selected.value}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="e in selectParam.statues">
+                                        <span ng-bind-html="e.value"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class=" col-sm-9 align-right">
+                                <button type="submit" class="btn btn-primary  btn-with-icon "
+                                        ng-click="onSearch()">
+                                    <i class="ion-search"></i>搜索
+                                </button>
+                                <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                        ng-click="openAdd(1)">
+                                    <i class="ion-plus"></i>新增
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div ba-panel ba-panel-class=" horizontal-tabs tabs-panel ">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>入款支付宝名称</th>
+                            <th>入款支付宝账号</th>
+                            <th>真实姓名</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-if="entity != null && entity.length >0">
+                        <tr class="text-center" ng-repeat="e in entity">
+                            <td>{{$index+1}}</td>
+                            <td>{{e.accountName}}</td>
+                            <td>{{e.accountNo}}</td>
+                            <td>{{e.realName}}</td>
+                            <td ng-style="{'color':e.status== 0?'red':''}">{{e.status |
+                                formatConfigStatus}}
+                            </td>
+                            <td>
+                                <button class="status-button btn btn-xs btn-{{e.status == 1?'danger':'info'}}"
+                                        ng-click="onSave(e)">{{item.status == 1?'停用':'启用'}}
+                                </button>
+                                <button class="status-button btn btn-xs btn-info"
+                                        ng-click="openEdit(e)">修改
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="entity == null || entity.length ==0">
+                        <tr>
+                            <td colspan="6">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="page-2"></div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

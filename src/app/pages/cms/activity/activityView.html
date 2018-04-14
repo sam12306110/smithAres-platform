@@ -1,0 +1,45 @@
+<div class="modal-content" ng-controller="activityView">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">优惠活动预览</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="iphoneView">
+                        <div class="so-view">
+                            <div class="so-top">
+                                <div class="so-buttom">
+                                </div>
+                                <span class="so-title">优惠活动</span>
+                            </div>
+                            <div class="so-content">
+                                <div class="so-ac-img">
+                                    <ul>
+                                        <li><img src="{{entity.titlePic}}"></li>
+                                    </ul>
+                                </div>
+                                <div class="so-entity-title">
+                                    <p>{{entity.title}}</p>
+                                </div>
+                                <div class="so-ac-text" ng-bind-html="entity.content">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

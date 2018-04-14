@@ -1,0 +1,123 @@
+<!--单日游戏报表-->
+<div class="widgets" ng-controller="daysGameReportCtrl">
+    <div class="row">
+        <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">时间范围</label>
+                    <div class=" col-sm-3 ">
+                        <input id="startTime" so-date type="text" class="form-control" ng-model="selectParam.startTime"
+                               placeholder="开始时间"/>&nbsp;
+                        <input id="endTime" type="text" class="form-control" ng-model="selectParam.endTime"
+                               placeholder="结束时间"/>
+                    </div>
+
+                    <label class="col-sm-1 control-label">来源</label>
+                    <div class=" col-sm-3 ">
+                        <input class="form-control" ng-model="queryParam.nickName" placeholder="">
+                    </div>
+
+                    <label class="col-sm-1 control-label">彩种选择</label>
+                    <div class=" col-sm-3 ">
+
+                    </div>
+
+                    <div class=" col-sm-12  align-right">
+                        <a ng-click="onReset()">重置</a>
+                        <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                                class="ion-search"></i>搜索
+                        </button>
+                        <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                                class="ion-ios-cloud-download"></i>导出
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-title="总体下注情况" ba-panel-class="with-scroll">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>彩种名称</th>
+                        <th>总投注数</th>
+                        <th>总投注额</th>
+                        <th>总返点</th>
+                        <th>总派奖</th>
+                        <th>总损益</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>{{allTotal.totalBetAmount}}</td>
+                        <td>-</td>
+                        <td>{{allTotal.totalPayoff}}</td>
+                        <td>{{allTotal.totalGainLost}}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="10" class="text-center">
+                            <div st-pagination="" st-items-by-page="pageSize" st-displayed-pages="5"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div ba-panel ba-panel-class="with-scroll">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>序列</th>
+                        <th>日期</th>
+                        <th>总注单数</th>
+                        <th>总投注额</th>
+                        <th>总返点</th>
+                        <th>总派奖</th>
+                        <th>总损益</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in list">
+                        <td>{{item.index + 1}}</td>
+                        <td><a ng-click="open(item.lotteryId,item.pdate)">日期</a></td>
+                        <td>-</td>
+                        <td>{{item.totalBetAmount}}</td>
+                        <td>-</td>
+                        <td>{{item.totalPayoff}}</td>
+                        <td>{{item.totalGainLost}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>小计</td>
+                        <td>-</td>
+                        <td>{{subTotal.totalBetAmount}}</td>
+                        <td>-</td>
+                        <td>{{subTotal.totalPayoff}}</td>
+                        <td>{{subTotal.totalGainLost}}</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <div class="alert-danger">
+            <div class="pull-right">
+                <b class="pull-left m-l-md m-r-xs">总计：<span></span>&nbsp;&nbsp;&nbsp;</b>
+                <b class="pull-left m-l-md m-r-xs">总注单数：<span>-</span>&nbsp;&nbsp;&nbsp;</b>
+                <b class="pull-left m-l-md m-r-xs">总投注额：<span>{{allTotal.totalBetAmount}}</span>&nbsp;&nbsp;&nbsp;</b>
+                <b class="pull-left m-l-md m-r-xs">总返点：<span>-</span>&nbsp;&nbsp;&nbsp;</b>
+                <b class="pull-left m-l-md m-r-xs">总派奖：<span>{{allTotal.totalPayoff}}</span>&nbsp;&nbsp;&nbsp;</b>
+                <b class="pull-left m-l-md m-r-xs">总损益：<span>{{allTotal.totalGainLost}}</span>&nbsp;&nbsp;&nbsp;</b>
+            </div>
+        </div>
+    </div>
+
+</div>

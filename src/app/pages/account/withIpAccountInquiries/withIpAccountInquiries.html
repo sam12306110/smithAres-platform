@@ -1,0 +1,49 @@
+<div class="widgets" ng-controller="withIpAccountInquiries">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" ng-show="agentFlag">会员账号</label>
+                <div class="col-sm-2" ng-show="agentFlag">
+                    <input class="form-control" ng-model="queryParam.userName" placeholder="请输入帐号">
+                </div>
+                <label class="col-sm-1 control-label" ng-show="agentFlag">登录IP</label>
+                <div class="col-sm-2" ng-show="agentFlag">
+                    <input class="form-control" ng-model="queryParam.ip" placeholder="请输入IP">
+                </div>
+                <label class="col-sm-4 control-label" ></label>
+                <div class="col-sm-2">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>会员帐号</th>
+                <th>登录IP</th>
+                <th>登录时间</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.ip}}</td>
+                <td>{{item.loginDate| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

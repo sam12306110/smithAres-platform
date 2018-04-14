@@ -1,0 +1,229 @@
+<div class="widgets" ng-controller="quickSearchOfficial">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="会员快速查询" ng-click="openTab(1)">
+            <div class="row">
+                <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <form class="row form-inline">
+                        <div class="form-group col-sm-2 col-xs-6">
+                            <label>会员账号</label>
+                            <input class="form-control" ng-model="queryParam.createUsername" placeholder="">
+                        </div>
+                        <div class="form-group col-sm-2 col-xs-6">
+                            <label>开始时间</label>
+                            <input type="date" class="form-control" ng-model="queryParam.createUsername" placeholder="">
+                        </div>
+                        <div class="form-group col-sm-2 col-xs-6">
+                            <label>结束时间</label>
+                            <input type="date" class="form-control" ng-model="queryParam.createUsername" placeholder="">
+                        </div>
+                        <div class="form-group col-sm-2 col-xs-6">
+                            <label>　</label>
+                            <ui-select ng-model="selectParam.dateTypeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.dateType | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="form-group col-sm-2 col-xs-6">
+                            <label>方案编号</label>
+                            <input class="form-control" ng-model="queryParam.createUsername" placeholder="">
+                        </div>
+                        <div class="form-group col-sm-2 col-xs-6">
+                            <label>来源</label>
+                            <ui-select ng-model="selectParam.sourceTypeSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.sourceType | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="form-group col-sm-4 col-xs-6">
+                            <label>彩种选择</label>
+                            <ui-select multiple ng-model="selectParam.lotterySelected"
+                                       ng-disabled="false"
+                                       search-enabled="true"
+                                       append-to-body="true"
+                                       class="form-control btn-group bootstrap-select">
+                                <ui-select-match placeholder="请选择彩种">
+                                    {{$item.value}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.lottery | filter: $select.search">
+                                    {{item.value}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="form-group col-sm-8 col-xs-6 align-right">
+                            <a ng-click="onReset()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 22px"
+                                    ng-click="onSearch()">
+                                <i class="ion-search"></i>搜索
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" style="margin-top: 22px"
+                                    ng-click="onExport()">
+                                <i class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                        <table class="table" style="margin-bottom: 50px; ">
+                            <thead>
+                            <tr>
+                                <th>会员账号</th>
+                                <th>总投注额</th>
+                                <th>总返点</th>
+                                <th>总派奖</th>
+                                <th>总损益</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-if="entityk != null || entity.length >0">
+                            <tr ng-repeat="item in entity">
+                                <td>{{item.lotteryName}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.numGetTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{item.numOkTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>{{item.number}}</td>
+                            </tr>
+                            </tbody>
+                            <tbody ng-if="entity == null || entity.length ==0">
+                            <tr>
+                                <td colspan="11">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>彩种</th>
+                                <th>期号</th>
+                                <th>玩法名称</th>
+                                <th>方案编号</th>
+                                <th>投注时间</th>
+                                <th>投注额</th>
+                                <th>返点</th>
+                                <th>派奖</th>
+                                <th>损益</th>
+                                <th>来源</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-if="entity != null || entity.length >0">
+                            <tr ng-repeat="item in entity">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.lotteryName}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                                <td>{{item.issue}}</td>
+                            </tr> <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>小计</td>
+                                <td>5000.00</td>
+                                <td>75.00</td>
+                                <td>3200.00</td>
+                                <td>+15000.00</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                            <tbody ng-if="entity == null || entity.length ==0">
+                            <tr>
+                                <td colspan="11">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div id="page-1"></div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+
+        <uib-tab heading="游戏快速查询" ng-click="openTab(2)">
+            <div class="row">
+                <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <form class="row form-inline">
+                        <div class="form-group col-sm-12 col-xs-6 align-right">
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="openEdit()"><i
+                                    class="ion-android-add"></i>新增
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                                    class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>彩种</th>
+                                <th>号源ID</th>
+                                <th>号源名称</th>
+                                <th>网址</th>
+                                <th>修改人</th>
+                                <th>修改时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-if="entity != null || entity.length >0">
+                            <tr ng-repeat="item in entity">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.lotteryName}}</td>
+                                <td>{{item.cid}}</td>
+                                <td>{{item.sourceName}}</td>
+                                <td>{{item.url}}</td>
+                                <td>{{item.modifyUsername}}</td>
+                                <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td  ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}
+                                </td>
+                                <td>
+                                    <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                                            ng-click="onStatus(item.cid,item.status)">{{item.status==1?'停用':'启用'}}
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tbody ng-if="entity == null || entity.length ==0">
+                            <tr>
+                                <td colspan="11">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div id="page-2"></div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

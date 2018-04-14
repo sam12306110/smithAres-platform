@@ -1,0 +1,94 @@
+<div class="widgets" ng-controller="lotteryMonitorCtrl">
+    <div class="row">
+        <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+            <div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">彩种名称</label>
+                        <div class="col-sm-2">
+                            <ui-select ng-model="selectParam.lotterySelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.lottery |filter: {sideType:2}| filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label">开始时间</label>
+                        <div class="col-sm-2">
+                            <!--添加指令（so-date）指定id type="text"-->
+                            <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                                   ng-model="selectParam.startTime"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <!--添加指令（so-date）指定id type="text"-->
+                            <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                                   ng-model="selectParam.endTime"/>
+                        </div>
+                        <label class="col-sm-1 control-label ">自动刷新</label>
+                        <div class="col-sm-2  align-right">
+                            <ui-select ng-model="selectParam.cycled"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.msg}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.cycle | filter: $select.search">
+                                    <span ng-bind-html="item.msg"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12  align-right">
+                            <a ng-click="onReset()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                                    class="ion-search"></i>搜索
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                                    class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div ba-panel ba-panel-title="  " ba-panel-class="with-scroll">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>彩种名称</th>
+                <th>期号</th>
+                <th>销售日期</th>
+                <th>销售时间段</th>
+                <th>开奖号码</th>
+                <!--<th>异常状态</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in entity">
+                <td>{{$index +1}}</td>
+                <td>{{item.lotteryName}}</td>
+                <td>{{item.issueAlias}}</td>
+                <td>{{item.pdate}}</td>
+                <td>{{item.startTime | date:'HH:mm:ss'}} -
+                    {{item.endTime | date:'HH:mm:ss'}}
+                </td>
+                <td>{{item.numbers| formartNumbers : item.startTime: item.endTime}}</td>
+                <!--<td ng-style="{color:item.status==0?'':'red'}">{{item.statusName}}</td>-->
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+
+    </div>

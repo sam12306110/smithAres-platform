@@ -1,0 +1,136 @@
+<div class="widgets" ng-controller="permissionMenuCtrl">
+    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <form class="row form-inline">
+
+
+            <div class="form-group col-sm-12 col-xs-6 align-right">
+                <a ng-click="onReset()">重置</a>
+                <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="resSearch()"><i
+                        class="ion-search"></i>搜索
+                </button>
+                <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                        ng-click="openRerMenuAdd(selectArr)">
+                    <i class="ion-plus"></i>新增权限
+                </button>
+                <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                        class="ion-ios-cloud-download"></i>导出
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div ba-panel ba-panel-title="  " ba-panel-class="with-scroll">
+        <ul id="menu_title" class="clearfix">
+            <li>权限名称</li>
+            <li>类型</li>
+            <li>级别</li>
+            <li>是否叶子节点</li>
+            <li>静态路径</li>
+            <li>动态路径</li>
+            <li>icon</li>
+            <li>创建时间</li>
+            <li>描述</li>
+            <li>操作</li>
+        </ul>
+        <ul id="menu_content" class="clearfix">
+            <li ng-repeat="item in tree">
+                <div class="level_menu clearfix">
+                    <div class="leve1_txt">
+                        <div class="menu_item" ng-click="showLevel($event,item)">
+                            <span>{{item.name}}</span>
+                            <i class="fa  fa-angle-down " ng-show="item.nodes.length" ng-class="{'rotate_i':key.flag}"></i>
+                            <label class="custom-checkbox" style="padding-right: 10px;float: right" ng-click="selectCurrent($event,item,tree)">
+                                <input type="checkbox" value="option1" ng-model="item.checkedFlag" name="node">
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="menu_item">{{item.type | resourceType }}</div>
+                        <div class="menu_item">{{item.level}}</div>
+                        <div class="menu_item">{{item.leaf == 1? '不是':'是'}}</div>
+                        <div class="menu_item">{{item.staticUrl}}</div>
+                        <div class="menu_item">{{item.reqUri}}</div>
+                        <div class="menu_item">{{item.icon}}</div>
+                        <div class="menu_item">{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                        <div class="menu_item">{{item.description}}</div>
+                        <div class="menu_item"><a class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                  ng-click="openResEdit('edit',item)">修改</a></div>
+                    </div>
+                    <div class="" ng-show="item.flag">
+                        <div class="" ng-repeat="key in item.nodes">
+                            <div class="leve2_txt">
+                                <div class="menu_item" ng-click="showLevel($event,key)">{{key.name}}
+                                    <i class="fa  fa-angle-down " ng-show="key.nodes.length" ng-class="{'rotate_i':key.flag}"></i>
+                                    <label class="custom-checkbox" style="padding-right: 10px;float: right" ng-click="selectChild($event,key,tree)">
+                                        <input type="checkbox" value="option1" ng-model="key.checkedFlag" name="node2">
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="menu_item">{{key.type | resourceType }}</div>
+                                <div class="menu_item">{{key.level}}</div>
+                                <div class="menu_item">{{key.leaf == 1? '不是':'是'}}</div>
+                                <div class="menu_item">{{key.staticUrl}}</div>
+                                <div class="menu_item">{{key.reqUri}}</div>
+                                <div class="menu_item">{{key.icon}}</div>
+                                <div class="menu_item">{{key.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                <div class="menu_item">{{key.description}}</div>
+                                <div class="menu_item"><a class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                          ng-click="openResEdit('edit',key,item)">修改</a></div>
+                            </div>
+                            <div class="" ng-show="key.flag">
+                                <div class="" ng-repeat="k in key.nodes">
+                                    <div class="leve3_txt">
+                                        <div class="menu_item" ng-click="showLevel($event,k)">{{k.name}}</div>
+                                        <div class="menu_item">{{k.type | resourceType }}</div>
+                                        <div class="menu_item">{{k.level}}</div>
+                                        <div class="menu_item">{{k.leaf == 1? '不是':'是'}}</div>
+                                        <div class="menu_item">{{k.staticUrl}}</div>
+                                        <div class="menu_item">{{k.reqUri}}</div>
+                                        <div class="menu_item">{{k.icon}}</div>
+                                        <div class="menu_item">{{k.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                                        <div class="menu_item">{{k.description}}</div>
+                                        <div class="menu_item"><a class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                                  ng-click="openResEdit('edit',k,key)">修改</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </li>
+
+        </ul>
+        <!-- <table class="table">
+             <thead>
+             <tr>
+                 <th>权限名称</th>
+                 <th>类型</th>
+                 <th>级别</th>
+                 <th>是否叶子节点</th>
+                 <th>静态路径</th>
+                 <th>动态路径</th>
+                 <th>icon</th>
+                 <th>创建时间</th>
+                 <th>描述</th>
+                 <th>操作</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr ng-repeat="item in tree">
+                 <td>{{item.text}}</td>
+                 <td>{{item.type | resourceType }}</td>
+                 <td>{{item.level}}</td>
+                 <td>{{item.leaf == 1? '不是':'是'}}</td>
+                 <td>{{item.staticUrl}}</td>
+                 <td>{{item.reqUri}}</td>
+                 <td>{{item.icon}}</td>
+                 <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                 <td>{{item.description}}</td>
+                 <td><a class="status-button btn btn-xs btn-info" data-toggle="modal"
+                        ng-click="openResEdit('edit',item.cid)">修改</a></td>
+             </tr>
+             </tbody>
+         </table>-->
+    </div>
+</div>

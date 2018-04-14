@@ -1,0 +1,129 @@
+<div class="modal-content" ng-controller="thirdPartySettingsEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">第三方支付修改</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">币 种</label>
+                    <div class="col-sm-6">
+                        <div class="form-control" readonly>{{item.currency}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>商家名称</label>
+                    <div class="col-sm-6">
+                        <div class="form-control" placeholder="">{{item.merchantName}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>商 号</label>
+                    <div class="col-sm-6">
+                        <div class="form-control" placeholder="">{{item.merchantNo}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">会员层级</label>
+                    <div class=" col-sm-6">
+                        <ui-select multiple ng-model="selectParam.memberLevelSelected"
+                                   ng-disabled="false"
+                                   search-enabled="true"
+                                   append-to-body="true"
+                                   class="form-control btn-group bootstrap-select"
+                                   style="z-index: 9999"
+                        >
+                            <ui-select-match placeholder="请选择会员层级">
+                                {{$item.value}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectParam.memberLevel ">
+                                {{item.value}}
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>支付系统</label>
+                    <div class="col-sm-6">
+                        <div class="form-control" placeholder="">{{item.paymentName}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>支付方式</label>
+                    <div class="col-sm-6">
+                        <div class="form-control" placeholder="">{{item.paymentTypeName}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>停用金额</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" placeholder="" ng-model="selectParam.stopAmount">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>预警金额</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" placeholder="" ng-model="selectParam.warnAmount">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>商家密钥</label>
+                    <div class="col-sm-6">
+                        <textarea class="col-sm-12" ng-model="item.merchantKey"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;"><i style="color: red">*</i>商家公钥</label>
+                    <div class="col-sm-6">
+                        <textarea class="col-sm-12" ng-model="item.merchantPublicKey"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">商城域名</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="item.merchantDomain">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">终端ID</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="item.thirdTerminalId">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

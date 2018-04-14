@@ -1,0 +1,68 @@
+<div class="modal-content" ng-controller="agencyRetirementPlan">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <form class="form-horizontal">
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" >退佣方案名称</label>
+                <div class="col-sm-4">
+                    <input class="form-control" placeholder="" ng-model="entity.name" ng-readonly="!edit" required>
+                </div>
+                <label class="col-sm-2 control-label" >有效会员数量</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control" placeholder="" ng-model="entity.effMemberNum" ng-readonly="!edit" required  min="0" max="9999999"  ng-pattern="/^\d+(.\d{1,2})?$/">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" >当期有效投注额</label>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.currentEffBet" placeholder=""
+                               required min="0" max="9999999.99" step="0.01"  ng-pattern="/^\d+(.\d{1,2})?$/">
+                        <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                    </div>
+                </div>
+                <label class="col-sm-2 control-label" >当期盈利金额</label>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <input type="number" class="form-control" ng-model="entity.currentProfit" placeholder=""
+                               ng-readonly="!edit" required  min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                        <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>彩种名称</th>
+                    <th>退佣比例</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" ng-repeat="item in itemPO | orderBy :'lotteryType'">
+                    <td>{{item.value}}</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="number" class="form-control" ng-model="item.percentage" placeholder="" style="text-align: right"
+                                   ng-readonly="!edit"   min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                    class="ion-checkmark"></i>确认
+            </button>
+            <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                    class="ion-android-exit"></i>取消
+            </button>
+        </div>
+    </form>
+</div>

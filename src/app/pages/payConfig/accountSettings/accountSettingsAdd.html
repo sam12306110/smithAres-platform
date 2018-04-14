@@ -1,0 +1,119 @@
+<div class="modal-content" ng-controller="accountSettingsAdd">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">公司入款账号新增</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">币 种</label>
+                    <div class="col-sm-6">
+                        <div class="form-control" readonly>{{queryParam.currency}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">收 款 人</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="queryParam.cardOwnerName">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">会员层级</label>
+                    <div class=" col-sm-6">
+                        <ui-select multiple ng-model="selectParam.memberLevelSelected"
+                                   ng-disabled="false"
+                                   search-enabled="true"
+                                   append-to-body="true"
+                                   class="form-control btn-group bootstrap-select"
+                                   style="z-index: 9999"
+                        >
+                            <ui-select-match placeholder="请选择会员层级">
+                                {{$item.value}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectParam.memberLevel ">
+                                {{item.value}}
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">银行名称</label>
+                    <div class="col-sm-6">
+                        <!--<input type="text" class="form-control" placeholder="" ng-model="selectParam.bankName">-->
+                        <ui-select ng-model="selectParam.bankNamed"
+                                   class="btn-group bootstrap-select form-control"
+                                   ng-disabled="false"
+                                   append-to-body="false"
+                                   search-enabled="false">
+                            <ui-select-match placeholder="请选择">
+                                <span> {{$select.selected.bankName}}</span>
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="e in selectParam.bankNameList">
+                                <span ng-bind-html="e.bankName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">开户行</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="queryParam.registerBankInfo">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">银行账号</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="queryParam.cardNo">
+
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">汇款备注</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="" ng-model="queryParam.transferRemark">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">停用金额</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" placeholder="" ng-model="queryParam.stopAmount">
+                    </div>
+                </div>
+            </div>
+            <div class="myItem">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" style="color:#7d7d7d;">预警金额</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" placeholder="" ng-model="queryParam.warnAmount">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

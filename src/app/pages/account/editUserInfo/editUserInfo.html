@@ -1,0 +1,188 @@
+<div class="widgets" ng-controller="editUserInfo">
+    <uib-tabset>
+        <uib-tab heading="资料修改" ng-click="init()">
+            <div ba-panel ba-panel-class="">
+                <div>
+                    <form class="form-horizontal">
+                        <div class="form-group" style="margin-bottom: 0">
+                            <div class="col-sm-3"></div>
+                            <label class="col-sm-1 control-label">会员账号</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-model="queryParam.username" placeholder="">
+                            </div>
+                            <div class=" col-sm-4">
+                                <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                                        class="ion-search"></i>搜索
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div ba-panel ba-panel-class="">
+                <div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-12 control-label"
+                                   style="font-size: 20px;color: #ffd904;text-align: center">{{main.login}}</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="horizontal-scroll">
+                    <div class="form-group">
+                        <div class=" col-sm-6">
+                            <table class="table" st-table="smartTableData">
+                                <tbody>
+                                <tr>
+                                    <td>会员姓名：<p>{{main.realName}}</p>
+                                        <!--<input class="form-control col-sm-2" ng-model="main.realName"-->
+                                        <!--placeholder="" style="margin-top: 4px;width: 200px;float: right">-->
+                                    </td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-success" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">保存
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>银行名称：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>手机号：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>登录密码：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>QQ号：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="13" class="text-center">
+
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class=" col-sm-6">
+                            <table class="table" st-table="smartTableData">
+                                <tbody>
+                                <tr>
+                                    <td>银行卡号：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>开户行：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>电子邮箱：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>支付密码：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>微信号：</td>
+                                    <td>
+                                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                                ng-click="openEdit(item.platInfoId)">修改
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="13" class="text-center">
+
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="修改历史" ng-click="init()">
+            <div ba-panel ba-panel-class="">
+                <div class="horizontal-scroll">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="sortable">
+                            <th>序号</th>
+                            <th>账号类型</th>
+                            <th>帐号</th>
+                            <th>修改前信息</th>
+                            <th>修改后信息</th>
+                            <th>操作人</th>
+                            <th>操作时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in officialList">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <a ng-click="openDetail(item)">{{item.orderId}}</a>
+                            </td>
+                            <td>{{item.memberName}}</td>
+                            <td>{{item.platInfoName}}</td>
+                            <td>{{item.lotteryName}}</td>
+                            <td>{{item.issueAlias}}</td>
+                            <td>{{item.playName}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="officialList == null || officialList.length ==0">
+                        <tr>
+                            <td colspan="18">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="officialPage"></div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

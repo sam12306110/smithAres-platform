@@ -1,0 +1,150 @@
+<div class="widgets" ng-controller="permissionManageCtrl">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="账号管理" ng-click="openTab(1)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">所属角色</label>
+                        <div class="col-sm-2">
+                            <ui-select ng-model="selectParam.roleSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.roleName}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.role | filter: $select.search">
+                                    <span ng-bind-html="item.roleName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+
+                        <label class="col-sm-1 control-label">账号名称</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.account" placeholder="">
+                        </div>
+
+                        <label class="col-sm-1 control-label">昵称</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.nickName" placeholder="">
+                        </div>
+
+                        <label class="col-sm-1 control-label">状态</label>
+                        <div class=" col-sm-2 ">
+                            <ui-select ng-model="selectParam.statusSelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+
+                        <label class="col-sm-1 control-label">修改人</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.modifyAccount" placeholder="">
+                        </div>
+                        <div class=" col-sm-9  align-right">
+                            <a ng-click="onReset()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="userSearch()"><i
+                                    class="ion-search"></i>搜索
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                    ng-click="open('app/pages/config/permissionManage/userAdd.html', 'lg', 'add')">
+                                <i class="ion-plus"></i>新增账号
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-class="">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>帐号</th>
+                        <th>昵称</th>
+                        <th>所属角色</th>
+                        <th>修改人</th>
+                        <th>修改时间</th>
+                        <th>最后登录时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in entity">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.account}}</td>
+                        <td>{{item.realname}}</td>
+                        <td>{{item.roleName}}</td>
+                        <td>{{item.modifyUserAccount}}</td>
+                        <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.lastLoginTime == 0 ? '-':item.lastLoginTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.status == 1?'启用中':'已停用'}}</td>
+                        <td>
+                            <button class="status-button btn btn-xs btn-{{item.status == 0?'info':'danger'}}"
+                                    ng-click="modifyUserStatus(item.userId,item.status)">
+                                {{item.status==0?'启用':'停用'}}
+                            </button>
+                            <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                    ng-click="openUserEdit('edit',item.userId)">修改
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="page"></div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="角色管理" ng-click="openTab(2)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                    ng-click="open('app/pages/config/permissionManage/roleAdd.html', 'lg', 'add')"><i
+                                    class="ion-plus"></i>新增角色
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>角色名称</th>
+                        <th>帐号数量</th>
+                        <th>修改人</th>
+                        <th>修改时间</th>
+                        <th>描述</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in entity">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.userNumber}}</td>
+                        <td>{{item.updateUserName}}</td>
+                        <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                    ng-click="openRoleEdit('edit',item.roleId)">修改
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="page1"></div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

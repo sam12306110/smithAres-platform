@@ -1,0 +1,111 @@
+<div class="widgets" ng-controller="accessSummary">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">开始时间</label>
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <label class="col-sm-1 control-label">结束时间</label>
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+                <div class=" col-sm-6 align-right">
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"
+                            ng-disabled="isEdit"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="" class="horizontal-scroll col-md-6">
+        <div class="ui_table-title">
+            收入明细
+        </div>
+        <table class="table ">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>入款形式</th>
+                <th>金额</th>
+                <th>会员数量</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in entity | filter :{chargeType:0} ">
+                <td>{{item.tradeTypeName}}</td>
+                <td><a ng-click="gogogo(item.tradeType)">{{item.totalAmount / 100 | number :2}}</a></td>
+                <td>{{item.memberNum}}</td>
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td>{{total.flow / 100 | number :2}}</td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="11">暂无数据</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div ba-panel ba-panel-class="" class="horizontal-scroll col-md-6">
+        <div class="ui_table-title">
+            支出明细
+        </div>
+        <table class="table ">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>出款形式</th>
+                <th>金额</th>
+                <th>会员数量</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in entity | filter :{chargeType:1} ">
+                <td>{{item.tradeTypeName}}</td>
+                <td ><a ng-click="gogogo(item.tradeType)">{{item.totalAmount / 100 | number :2}}</a></td>
+                <td>{{item.memberNum}}</td>
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td>{{total.out / 100 | number :2}}</td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="11">暂无数据</td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>

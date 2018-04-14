@@ -1,0 +1,34 @@
+<div class="modal-content" ng-controller="msgTemplateEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">标题名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.title"
+                           ng-readonly="platAccountReadonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">内容</label>
+                <div class="col-sm-10">
+                    <!--<textarea type="tel" class="form-control" title="123" ng-model="entity.content"></textarea>-->
+                    <div class="ueditor" config="config" ng-model="entity.content"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

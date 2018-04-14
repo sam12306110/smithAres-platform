@@ -1,0 +1,101 @@
+<div class="widgets" ng-controller="reforwardSide">
+    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">彩种名称</label>
+                <div class="col-sm-2">
+                    <ui-select ng-model="selectParam.lotterySelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span> {{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="item in selectParam.lottery |filter: {sideType:2}| filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">状态</label>
+                <div class="col-sm-2">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">修改人</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.modifyUsername" placeholder="">
+                </div>
+                <div class="col-sm-3 align-right">
+                    <a onclick="onReset()"></a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                            class="ion-ios-cloud-download"></i>导出
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <div class="horizontal-scroll">
+            <table class="table table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th>序号</th>
+                    <th>彩种名称</th>
+                    <th>玩法群</th>
+                    <th>玩法组</th>
+                    <th>玩法</th>
+                    <th>修改人</th>
+                    <th>修改时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody ng-if="entity != null || entity.length >0">
+                <tr ng-repeat="item in entity">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.playSetName}}</td>
+                    <td>{{item.playGroupName}}</td>
+                    <td>{{item.playName}}</td>
+                    <td>{{item.modifyUsername}}</td>
+                    <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td  ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                    <td>
+                        <!--<button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"-->
+                        <!--ng-click="onStatus(item.cid,item.status)">{{item.status==1?'停用':'启用'}}-->
+                        <!--</button>-->
+                        <!--<button class="status-button btn btn-xs btn-info" data-toggle="modal"-->
+                        <!--ng-click="openEdit(true,item)">修改-->
+                        <!--</button>-->
+                        <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                ng-click="openEdit(false,item)">查看
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tbody ng-if="entity == null || entity.length ==0">
+                <tr>
+                    <td colspan="11">暂无数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="reforward-page"></div>
+    </div>
+</div>

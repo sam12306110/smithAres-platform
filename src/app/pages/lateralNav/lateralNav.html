@@ -1,0 +1,19 @@
+<div ng-controller="lateralNav" class="so-nav-top" oncontextmenu="return false">
+    <span ng-click="soNavLeft()"> <<</span>
+    <div class="lateralNav">
+        <ul class="so-nav" id="soNav">
+            <li ng-repeat="e in routing" so-date class="so-nav-a" ng-mouseover="mouseoverNav(this)"><a href="{{e.hash}}">{{e.name}}
+                <i ng-click="deleteNav(e,$index)" ng-show="$index!=0">×</i></a>
+            </li>
+        </ul>
+    </div>
+    <span class="so-span-right" ng-click="soNavRight()"> >></span>
+    <div id="desktop_menu" class="so-skin">
+        <ul>
+            <li ng-click="muneClick(0)">关闭其他标签</li>
+            <li ng-click="muneClick(1)">关闭左边标签</li>
+            <li ng-click="muneClick(2)">关闭右边标签</li>
+            <li ng-click="muneClick(3)">关闭全部标签</li>
+        </ul>
+    </div>
+</div>

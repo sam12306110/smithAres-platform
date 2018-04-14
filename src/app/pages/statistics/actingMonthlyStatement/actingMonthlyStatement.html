@@ -1,0 +1,70 @@
+<div class="widgets" ng-controller="actingMonthlyStatement">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">年份</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.PreferentialProjectsType | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-8 control-label"></label>
+                <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                        ng-click="openEdit(true,null)">查看退佣方案
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div ba-panel ba-panel-title="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>账单编号</th>
+                <th>账单名称</th>
+                <th>实际可获退佣金额</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.memberName}}</td>
+                <td>{{!item.agentName ? 0 :item.agentName}}</td>
+                <td>{{!item.levelName ? 0:item.levelName}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td></td>
+                <td>{{!oldsummary.times ? 0 :oldsummary.times}}</td>
+                <td>{{!oldsummary.tradeAmount?0:oldsummary.tradeAmount/100|number:2}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td>{{!summary.times ? 0 : summary.times}}</td>
+                <td>{{!summary.tradeAmount ? 0 :summary.tradeAmount/100|number:2}}</td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

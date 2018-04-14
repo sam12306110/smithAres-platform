@@ -1,0 +1,66 @@
+<div class="widgets" ng-controller="registerConfig">
+    <div class="">
+        <uib-tabset active="$tabSetStatus.activeTab">
+            <uib-tab heading="会员注册" ng-click="openTab(1)">
+                <div ba-panel ba-panel-class=" horizontal-tabs tabs-panel ">
+                    <form class="form-horizontal">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>是否显示</th>
+                                <th>是否必填</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in entity">
+                                <td>{{item.item}}</td>
+                                <td><input type="checkbox" ng-model="item.ifView" ng-change="changeFun(1,item)"
+                                            ng-disabled="item.ifDisabled">
+                                </td>
+                                <td><input type="checkbox" ng-model="item.ifRequired" ng-change="changeFun(0,item)"
+                                            ng-disabled="item.ifDisabled"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group text-center so-page">
+                            <button type="button" class="btn btn-primary btn-with-icon" ng-click="openEdit(true,entity)"><i
+                                    class="ion-checkmark"></i>确认
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </uib-tab>
+            <uib-tab heading="代理注册" ng-click="openTab(2)">
+                <div ba-panel ba-panel-class=" horizontal-tabs tabs-panel ">
+                    <form class="form-horizontal">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>是否显示</th>
+                                <th>是否必填</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in entity">
+                                <td>{{item.item}}</td>
+                                <td><input type="checkbox" ng-model="item.ifView" ng-change="changeFun(1,item)"
+                                            ng-disabled="item.ifDisabled">
+                                </td>
+                                <td><input type="checkbox" ng-model="item.ifRequired" ng-change="changeFun(0,item)"
+                                            ng-disabled="item.ifDisabled"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group text-center so-page">
+                            <button type="button" class="btn btn-primary btn-with-icon" ng-click="openEdit(true,entity)"><i
+                                    class="ion-checkmark"></i>确认
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

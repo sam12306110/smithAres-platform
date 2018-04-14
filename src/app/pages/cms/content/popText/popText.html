@@ -1,0 +1,94 @@
+<div class="widgets" ng-controller="popText">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">开始时间</label>
+                <div class="col-sm-2">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="beginTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.beginTime"/>
+                </div>
+                <label class="col-sm-1 control-label">结束时间</label>
+                <div class="col-sm-2">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+                <label class="col-sm-1 control-label">状态</label>
+                <div class="col-sm-2  ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">标题名称</label>
+                <div class="col-sm-5">
+                    <input class="form-control" ng-model="queryParam.title" placeholder="">
+                </div>
+                <div class="col-sm-6  align-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                            ng-click="openEdit(true,null)"><i class="ion-plus"></i>新增首页弹屏
+                    </button>
+                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                            class="ion-ios-cloud-download"></i>导出
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>编号</th>
+                <th>标题</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作人</th>
+                <th>操作时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null || entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.cid}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                <td>{{item.modifyUsername}}</td>
+                <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>
+                    <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                            ng-click="onStatus(item)">{{item.status==1?'停用':'启用'}}
+                    </button>
+                    <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                            ng-click="openEdit(true,item)">修改
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="11">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

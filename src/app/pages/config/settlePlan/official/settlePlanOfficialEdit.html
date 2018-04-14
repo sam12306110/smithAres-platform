@@ -1,0 +1,188 @@
+<div class="modal-content" ng-controller="settlePlanOfficialEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">新增{{entity.settleType == 1?'现金方案':'信用方案'}}</h4>
+    </div>
+    <div class="modal-body">
+        <div ng-if="entity.settleType == 1">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">方案名称</label>
+                    <div class="col-sm-8">
+                        <input ng-readonly="!edit" class="form-control" placeholder="" ng-model="entity.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">平台维护费</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.mantainFee">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">参数设定</label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[0].amountBegin">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[0].amountEnd">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[0].percentage">
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;"></label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[1].amountBegin">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[1].amountEnd">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[1].percentage">
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;"></label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[2].amountBegin">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[2].amountEnd">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[2].percentage">
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;"></label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[3].amountBegin">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[3].amountEnd">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.cashItems[3].percentage">
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div ng-if="entity.settleType == 2">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">方案名称</label>
+                    <div class="col-sm-8">
+                        <input ng-readonly="!edit" class="form-control" placeholder="" ng-model="entity.name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">授信额度上限</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.creditItem.creditMax">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">初始额度</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.creditItem.creditBegin">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">百分比设定</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.creditItem.percentage">
+                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" style="color:#7d7d7d;">需缴纳预付款</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon addon-left input-group-addon-primary">$</span>
+                            <input ng-readonly="!edit" type="number" class="form-control" placeholder=""
+                                   ng-model="entity.creditItem.prepaidAmount">
+                            <span class="input-group-addon addon-right input-group-addon-primary">.00</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

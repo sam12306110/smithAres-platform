@@ -1,0 +1,91 @@
+<div class="widgets" ng-controller="msg">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">主题</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.username" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">操作人</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.username" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">开始时间</label>
+                <div class="col-sm-2">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <label class="col-sm-1 control-label">结束时间</label>
+                <div class="col-sm-2">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9 align-right">
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                </div>
+                <div class="col-sm-3  align-right">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="openEdit()">
+                        发送站内信
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>站内信主题</th>
+                <th>接收用户</th>
+                <th>站内信内容</th>
+                <th>操作人</th>
+                <th>操作时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in officialList">
+                <td>{{$index+1}}</td>
+                <td>
+                    <a ng-click="openDetail(item)">{{item.orderId}}</a>
+                </td>
+                <td>{{item.memberName}}</td>
+                <td>{{item.platInfoName}}</td>
+                <td>{{item.lotteryName}}</td>
+                <td>{{item.playName}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="officialList == null || officialList.length ==0">
+            <tr>
+                <td colspan="18">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

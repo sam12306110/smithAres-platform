@@ -1,0 +1,156 @@
+<div class="widgets" ng-controller="singleGameReport">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">期号选择</label>
+                <div class=" col-sm-3 ">
+                    <ui-select ng-model="selectParam.Issued"
+                               class="btn-group bootstrap-select form-control" ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span> {{$select.selected}}</span>
+                        </ui-select-match>
+                        <ui-select-choices
+                                repeat="item in selectParam.Issue| filter: $select.search ">
+                            <span ng-bind-html="item"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">玩法选择</label>
+                <div class=" col-sm-3 ">
+                    <ui-select multiple ng-model="selectParam.played"
+                               ng-disabled="editPlay"
+                               search-enabled="true"
+                               append-to-body="true"
+                               class="form-control btn-group bootstrap-select">
+                        <ui-select-match placeholder="请选择彩种">
+                            {{$item.value}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.plays| filter: $select.search ">
+                            {{item.value}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">来源</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.sourceType | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group align-right">
+                <div class="col-sm-12">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+
+
+            </div>
+
+        </form>
+    </div>
+    <div ba-panel ba-panel-title="代理下注总览">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>彩种名称</th>
+                <th>总注单数</th>
+                <th>总投注额</th>
+                <th>总有效投注额</th>
+                <th>总返点</th>
+                <th>总派奖</th>
+                <th>总损益</th>
+            </tr>
+            </thead>
+            <tbody ng-if="summary != null">
+            <tr>
+                <td>{{summary.lotteryName}}</td>
+                <td>{{!summary.orderNum?0:summary.orderNum}}</td>
+                <td>{{!summary.totalBetAmount?0:summary.totalBetAmount/ 100 | number :2}}</td>
+                <td>{{!summary.totalEffectiveBetAmount?0:summary.totalEffectiveBetAmount/ 100 | number :2}}</td>
+                <td>{{!summary.totalReforwardPoint?0:summary.totalReforwardPoint / 100 | number :2}}</td>
+                <td>{{!summary.totalPayoff?0:summary.totalPayoff/ 100 | number :2}}</td>
+                <td>{{!summary.totalGainLost?0:summary.totalGainLost/ 100 | number :2}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="summary == null">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>日期</th>
+                <th>期号</th>
+                <th>总注单数</th>
+                <th>总投注额</th>
+                <th>总有效投注额</th>
+                <th>总返点</th>
+                <th>总派奖</th>
+                <th>总损益</th>
+
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.date}}</td>
+                <td><a ng-click="gogogo(item)">{{item.pcode}}</a></td>
+                <td>{{!item.orderNum?0:item.orderNum}}</td>
+                <td>{{!item.totalBetAmount ? 0:item.totalBetAmount/100 | number :2}}</td>
+                <td>{{!item.totalEffectiveBetAmount? 0 :item.totalEffectiveBetAmount /100 | number :2}}</td>
+                <td>{{!item.totalReforwardPoint ? 0:item.totalReforwardPoint /100 | number :2}}</td>
+                <td>{{!item.totalPayoff? 0:item.totalPayoff/100 | number :2}}</td>
+                <td>{{!item.totalGainLost?0:item.totalGainLost/100 | number :2}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>小计</td>
+                <td>{{!oldsummary.orderNum?0:oldsummary.orderNum}}</td>
+                <td>{{!oldsummary.totalBetAmount?0:oldsummary.totalBetAmount/ 100 | number :2}}</td>
+                <td>{{!oldsummary.totalEffectiveBetAmount?0:oldsummary.totalEffectiveBetAmount/ 100 | number :2}}</td>
+                <td>{{!oldsummary.totalReforwardPoint?0:oldsummary.totalReforwardPoint / 100 | number :2}}</td>
+                <td>{{!oldsummary.totalPayoff?0:oldsummary.totalPayoff/ 100 | number :2}}</td>
+                <td>{{!oldsummary.totalGainLost?0:oldsummary.totalGainLost/ 100 | number :2}}</td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>总计</td>
+                <td>{{!summary.orderNum?0:summary.orderNum}}</td>
+                <td>{{!summary.totalBetAmount?0:summary.totalBetAmount/ 100 | number :2}}</td>
+                <td>{{!summary.totalEffectiveBetAmount?0:summary.totalEffectiveBetAmount/ 100 | number :2}}</td>
+                <td>{{!summary.totalReforwardPoint?0:summary.totalReforwardPoint / 100 | number :2}}</td>
+                <td>{{!summary.totalPayoff?0:summary.totalPayoff/ 100 | number :2}}</td>
+                <td>{{!summary.totalGainLost?0:summary.totalGainLost/ 100 | number :2}}</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

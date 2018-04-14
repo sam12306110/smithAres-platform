@@ -1,0 +1,431 @@
+<div class="widgets" ng-controller="orderSideCtrl">
+    <uib-tabset>
+        <uib-tab heading="今日方案记录" ng-click="initTable(0)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group ">
+                        <label class="col-sm-1 control-label">方案编号</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" ng-model="queryParam.orderId" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">用户名</label>
+                        <div class=" col-sm-2">
+                            <input class="form-control" ng-model="queryParam.memberName" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label" ng-show="agentFlag">所属代理</label>
+                        <div class=" col-sm-2" ng-show="agentFlag">
+                            <input class="form-control" ng-model="selectParam.agent" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">彩种名称</label>
+                        <div class=" col-sm-2 ">
+                            <ui-select ng-model="selectParam.lotterySelected"
+                                       class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="e in selectParam.lottery |filter: {sideType:2}|  filter: $select.search">
+                                    <span ng-bind-html="e.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-1 control-label">选择玩法</label>
+                        <div class=" col-sm-2">
+                            <ui-select ng-model="selectParam.played"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false" append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请先选择彩种">
+                                    <span ng-if="$select.selected.playSetName!= '全部'"> {{$select.selected.playSetName}}-{{$select.selected.playGroupName}}-{{$select.selected.playName}}</span>
+                                    <span ng-if="$select.selected.playSetName== '全部'">全部</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.plays">
+                                    <span ng-if="item.playSetName == '全部'"
+                                          ng-bind-template="{{item.playSetName}}"></span>
+                                    <span ng-if="item.playSetName != '全部'"
+                                          ng-bind-template="{{item.playSetName}}-{{item.playGroupName}}-{{item.playName}}"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label">选择状态</label>
+                        <div class=" col-sm-2">
+                            <ui-select ng-model="selectParam.statused"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false" append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="状态">
+                                    <span>{{$select.selected.mes}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.orderStatus">
+                                    <span ng-bind-html="item.mes"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label">选择来源</label>
+                        <div class=" col-sm-2">
+                            <ui-select ng-model="selectParam.sourceTyped"
+                                       class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span> {{$select.selected.mes}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.sourceType | filter: $select.search">
+                                    <span ng-bind-html="item.mes"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="col-sm-3 align-right">
+                            <a ng-click="init()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch1()">
+                                <i class="ion-search"></i>搜索
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()">
+                                <i class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-class="with-scroll">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>方案编号</th>
+                        <th>用户名</th>
+                        <th>所属代理</th>
+                        <th>会员层级</th>
+                        <!-- <th>所属平台</th>-->
+                        <th>彩种名称</th>
+                        <th>期号</th>
+                        <th style="min-width:135px">玩法</th>
+                        <th>开奖号码</th>
+                        <th>投注时间</th>
+                        <th>投注金额</th>
+                        <th>有效投注金额</th>
+                        <th>返点</th>
+                        <th>奖金</th>
+                        <th>中/投比（%）</th>
+                        <th>状态</th>
+                        <!-- <th>是否为追号单</th>-->
+                        <th>来源</th>
+                        <th>操作人</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in sideList">
+                        <td>{{$index+1}}</td>
+                        <td>
+                            <a ng-click="openDetail(item,1)">{{item.orderId}}</a>
+                        </td>
+                        <td>{{item.memberName}}</td>
+                        <!--<td>{{item.platInfoName}}</td>-->
+                        <td>{{item.agentName}}</td>
+                        <td>{{item.levelName}}</td>
+                        <td>{{item.lotteryName}}</td>
+                        <td>{{item.issueAlias}}</td>
+                        <td>{{item.playName}}</td>
+                        <td>{{item.winNumber}}</td>
+                        <td>{{item.betTimeString}}</td>
+                        <td>{{item.betAmount/100 | number:2}}</td>
+                        <td>{{item.effectiveBetAmount/100 | number:2}}</td>
+                        <td>{{item.reforwardPoint /100 | number:2}}</td>
+                        <td>{{item.payoff/100 | number:2}}</td>
+                        <td>{{item.payoff * 100 / item.betAmount | number:2}}</td>
+                        <td>{{item.orderStatusString}}</td>
+                        <!-- <td>{{item.chaseStatusString}}</td>-->
+                        <td>{{item.sourceString}}</td>
+                        <td>{{item.modifyUserName}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>小计</td>
+                        <td>{{summary.subBetAmount /100 | number :2 }}</td>
+                        <td>{{summary.effectiveBetAmount /100 | number :2 }}</td>
+                        <td>{{summary.subReforwardPoint /100 | number :2 }}</td>
+                        <td>{{summary.subPayoff /100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>总计</td>
+                        <td> {{totalSummary.totalBetAmount/100 | number :2 }}</td>
+                        <td> {{totalSummary.totalEffectiveBetAmount/100 | number :2 }}</td>
+                        <td>{{totalSummary.totalReforwardPoint/100 | number :2 }}</td>
+                        <td>{{totalSummary.totalPayoff/100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="sideList == null || sideList.length ==0">
+                    <tr>
+                        <td colspan="18">暂无数据</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <div id="sidePage"></div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="历史方案记录" ng-click="initTable(1)">
+            <div ba-panel ba-panel-class="">
+                <form class="form-horizontal">
+                    <div class="form-group ">
+                        <label class="col-sm-1 control-label">方案编号</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.orderId" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">用户名</label>
+                        <div class=" col-sm-2 ">
+                            <input class="form-control" ng-model="queryParam.memberName" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label" ng-show="agentFlag">所属代理</label>
+                        <div class=" col-sm-2" ng-show="agentFlag">
+                            <input class="form-control" ng-model="queryParam.agent" placeholder="">
+                        </div>
+                        <label class="col-sm-1 control-label">彩种名称</label>
+
+                        <div class=" col-sm-2 ">
+                            <ui-select ng-model="selectParam.lotterySelected"
+                                       class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span> {{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="e in selectParam.lottery |filter: {sideType:2}|  filter: $select.search">
+                                    <span ng-bind-html="e.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label" ng-if="agentFlag2">选择来源</label>
+                        <div class=" col-sm-2 " ng-if="agentFlag2">
+                            <ui-select ng-model="selectParam.sourceTyped"
+                                       class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span> {{$select.selected.mes}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.sourceType | filter: $select.search">
+                                    <span ng-bind-html="item.mes"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">选择玩法</label>
+                        <div class=" col-sm-2 ">
+                            <ui-select ng-model="selectParam.played"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false" append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请先选择彩种">
+                                    <span ng-if="$select.selected.playSetName!= '全部'"> {{$select.selected.playSetName}}-{{$select.selected.playGroupName}}-{{$select.selected.playName}}</span>
+                                    <span ng-if="$select.selected.playSetName== '全部'">全部</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.plays">
+                                    <span ng-if="item.playSetName == '全部'"
+                                          ng-bind-template="{{item.playSetName}}"></span>
+                                    <span ng-if="item.playSetName != '全部'"
+                                          ng-bind-template="{{item.playSetName}}-{{item.playGroupName}}-{{item.playName}}"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <label class="col-sm-1 control-label">开始时间</label>
+                        <div class=" col-sm-2 ">
+                            <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                                   ng-model="queryParam.startTime"/>
+                        </div>
+                        <label class="col-sm-1 control-label">结束时间</label>
+                        <div class=" col-sm-2 ">
+                            <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                                   ng-model="queryParam.endTime"/>
+                        </div>
+                        <label class="col-sm-1 control-label">选择状态</label>
+                        <div class=" col-sm-2">
+                            <ui-select ng-model="selectParam.statused"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false" append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="状态">
+                                    <span>{{$select.selected.mes}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.orderStatus">
+                                    <span ng-bind-html="item.mes"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label" ng-if="agentFlag">选择来源</label>
+                        <div class=" col-sm-2 " ng-if="agentFlag">
+                            <ui-select ng-model="selectParam.sourceTyped"
+                                       class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span> {{$select.selected.mes}}</span>
+                                </ui-select-match>
+                                <ui-select-choices
+                                        repeat="item in selectParam.sourceType | filter: $select.search">
+                                    <span ng-bind-html="item.mes"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class=" align-right" ng-class="{ false:'col-sm-12',true:'col-sm-9' }[agentFlag]">
+                            <a ng-click="init()">重置</a>
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch2()">
+                                <i class="ion-search"></i>搜索
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()">
+                                <i class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-class="with-scroll">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>方案编号</th>
+                        <th>用户名</th>
+                        <th>所属代理</th>
+                        <th>会员层级</th>
+                        <!--<th>所属平台</th>-->
+                        <th>彩种名称</th>
+                        <th>期号</th>
+                        <th>玩法</th>
+                        <th>开奖号码</th>
+                        <th>投注时间</th>
+                        <th>投注金额</th>
+                        <th>有效投注金额</th>
+                        <th>返点</th>
+                        <th>奖金</th>
+                        <th>中/投比（%）</th>
+                        <th>状态</th>
+                        <!-- <th>是否为追号单</th>-->
+                        <th>来源</th>
+                        <th>操作人</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in oldSideList">
+                        <td>{{$index+1}}</td>
+                        <td>
+                            <a ng-click="openDetail(item,2)">{{item.orderId}}</a>
+                        </td>
+                        <td>{{item.memberName}}</td>
+                        <!--<td>{{item.platInfoName}}</td>-->
+                        <td>{{item.agentName}}</td>
+                        <td>{{item.levelName}}</td>
+                        <td>{{item.lotteryName}}</td>
+                        <td>{{item.issueAlias}}</td>
+                        <td>{{item.playName}}</td>
+                        <td>{{item.winNumber}}</td>
+                        <td>{{item.betTimeString}}</td>
+                        <td>{{item.betAmount/100 | number:2}}</td>
+                        <td>{{item.effectiveBetAmount/100 | number:2}}</td>
+                        <td>{{item.reforwardPoint /100| number:2}}</td>
+                        <td>{{item.payoff/100 | number:2}}</td>
+                        <td>{{item.payoff * 100 / item.betAmount | number:2}}</td>
+                        <td>{{item.orderStatusString}}</td>
+                        <!--<td>{{item.chaseStatusString}}</td>-->
+                        <td>{{item.sourceString}}</td>
+                        <td>{{item.modifyUserName}}</td>
+                        <td>{{item.remark}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>小计</td>
+                        <td>{{oldsummary.subBetAmount /100 | number :2 }}</td>
+                        <td>{{oldsummary.effectiveBetAmount /100 | number :2 }}</td>
+                        <td> {{oldsummary.subReforwardPoint/100 | number :2 }}</td>
+                        <td>{{oldsummary.subPayoff /100 | number :2 }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>总计</td>
+
+                        <td>{{oldTotalsummary.totalBetAmount/100 | number :2 }}</td>
+                        <td>{{oldTotalsummary.totalEffectiveBetAmount/100 | number :2 }}</td>
+                        <!--oldsummary.subBetAmount /100 | number :2-->
+                        <td>{{oldTotalsummary.totalReforwardPoint/100 | number :2 }}</td>
+                        <td>{{oldTotalsummary.totalPayoff/100 | number :2 }}</td>
+                        <!--oldsummary.subPayoff /100 | number :2-->
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="oldSideList == null || oldSideList.length ==0">
+                    <tr>
+                        <td colspan="18">暂无数据</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <div id="oldSidePage"></div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

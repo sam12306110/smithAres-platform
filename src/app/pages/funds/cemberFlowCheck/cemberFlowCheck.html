@@ -1,0 +1,124 @@
+<div class="widgets" ng-controller="cemberFlowCheck">
+    <div class="row ">
+        <div class="col-sm-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">金流ID</label>
+                    <div class=" col-sm-2 ">
+                        <input class="form-control" ng-model="queryParam.agentName" placeholder="">
+                    </div>
+                    <label class="col-sm-1 control-label">会员帐号</label>
+                    <div class=" col-sm-2 ">
+                        <input class="form-control" ng-model="queryParam.agentName" placeholder="">
+                    </div>
+                    <label class="col-sm-1 control-label">所属代理</label>
+                    <div class=" col-sm-2 ">
+                        <input class="form-control" ng-model="queryParam.agentName" placeholder="">
+                    </div>
+                    <label class=" col-sm-1 control-label">账变行为</label>
+                    <div class=" col-sm-2">
+                        <ui-select ng-model="selectParam.retirementStatusSelected"
+                                   class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                   append-to-body="true"
+                                   search-enabled="false">
+                            <ui-select-match placeholder="请选择">
+                                <span> {{$select.selected.value}}</span>
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="e in selectParam.retirementStatusType">
+                                <span ng-bind-html="e.value"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group align-right">
+                    <label class="col-sm-1 control-label">时间范围</label>
+                    <div class=" col-sm-2 ">
+                        <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                               ng-model="selectParam.startTime"/>
+                    </div>
+                    <div class=" col-sm-2 ">
+                        <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                               ng-model="selectParam.endTime"/>
+                    </div>
+                    <label class=" col-sm-3 control-label"></label>
+                    <div class="col-sm-2">
+                        <a ng-click="onReset()">重置</a>
+                        <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                                class="ion-search"></i>搜索
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <div class="horizontal-scroll">
+            <table class="table table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th>序号</th>
+                    <th>金流ID</th>
+                    <th>会员帐号</th>
+                    <th>所属代理</th>
+                    <th>会员层级</th>
+                    <th>账变行为</th>
+                    <th>账变方式</th>
+                    <th>金额</th>
+                    <th>帐变实际</th>
+                    <th>可用余额</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody ng-if="entity != null || entity.length >0">
+                <tr ng-repeat="item in entity">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.agentName}}</td>
+                    <td>{{item.validMemberCount}}</td>
+                    <td>{{item.lastValidBetAmount/100 | number :2}}</td>
+                    <td>{{item.lastPayoff/100 | number :2}}</td>
+                    <td><a ng-click="gogogo(item)">{{item.validBetAmount/100 | number :2}}</a></td>
+                    <td>{{item.payoff/100 | number :2}}</td>
+                    <td>{{item.costFee/100 | number :2}}</td>
+                    <td>{{item.rcomName}}</td>
+                    <td>{{item.lastLeftFee/100|number:2}}</td>
+                    <td>{{item.rcomAmounte/100|number:2}}</td>
+                </tr>
+                </tbody>
+                <tbody ng-if="entity == null || entity.length ==0">
+                <tr>
+                    <td colspan="13">暂无数据</td>
+                </tr>
+                <tr>
+                    <td>小计</td>
+                    <td></td>
+                    <td>{{summary.subValidBetAmount /100 | number :2 }}</td>
+                    <td>{{summary.subPayoff /100 | number :2 }}</td>
+                    <td>{{summary.subCashBackAmount /100 | number :2 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>总计</td>
+                    <td></td>
+                    <td>{{summary.totalValidBetAmount /100 | number :2 }}</td>
+                    <td>{{summary.totalPayoff /100 | number :2 }}</td>
+                    <td>{{summary.totalCashBackAmount /100 | number :2 }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>

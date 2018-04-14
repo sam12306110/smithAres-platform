@@ -1,0 +1,75 @@
+<div class="widgets" ng-controller="proxyWhitelistSettings">
+    <div ba-panel ba-panel-class="">
+        <form class="row form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">代理域名</label>
+                <div class="col-sm-2" >
+                    <input class="form-control" ng-model="queryParam.domain" placeholder="">
+                </div>
+                <label class="col-sm-3 control-label">白名单IP</label>
+                <div class="col-sm-2" >
+                    <input class="form-control" ng-model="queryParam.ip" placeholder="">
+                </div>
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-2">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                <div class="form-group col-sm-12 col-xs-6 align-right">
+                    <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                            ng-click="openEdit(false,null)">
+                        <i class="ion-plus"></i>新增白名单IP
+                    </button>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>代理域名</th>
+                        <th>白名单IP</th>
+                        <th>操作人</th>
+                        <th>操作时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-center" ng-repeat="item in entity">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.domain}}</td>
+                        <td>{{item.ip}}</td>
+                        <td>{{item.operator}}</td>
+                        <td>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td ng-style="{'color':item.status== 0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                        <td>
+                            <button class="status-button btn btn-xs btn-info"
+                                    ng-click="openEdit(true,item)">修改
+                            </button>
+                            <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                                    ng-click="onStatus(item)">{{item.status == 1?'停用':'启用'}}
+                            </button>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="entity == null || entity.length ==0">
+                    <tr>
+                        <td colspan="7">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="page"></div>
+        </div>
+    </div>
+</div>

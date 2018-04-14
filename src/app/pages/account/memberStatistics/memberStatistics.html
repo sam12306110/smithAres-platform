@@ -1,0 +1,164 @@
+<div class="widgets" ng-controller="memberStatistics">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" ng-show="agentFlag">代理帐号</label>
+                <div class=" col-sm-2 " ng-show="agentFlag">
+                    <input class="form-control" ng-model="queryParam.agentAccount" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">状态</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">注册开始时间</label>
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <label class="col-sm-1 control-label">注册结束时间</label>
+                <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+
+            </div>
+
+
+            <!--<div class="form-group">-->
+            <!--<label class="col-sm-1 control-label">存款金额</label>-->
+            <!--<div class=" col-sm-2 ">-->
+            <!--<input class="form-control" ng-model="queryParam. withdrawalCountStart" placeholder="">-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<label class="col-sm-1 control-label">&#45;&#45;&#45;&#45;</label>&ndash;&gt;-->
+            <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+            <!--<div class=" col-sm-2 ">-->
+            <!--<input class="form-control" ng-model="queryParam.withdrawalCountEnd" placeholder="">-->
+            <!--</div>-->
+            <!--<label class="col-sm-1 control-label"></label>-->
+            <!--<label class="col-sm-1 control-label">取款金额</label>-->
+            <!--<div class=" col-sm-2 ">-->
+            <!--<input class="form-control" ng-model="queryParam.withdrawalLumpSumStart" placeholder="">-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<label class="col-sm-1 control-label"></label>&ndash;&gt;-->
+
+            <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+            <!--<div class=" col-sm-2 ">-->
+            <!--<input class="form-control" ng-model="queryParam.withdrawalLumpSumEnd" placeholder="">-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label class="col-sm-1 control-label">会员数</label>-->
+            <!--<div class=" col-sm-2 ">-->
+            <!--<input class="form-control" ng-model="queryParam.withdrawalLumpSumStart" placeholder="">-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<label class="col-sm-1 control-label"></label>&ndash;&gt;-->
+
+            <!--<span style="float: left;line-height: 34px;font-size: 20px">&#45;&#45;</span>-->
+            <!--<div class=" col-sm-2 ">-->
+            <!--<input class="form-control" ng-model="queryParam.withdrawalLumpSumEnd" placeholder="">-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <div class="form-group align-right">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+
+
+            </div>
+
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>代理帐号</th>
+                <th>新增会员数量</th>
+                <th>存款会员数量</th>
+                <th>存款金额</th>
+                <th>取款金额</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.agentAccount}}</td>
+                <td><a ng-click="gogogo(item)">{{!item.memberSum ? 0 :item.memberSum}}</a></td>
+                <td>{{!item.rechargeMemberCount ? 0:item.rechargeMemberCount}}</td>
+                <td>{{!item.depositAmount ? 0 :item.depositAmount /100 | number :2}}</td>
+                <td>{{!item.withdrawalAmount ? 0:item.withdrawalAmount /100 | number :2}}</td>
+                <td>{{item.status == 1?'启用中':'已停用'}}</td>
+
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td></td>
+                <td>{{!subsummary.submemberSum ? 0 :subsummary.submemberSum}}</td>
+                <td>{{!subsummary.subrechargeMemberCount?0:subsummary.subrechargeMemberCount}}</td>
+                <td>{{!subsummary.subDepositAmount ? 0: subsummary.subDepositAmount /100 | number :2 }}</td>
+                <td>{{!subsummary.subWithdrawalAmount ? 0: subsummary.subWithdrawalAmount/100 | number :2}}</td>
+                <td></td>
+
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td>{{!summary.memberSum ? 0 : summary.memberSum}}</td>
+                <td>{{!summary.rechargeMemberCount ? 0 :summary.rechargeMemberCount}}</td>
+                <td>{{!summary.depositAmount ? 0 : summary.depositAmount /100 | number :2 }}</td>
+                <td>{{!summary.withdrawalAmount ? 0 :summary.withdrawalAmount/100 | number :2 }}</td>
+                <td></td>
+
+            </tr>
+            </tbody>
+
+
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

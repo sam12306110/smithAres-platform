@@ -1,0 +1,214 @@
+<div class="widgets" ng-controller="memberStatisticsSubpage">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="按账号检索" ng-click="openTab(1)">
+            <div class="row">
+                <div class="col-sm-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">账号</label>
+                            <div class="col-sm-3">
+                                <input class="form-control" ng-model="queryParam.login" placeholder="">
+                            </div>
+                            <label class="col-sm-1 control-label">状态</label>
+                            <div class=" col-sm-2 ">
+                                <ui-select ng-model="selectParam.statusSelected"
+                                           class="btn-group bootstrap-select form-control"
+                                           ng-disabled="false"
+                                           append-to-body="true"
+                                           search-enabled="false">
+                                    <ui-select-match placeholder="请选择">
+                                        <span>{{$select.selected.value}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                                        <span ng-bind-html="item.value"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <div class="col-sm-12  align-right">
+                                <a ng-click="onReset()">重置</a>
+                                <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch1()"><i
+                                        class="ion-search"></i>搜索
+                                </button>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="row" style="margin: 0">
+                <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员帐号</th>
+                            <th>所属代理</th>
+                            <th>会员层级</th>
+                            <th>余额</th>
+                            <th>状态</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody ng-if="entity != null && entity.length >0">
+                        <tr ng-repeat="item in entity">
+                            <td>{{$index+1}}</td>
+                            <td> {{item.login }}</td>
+                            <td>{{item.agentAccount}}</td>
+                            <td>{{item.levelName}}</td>
+                            <td>{{!item.balance ? 0:item.balance /100 | number :2}}</td>
+                            <td>{{item.status == 1?'启用中':'已停用'}}</td>
+
+                        </tr>
+                        <tr>
+                            <td>小计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{!subsummary.subbalance ? 0: subsummary.subbalance/100 | number :2}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>总计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{!summary.totalMemberBalance ? 0 :summary.totalMemberBalance/100 | number :2 }}</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="entity == null || entity.length ==0">
+                        <tr>
+                            <td colspan="13">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="page-1"></div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab heading="按层级检索" ng-click="openTab(2)">
+            <div class="row">
+                <div class="col-sm-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class=" col-sm-1 control-label">会员层级</label>
+                            <div class=" col-sm-3">
+                                <ui-select ng-model="selectParam.memberLevelSelected"
+                                           class="btn-group bootstrap-select form-control" ng-disabled="false"
+                                           append-to-body="true"
+                                           search-enabled="false">
+                                    <ui-select-match placeholder="请选择会员层级">
+                                        <span> {{$select.selected.value}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="e in selectParam.memberLevel |  filter: $select.search">
+                                        <span ng-bind-html="e.value"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                            <label class="col-sm-1 control-label">状态</label>
+                            <div class=" col-sm-2 ">
+                                <ui-select ng-model="selectParam.statusSelected"
+                                           class="btn-group bootstrap-select form-control"
+                                           ng-disabled="false"
+                                           append-to-body="true"
+                                           search-enabled="false">
+                                    <ui-select-match placeholder="请选择">
+                                        <span>{{$select.selected.value}}</span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                                        <span ng-bind-html="item.value"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-sm-12  align-right">
+                                <a ng-click="onReset()">重置</a>
+                                <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch2()"><i
+                                        class="ion-search"></i>搜索
+                                </button>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="row" style="margin: 0">
+                <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员帐号</th>
+                            <th>所属代理</th>
+                            <th>会员层级</th>
+                            <th>余额</th>
+                            <th>状态</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody ng-if="levelEntity != null && levelEntity.length >0">
+                        <tr ng-repeat="item in levelEntity">
+                            <td>{{$index+1}}</td>
+                            <td> {{item.login}}</td>
+                            <td>{{item.agentAccount}}</td>
+                            <td>{{item.levelName }}</td>
+                            <td>{{!item.balance ? 0:item.balance /100 | number :2}}</td>
+                            <td>{{item.status == 1?'启用中':'已停用'}}</td>
+
+                        </tr>
+                        <tr>
+                            <td>小计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{!levelSubsummary.subbalance ? 0: levelSubsummary.subbalance/100 | number :2}}</td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td>总计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{!levelsummary.totalMemberBalance ? 0 :levelsummary.totalMemberBalance/100 | number :2 }}</td>
+                            <td></td>
+
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="levelEntity == null || levelEntity.length ==0">
+                        <tr>
+                            <td colspan="13">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="page-2"></div>
+                </div>
+            </div>
+
+        </uib-tab>
+    </uib-tabset>
+</div>

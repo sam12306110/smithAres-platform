@@ -1,0 +1,65 @@
+<div class="modal-content" ng-controller="msgEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">发送站内信</h4>
+    </div>
+    <form class="form-horizontal">
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">站内信主题</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" placeholder="" ng-model="entity.platAccount"
+                           ng-readonly="platAccountReadonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">接收用户</label>
+                <div class="col-md-7">
+                    <label class="radio-inline custom-radio nowrap">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                        <span>全部</span>
+                    </label>
+                    <label class="radio-inline custom-radio nowrap">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                        <span>选择层级</span>
+                    </label>
+                    <label class="radio-inline custom-radio nowrap">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                        <span>填入帐号</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">会员账号</label>
+                <div class="col-sm-7">
+                    <input type="tel" class="form-control" placeholder="" ng-model="entity.telephone">
+                </div>
+                <div class="col-sm-2 align-left">
+                    <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onUpload()">
+                        文件导入
+                    </button>
+                    <input type="file" accept=".xls,.doc,.txt,.xlsx" ng-show="false" id="file">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">会员层级</label>
+                <div class="col-sm-7">
+                    <input type="tel" class="form-control" placeholder="" ng-model="entity.telephone">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">站内信内容</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" placeholder="Message"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i class="ion-android-exit"></i>取消</button>
+            <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i class="ion-checkmark"></i>发送</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,42 @@
+<div class="widgets" ng-controller="msgTemplate">
+    <div class="row">
+        <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+            <div class="horizontal-scroll">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>站内信息标题名称</th>
+                        <th>状态</th>
+                        <th>操作人</th>
+                        <th>操作时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in entity">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.title}}</td>
+                        <td ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}</td>
+                        <td>{{item.modifyUsername}}</td>
+                        <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>
+                            <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                                    ng-click="onStatus(item)">{{item.status==1?'停用':'启用'}}
+                            </button>
+                            <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                    ng-click="openEdit(true,item)">修改
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="entity == null || entity.length ==0">
+                    <tr>
+                        <td colspan="18">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

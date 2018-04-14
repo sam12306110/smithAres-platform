@@ -1,0 +1,39 @@
+<div class="widgets" ng-controller="lotteryWeight">
+    <div ba-panel ba-panel-class="">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>图标</th>
+                <th>权重</th>
+                <th>彩种名称</th>
+                <th>创建时间</th>
+                <th>操作人</th>
+                <th>操作时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null || entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td><img style="width: 50px;height:50px;" ng-src="{{imgPath+item.imgUrl+'/0'}}"></td>
+                <td>{{item.weight}}</td>
+                <td>{{item.lotteryName}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.modifyUsername}}</td>
+                <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>
+                    <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                            ng-click="openEdit(true,item)">修改
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="11">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

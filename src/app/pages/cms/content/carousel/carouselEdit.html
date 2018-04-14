@@ -1,0 +1,79 @@
+<div class="modal-content" ng-controller="carouselEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">标题名称</label>
+                <div class="col-sm-9">
+                    <input class="form-control" placeholder="" ng-model="entity.title">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">开始时间</label>
+                <div class="col-sm-9">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="entity.beginTime"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">结束时间</label>
+                <div class="col-sm-9">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control" placeholder="结束时间"
+                           ng-model="entity.endTime"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">延迟时间</label>
+                <div class="col-sm-9">
+                    <input class="form-control" placeholder="" ng-model="entity.delayTime">
+                </div>
+            </div>
+            <div class="carousel" ng-repeat="e in entity.itemPO">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="color:#7d7d7d;">标题图片{{$index+1}}</label>
+                    <div class="col-sm-9 carousel" style="height: 265px;">
+                        <div ng-class="edit?'show':''"></div>
+                        <div id="imgFile{{$index}}" style="width: 200px;height: 100px;">
+                            {{e.titlePic}}
+                        </div>
+                        <span style="position: relative;top: 148px;z-index: 1;">尺寸要求750x285，限80k</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="color:#7d7d7d;">链接{{$index+1}}</label>
+                    <div class="col-sm-9 carousel">
+                        <input type="url" class="form-control" placeholder="http://"
+                               ng-model="e.link"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="edit">
+                <label class="col-sm-2 control-label" style="color:#7d7d7d;">轮播图操作</label>
+                <div class="col-sm-9 carousel">
+                    <button type="button" class="btn btn-primary btn-with-icon" ng-click="addCarousel()"
+                            style="margin-left: 0"><i
+                            class="ion-plus"></i>增加轮播图
+                    </button>
+                    <button type="button" class="btn btn-primary btn-with-icon" ng-click="deleteCarousel()"><i
+                            class="ion-close-round"></i>减少轮播图
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i
+                class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>

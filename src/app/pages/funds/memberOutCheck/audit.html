@@ -1,0 +1,48 @@
+<div class="modal-content" ng-controller="audit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">出款稽核详情</h4>
+    </div>
+    <div class="modal-body" style="overflow-y:scroll;height: 500px">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class=" col-sm-12 ">
+                    <table id="table" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>时间区间</th>
+                            <th>存款金额</th>
+                            <th>有效投注额</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-if="entity != null || entity.length >0">
+                        <tr ng-repeat="item in entity">
+                            <td>{{item.lastTradeTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                <br/>
+                                {{item.tradeApproveTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                            </td>
+                            <td>{{item.tradeAmount / 100 | number :2}}</td>
+                            <td>{{item.lastBetAmount / 100 | number :2}}</td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="entity == null || entity.length ==0">
+                        <tr>
+                            <td colspan="14">暂无数据</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<style type="text/css">
+    #table td {
+        text-align: center; /** 设置水平方向居中 */
+        vertical-align: middle /** 设置垂直方向居中 */
+    }
+</style>

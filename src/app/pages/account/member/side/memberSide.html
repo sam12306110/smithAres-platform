@@ -1,0 +1,162 @@
+<div class="widgets" ng-controller="memberSideCtrl">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">会员账号</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.login" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label" ng-show="agentFlag">会员层级</label>
+                <div class="col-sm-2" ng-show="agentFlag">
+                    <ui-select ng-model="selectParam.memberLevelSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false" required="false">
+                        <ui-select-match placeholder="层级名称">
+                            <span> {{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.memberLevel | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">注册开始时间</label>
+                <div class=" col-sm-2 ">
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="dateInput.createTimeStart"/>
+                </div>
+                <label class="col-sm-1 control-label">注册结束</label>
+                <div class=" col-sm-2 ">
+                    <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                           ng-model="dateInput.createTimeEnd"/>
+                </div>
+                <label class="col-sm-1 control-label" ng-if="agentFlag2">状态</label>
+                <div class=" col-sm-2 " ng-if="agentFlag2">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" >真实姓名</label>
+                <div class="col-sm-2" >
+                    <input class="form-control" ng-model="queryParam.realName" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label" >银行卡号</label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="queryParam.bankCard" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label" >手机号码</label>
+                <div class="col-sm-2" >
+                    <input class="form-control" ng-model="queryParam.mobile" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" ng-show="agentFlag">所属代理</label>
+                <div class="col-sm-2" ng-show="agentFlag">
+                    <input class="form-control" ng-model="queryParam.agentAccount" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label" ng-if="agentFlag">状态</label>
+                <div class=" col-sm-2 " ng-if="agentFlag">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">注册来源</label>
+                <div class="col-sm-2">
+                    <ui-select ng-model="selectParam.source"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.sourceType | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class=" align-right" ng-class="{ false:'col-sm-9',true:'col-sm-12' }[agentFlag]">
+                    <a ng-click="init()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <div class="horizontal-scroll">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>会员帐号</th>
+                <th>所属代理</th>
+                <th>会员层级</th>
+                <th>余额</th>
+                <th>返水方案</th>
+                <th>出入款优惠方案</th>
+                <th>注册/最近登录时间</th>
+                <th>状态</th>
+                <th ng-show="agentFlag">操作</th>
+                <th>修改时间</th>
+                <th>修改人</th>
+                <th>来源</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td><a ng-click="gogogo(item)" ng-show="agentFlag">{{item.login}}</a> <span ng-show="agentFlag2">{{item.login}}</span></td>
+                <td>{{item.agentAccount}}</td>
+                <td>{{item.levelName}}</td>
+                <td>{{item.balance / 100 | number :2}}</td>
+                <td>{{item.rebateProgramName}}</td>
+                <td>{{item.accessDiscountName}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}<br>{{item.lastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.status == 1?'启用中':'已冻结'}}</td>
+                <td ng-show="agentFlag">
+                    <button class="status-button btn btn-xs btn-{{item.status == 0?'danger':'info'}}"
+                            ng-click="onStatus(item.cid,item.status)">{{item.status==1?'冻结':'启用'}}
+                    </button>
+                    <button class="status-button btn btn-xs btn-info"
+                            ng-click="offLine(item.login)">强制下线
+                    </button>
+                </td>
+                <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.modifyUsername}}</td>
+                <td>{{item.source | formatSourceType: Number(item.source)}}</td>
+
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="15">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <div id="page" ng-show="total"></div>
+    </div>
+</div>

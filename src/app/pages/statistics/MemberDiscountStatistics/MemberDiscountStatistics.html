@@ -1,0 +1,177 @@
+<div class="widgets" ng-controller="MemberDiscountStatistics">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group" ng-show="agentFlag">
+                <label class="col-sm-1 control-label">代理账号</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.agentName" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">优惠项目</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.PreferentialProjectsType | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">优惠次数</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.minTimes" placeholder="最小次数">
+                </div>
+                <span style="float: left;line-height: 34px;font-size: 20px">--</span>
+                <!--<label class="col-sm-1 control-label">&#45;&#45;&#45;&#45;</label>-->
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.maxTimes" placeholder="最大次数">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">开始时间</label>
+                <div class=" col-sm-2 ">
+                    <input id="startTime" so-date type="text" class="form-control" placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <label class="col-sm-1 control-label">结束时间</label>
+                <div class=" col-sm-2 ">
+                    <input id="endTime" so-date type="text" class="form-control" placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+                <!--<label class="col-sm-1 control-label"></label>-->
+                <label class="col-sm-1 control-label">优惠金额</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="selectParam.minAmount" placeholder="最小金额">
+                </div>
+                <span style="float: left;line-height: 34px;font-size: 20px">--</span>
+                <!--<label class="col-sm-1 control-label">&#45;&#45;&#45;&#45;</label>-->
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="selectParam.maxAmount" placeholder="最大金额">
+                </div>
+            </div>
+            <div class="form-group" ng-show="!agentFlag">
+                <label class="col-sm-1 control-label" ng-show="agentFlag">代理账号</label>
+                <div class=" col-sm-2 " ng-show="agentFlag">
+                    <input class="form-control" ng-model="queryParam.agentName" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">优惠项目</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.statusSelected"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.PreferentialProjectsType | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <label class="col-sm-1 control-label">优惠次数</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.minTimes" placeholder="最小次数">
+                </div>
+                <span style="float: left;line-height: 34px;font-size: 20px">--</span>
+                <!--<label class="col-sm-1 control-label">&#45;&#45;&#45;&#45;</label>-->
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.maxTimes" placeholder="最大次数">
+                </div>
+            </div>
+            <div class="form-group align-right">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                </div>
+                <div class="col-sm-2">
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+
+
+            </div>
+
+        </form>
+    </div>
+    <div ba-panel ba-panel-title="总体优惠情况">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>优惠次数</th>
+                <th>优惠金额</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>{{!summary.times?0:summary.times}}</td>
+                <td>{{!summary.tradeAmount?0:summary.tradeAmount/100| number :2}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ba-panel ba-panel-title="详情优惠情况">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>代理帐号</th>
+                <th>优惠次数</th>
+                <th>优惠金额</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.agentName}}</td>
+                <td><a ng-click="gogogo(item)">{{!item.times? 0:item.times}}</a></td>
+                <td>{{!item.tradeAmount? 0 :item.tradeAmount/100| number :2}}</td>
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td></td>
+                <td>{{!oldsummary.times ? 0 :oldsummary.times}}</td>
+                <td>{{!oldsummary.tradeAmount?0:oldsummary.tradeAmount/100|number:2}}</td>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td>{{!summary.times ? 0 : summary.times}}</td>
+                <td>{{!summary.tradeAmount ? 0 :summary.tradeAmount/100|number:2}}</td>
+            </tr>
+            </tbody>
+
+
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+    </div>
+</div>

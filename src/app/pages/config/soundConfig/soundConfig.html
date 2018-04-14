@@ -1,0 +1,22 @@
+<div class="widgets" ng-controller="soundConfig">
+    <div class="row">
+        <div ba-panel ba-panel-class="" class="col-sm-12">
+            <form class="form-horizontal">
+                <div class="form-group" ng-repeat="item in entity">
+                    <label class="col-sm-4 control-label">{{item.item}}</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" ng-model="item.itemUrl" placeholder="" readonly>
+                        <input type="file" ng-show="false" id="file{{$index}}">
+                    </div>
+                    <div class="col-sm-5">
+                        <button class="status-button btn btn-primary btn-{{item.status == 1?'danger':'info'}}"
+                                ng-click="onStatus(item)">{{item.status==1?'停用':'启用'}}
+                        </button>
+                        <button type="button" class="btn btn-primary btn-with-icon" ng-click="uploadFile($index,item)">上传
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

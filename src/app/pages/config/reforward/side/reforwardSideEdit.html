@@ -1,0 +1,54 @@
+<div class="modal-content" ng-controller="reforwardSideEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">修改返点对照表</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <table class="table table-hover">
+                <thead>
+                <tr class="black-muted-bg">
+                    <th>奖金组</th>
+                    <th>返点</th>
+                    <th>奖金</th>
+                </tr>
+                </thead>
+                <tbody ng-if="edit">
+                <tr ng-repeat="item in entity.itemPO">
+                    <td>{{item.prizeGroup}}</td>
+                    <td><input type="number" class="form-control" ng-model="item.reforwardPoint" placeholder=""></td>
+                    <td><input type="number" class="form-control" ng-model="item.prizeAmount" placeholder=""></td>
+                </tr>
+                </tbody>
+                <tbody ng-if="!edit">
+                <tr ng-repeat="item in entity.itemPO">
+                    <td>{{item.prizeGroup}}</td>
+                    <td>{{item.reforwardPoint}}</td>
+                    <td>{{item.prizeAmount}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button ng-if="edit" type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i
+                class="ion-checkmark"></i>确认
+        </button>
+        <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                class="ion-android-exit"></i>取消
+        </button>
+    </div>
+</div>
+<style>
+    .modal-body table thead tr th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .modal-body table tbody tr td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>

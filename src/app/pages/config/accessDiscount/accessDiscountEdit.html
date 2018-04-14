@@ -1,0 +1,436 @@
+<div class="modal-content" ng-controller="accessDiscountEdit">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">{{titleName}}</h4>
+    </div>
+    <form class="form-horizontal" name="mForm">
+        <div class="modal-body" id="tableCust">
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="titleName">出入款方案名称</label>
+                        <div class="col-sm-8">
+                            <input ng-readonly="!edit" class="form-control"  id="titleName"  ng-model="entity.title" style="text-align: left" required ng-disabled="entity.canModify==0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-heading">出款设定</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>类目名称</th>
+                            <th>数量</th>
+                            <th>类目名称</th>
+                            <th>数量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>出款手续费比例</td><!-- <span class="text-danger">*</span>-->
+                            <td>
+                                <div class="input-group">
+                                    <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.dispFee" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                    <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                </div>
+                            </td>
+                            <td>出款手续费上限</td>
+                            <td>
+                                <div class="input-group">
+                                    <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.dispFeeLimit" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                    <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>出款上限</td>
+                            <td>
+                                <div class="input-group">
+                                    <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.dispCapped" placeholder="" required min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                    <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                </div>
+                            </td>
+                            <td>出款下限</td>
+                            <td>
+                                <div class="input-group">
+                                    <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.dispLower" placeholder="" required min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                    <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>免手续费</td>
+                            <td>
+                                <div class="input-group">
+                                    <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.freeCount" placeholder="" min="0" max="9999999" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                    <span class="input-group-addon addon-right input-group-addon-primary">次</span>
+                                </div>
+                            </td>
+                            <td>重复出款间隔</td>
+                            <td>
+                                <div class="input-group">
+                                    <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.repeatFeeCount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                    <span class="input-group-addon addon-right input-group-addon-primary">时</span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default bootstrap-panel">
+                <div class="panel-heading">入款设定</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">每日优惠金额上限（每人）</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input ng-readonly="!edit" type="number" class="form-control" ng-model="entity.dailyAmountLimit" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                            </div>
+                        </div>
+                    </div>
+                    <uib-tabset active="$tabSetStatus.activeTab">
+                        <uib-tab heading="线上入款">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">首次入款优惠设定(每日)</th>
+                                    <th colspan="2">每次入款优惠设定</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>优惠标准</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.preferentialStandards" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>优惠标准</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.preferentialStandards" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>优惠百分比</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.discountPercentage" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                    <td>优惠百分比</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.discountPercentage" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>最高存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.maxDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>最高存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.maxDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>最低存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.minDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>最低存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.minDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>优惠稽核</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.discountAudit" placeholder="" min="0" max="9999999" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">倍</span>
+                                        </div>
+                                    </td>
+                                    <td>优惠稽核</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.discountAudit" placeholder="" min="0" max="9999999" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">倍</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>常态稽核</td>
+                                    <td><input ng-readonly="!edit" type="checkbox" ng-model="onlineFlowFirst.ifNormalAudit"></td>
+                                    <td>常态稽核</td>
+                                    <td><input ng-readonly="!edit" type="checkbox" ng-model="onlineFlowEach.ifNormalAudit"></td>
+                                </tr>
+                                <tr>
+                                    <td>常态稽核放宽额度</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.normalAuditQuota" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>常态稽核放宽额度</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.normalAuditQuota" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>常态稽核行政费率</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowFirst.normalAuditRate" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                    <td>常态稽核行政费率</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="onlineFlowEach.normalAuditRate" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                        <uib-tab heading="公司入款">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">首次入款优惠设定(每日)</th>
+                                    <th colspan="2">每次入款优惠设定</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>优惠标准</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.preferentialStandards" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>优惠标准</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.preferentialStandards" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>优惠百分比</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.discountPercentage" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                    <td>优惠百分比</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.discountPercentage" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>最高存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.maxDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>最高存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.maxDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>最低存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.minDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>最低存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.minDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>优惠稽核</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.discountAudit" placeholder="" min="0" max="9999999" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">倍</span>
+                                        </div>
+                                    </td>
+                                    <td>优惠稽核</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.discountAudit" placeholder="" min="0">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">倍</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>常态稽核</td>
+                                    <td><input ng-readonly="!edit" type="checkbox" ng-model="companyFlowFirst.ifNormalAudit"></td>
+                                    <td>常态稽核</td>
+                                    <td><input ng-readonly="!edit" type="checkbox" ng-model="companyFlowEach.ifNormalAudit"></td>
+                                </tr>
+                                <tr>
+                                    <td>常态稽核放宽额度</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.normalAuditQuota" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td>常态稽核放宽额度</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.normalAuditQuota" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>常态稽核行政费率</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowFirst.normalAuditRate" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                    <td>常态稽核行政费率</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="companyFlowEach.normalAuditRate" placeholder="" min="0" max="100" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                        <uib-tab heading="人工入款">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="2"></th>
+                                    <th colspan="2"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>优惠标准</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="artificial.preferentialStandards" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>优惠百分比</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="artificial.discountPercentage" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">%</span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>最高存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="artificial.maxDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>最低存款金额</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input ng-readonly="!edit" type="number" class="form-control" ng-model="artificial.minDepositAmount" placeholder="" min="0" max="9999999.99" step="0.01" ng-pattern="/^\d+(.\d{1,2})?$/">
+                                            <span class="input-group-addon addon-right input-group-addon-primary">元</span>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" id="modal-footer">
+            <button type="submit" class="btn btn-primary btn-with-icon" ng-click="onSave()" ng-if="edit"><i class="ion-checkmark"></i>确认
+            </button>
+            <button type="button" class="btn btn-primary btn-with-icon" ng-click="$dismiss()"><i
+                    class="ion-android-exit"></i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    #tableCust table thead th {
+        font-weight: bold;
+    }
+
+    #tableCust input {
+        text-align: right;
+    }
+</style>

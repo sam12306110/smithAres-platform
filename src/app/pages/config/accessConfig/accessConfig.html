@@ -1,0 +1,106 @@
+<div class="widgets" ng-controller="accessConfig">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="限制访问IP" ng-click="clickIPCtrl()">
+            <div class="widgets">
+                <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <form class="row form-inline">
+                        <div class="form-group col-sm-12 col-xs-6 align-right">
+                            <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                    ng-click="addNewConfig()">
+                                <i class="ion-plus"></i>新增限制IP
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>开始IP</th>
+                            <th>结束IP</th>
+                            <th>起始时间</th>
+                            <th>截止时间</th>
+                            <th>创建人</th>
+                            <th>创建时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in list">
+                            <td>{{$index+1}}</td>
+                            <td>{{item.startIpString}}</td>
+                            <td>{{item.endIpString}}</td>
+                            <td>{{item.startTimeString}}</td>
+                            <td>{{item.endTimeString}}</td>
+                            <td>{{item.createUserName}}</td>
+                            <td>{{item.createTimeString}}</td>
+                            <td>{{item.statusString}}</td>
+                            <td>
+                                <button ng-show="item.status==0" class="status-button btn btn-xs btn-danger"
+                                        ng-click="onStop(item.cid,item.status)">停用
+                                </button>
+                                <p ng-show="item.status==1">-</p>
+                            </td>
+                            <td>{{item.remark}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="page-1"></div>
+            </div>
+        </uib-tab>
+
+
+        <!---->
+        <uib-tab heading="管理中心允许访问IP" ng-click="clickManageCenterIPCtrl()">
+            <div class="widgets">
+                <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <form class="row form-inline">
+                        <div class="form-group col-sm-12 col-xs-6 align-right">
+                            <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                    ng-click="addNewConfig()">
+                                <i class="ion-plus"></i>新增限制IP
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>开始IP</th>
+                            <th>结束IP</th>
+                            <th>起始时间</th>
+                            <th>截止时间</th>
+                            <th>创建人</th>
+                            <th>创建时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in list">
+                            <td>{{$index+1}}</td>
+                            <td>{{item.startIpString}}</td>
+                            <td>{{item.endIpString}}</td>
+                            <td>{{item.startTimeString}}</td>
+                            <td>{{item.endTimeString}}</td>
+                            <td>{{item.createUserName}}</td>
+                            <td>{{item.createTimeString}}</td>
+                            <td>{{item.statusString}}</td>
+                            <td>{{item.status | formatConfigStatus}}</td>
+                            <td>{{item.remark}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="page-2"></div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

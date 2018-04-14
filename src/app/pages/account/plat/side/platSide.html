@@ -1,0 +1,123 @@
+<div class="widgets" ng-controller="platSideCtrl">
+    <div class="col-md-12" ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+        <div>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">平台商帐号</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" ng-model="queryParam.platAccount" placeholder="">
+                    </div>
+                    <label class="col-sm-1 control-label">平台商名称</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" ng-model="queryParam.platName" placeholder="">
+                    </div>
+
+                    <label class="col-sm-1 control-label">方案类型</label>
+                    <div class="col-sm-2">
+                        <ui-select ng-model="selectParam.settleTypeSelected"
+                                   class="btn-group bootstrap-select form-control"
+                                   ng-disabled="false"
+                                   append-to-body="true"
+                                   search-enabled="false">
+                            <ui-select-match placeholder="请选择">
+                                <span>{{$select.selected.value}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectParam.settleType | filter: $select.search">
+                                <span ng-bind-html="item.value"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <label class="col-sm-1 control-label">方案名称</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" ng-model="queryParam.settlePlanName" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">状态</label>
+                    <div class=" col-sm-2 ">
+                        <ui-select ng-model="selectParam.statusSelected"
+                                   class="btn-group bootstrap-select form-control"
+                                   ng-disabled="false"
+                                   append-to-body="true"
+                                   search-enabled="false">
+                            <ui-select-match placeholder="请选择">
+                                <span>{{$select.selected.value}}</span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectParam.status | filter: $select.search">
+                                <span ng-bind-html="item.value"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <div class=" col-sm-9  align-right">
+                        <a ng-click="onReset()">重置</a>
+                        <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                                class="ion-search"></i>搜索
+                        </button>
+                        <button type="button" class="btn btn-primary  btn-with-icon" data-toggle="modal"
+                                ng-click="open('app/pages/account/plat/side/platSideEdit.html', 'lg', 'add')"><i
+                                class="ion-plus"></i>新增配置
+                        </button>
+                        <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                                class="ion-ios-cloud-download"></i>导出
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+            <div class="horizontal-scroll">
+                <table class="table" st-table="smartTableData">
+                    <thead>
+                    <tr class="sortable ">
+                        <th class="table-id">序号</th>
+                        <th>平台商帐号</th>
+                        <th>平台商名称</th>
+                        <th>会员数量</th>
+                        <th>方案类型</th>
+                        <th>方案名称</th>
+                        <th>修改人</th>
+                        <th>修改时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in list">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.account}}</td>
+                        <td>{{item.platName}}</td>
+                        <td>{{item.memberNumber}}</td>
+                        <td>{{item.settleTypeShow}}</td>
+                        <td>{{item.settlePlanName}}</td>
+                        <td>{{item.modifyUserAccount }}</td>
+                        <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.status == 1?'启用中':'已停用'}}</td>
+                        <td>
+                            <button class="status-button btn btn-xs btn-info" data-toggle="modal"
+                                    ng-click="openEdit(item.platInfoId)">修改
+                            </button>
+                            <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                                    ng-click="modifyStatus(item.platInfoId,item.status)">
+                                {{item.status==1?'停用':'启用'}}
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="13" class="text-center">
+
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+                <div id="page-1"></div>
+            </div>
+        </div>
+    </div>
+</div>

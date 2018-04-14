@@ -1,0 +1,129 @@
+<div class="widgets" ng-controller="sourceManage">
+    <uib-tabset active="$tabSetStatus.activeTab">
+        <uib-tab heading="开奖号码监控" ng-click="openTab(1)">
+            <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">彩种名称</label>
+                        <div class="col-sm-2">
+                            <ui-select ng-model="selectParam.lotterySelected"
+                                       class="btn-group bootstrap-select form-control"
+                                       ng-disabled="false"
+                                       append-to-body="true"
+                                       search-enabled="false">
+                                <ui-select-match placeholder="请选择">
+                                    <span>{{$select.selected.value}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in selectParam.lottery | filter: $select.search">
+                                    <span ng-bind-html="item.value"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div style="float:right">
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                                    class="ion-search"></i>手动刷新
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                                    class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>彩种</th>
+                        <th>期号</th>
+                        <th>奖号获取时间</th>
+                        <th>奖号确认时间</th>
+                        <th>号码</th>
+                        <th>录入者</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-if="entity != null || entity.length >0">
+                    <tr ng-repeat="item in entity">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.lotteryName}}</td>
+                        <td>{{item.issue}}</td>
+                        <td>{{item.numGetTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.numOkTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.number}}</td>
+                        <td>admin</td>
+                        <!--<td>{{item.createUser}}</td>-->
+                        <td ng-if="item.status==1"><a>验证通过</a></td>
+                        <td ng-if="item.status==0"><a>验证不通过</a></td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="entity == null || entity.length ==0">
+                    <tr>
+                        <td colspan="11">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="page-1"></div>
+            </div>
+        </uib-tab>
+
+        <uib-tab heading="号源网站管理" ng-click="openTab(2)">
+            <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div style="float:right">
+                            <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="openEdit()"><i
+                                    class="ion-android-add"></i>新增
+                            </button>
+                            <button type="button" class="btn btn-primary  btn-with-icon" ng-click="onExport()"><i
+                                    class="ion-ios-cloud-download"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="black-muted-bg">
+                        <th>序号</th>
+                        <th>彩种</th>
+                        <th>号源ID</th>
+                        <th>号源名称</th>
+                        <th>网址</th>
+                        <th>修改人</th>
+                        <th>修改时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-if="entity != null || entity.length >0">
+                    <tr ng-repeat="item in entity">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.lotteryName}}</td>
+                        <td>{{item.cid}}</td>
+                        <td>{{item.sourceName}}</td>
+                        <td>{{item.url}}</td>
+                        <td>{{item.modifyUsername}}</td>
+                        <td>{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td  ng-style="{color:item.status==0?'red':''}">{{item.status | formatConfigStatus}}
+                        </td>
+                        <td>
+                            <button class="status-button btn btn-xs btn-{{item.status == 1?'danger':'info'}}"
+                                    ng-click="onStatus(item.cid,item.status)">{{item.status==1?'停用':'启用'}}
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tbody ng-if="entity == null || entity.length ==0">
+                    <tr>
+                        <td colspan="11">暂无数据</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="page-2"></div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

@@ -1,0 +1,248 @@
+<div class="widgets" ng-controller="companyFlowCheck">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">账号</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.memberName" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">入款编号</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.orderNo" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label ">自动刷新</label>
+                <div class="col-sm-2  align-right">
+                    <ui-select ng-model="selectParam.cycled"
+                               class="btn-group bootstrap-select form-control"
+                               ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="请选择">
+                            <span>{{$select.selected.msg}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.cycle | filter: $select.search">
+                            <span ng-bind-html="item.msg"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <label class="col-sm-1 control-label">支付方式</label>
+                <div class=" col-sm-2 ">
+                    <ui-select ng-model="selectParam.payMethodSelected"
+                               class="btn-group bootstrap-select form-control" ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="状态">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.payMethod | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">入款开始值</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.startMonery" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">入款结束值</label>
+                <div class=" col-sm-2 ">
+                    <input class="form-control" ng-model="queryParam.endMonery" placeholder="">
+                </div>
+                <label class="col-sm-1 control-label">入款开始时间</label>
+                <div class="col-sm-2">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input id="startTime" so-date type="text" class="form-control " placeholder="开始时间"
+                           ng-model="selectParam.startTime"/>
+                </div>
+                <label class="col-sm-1 control-label">入款结束时间</label>
+                <div class=" col-sm-2 ">
+                    <!--添加指令（so-date）指定id type="text"-->
+                    <input type="text" id="endTime" class="form-control  " placeholder="结束时间"
+                           ng-model="selectParam.endTime"/>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="col-sm-1 control-label" ng-show="agentFlag">入款状态</label>
+                <div class=" col-sm-2 " ng-show="agentFlag">
+                    <ui-select ng-model="selectParam.stateSelected"
+                               class="btn-group bootstrap-select form-control" ng-disabled="false"
+                               append-to-body="true"
+                               search-enabled="false">
+                        <ui-select-match placeholder="状态">
+                            <span>{{$select.selected.value}}</span>
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in selectParam.state | filter: $select.search">
+                            <span ng-bind-html="item.value"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class=" align-right" ng-class="{ false:'col-sm-12',true:'col-sm-9' }[agentFlag]">
+                    <a ng-click="audioFun()" ng-show="agentFlag">
+                        {{audioStr}}
+                        <i class="fa fa-volume-up"></i>
+                        <audio controls="controls" style="position: fixed;top: -500%" id="audioPlay"
+                               loop="loop">
+                            <source class="sourceUrl" ng-src="{{audioUrl}}"
+                                    type="audio/ogg">
+                            <source class="sourceUrl" ng-src="{{audioUrl}}"
+                                    type="audio/mpeg">
+                            <embed class="sourceUrl" height="100" width="100"
+                                   ng-src="{{audioUrl}}"
+                            />
+                        </audio>
+                    </a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(0)">今天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(1)">昨天
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(2)">上周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(3)">本周
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(4)">上月
+                    </button>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" style="margin-top: 0;"
+                            ng-click="dateFun(5)">本月
+                    </button>
+                    <a ng-click="onReset()">重置</a>
+                    <button type="submit" class="btn btn-primary  btn-with-icon" ng-click="onSearch()"><i
+                            class="ion-search"></i>搜索
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ba-panel ba-panel-class="">
+        <div class="horizontal-scroll">
+        <table class="table table-hover">
+            <thead>
+            <tr class="black-muted-bg">
+                <th>序号</th>
+                <th>入款编号</th>
+                <th>会员帐号</th>
+                <th>所属代理</th>
+                <th>会员层级</th>
+                <th>支付方式</th>
+                <th>入款金额</th>
+                <th>优惠金额</th>
+                <th>入款时间</th>
+                <th ng-show="agentFlag">存入账户</th>
+                <th>状态</th>
+                <th ng-show="agentFlag">审核人</th>
+                <th ng-show="agentFlag">审核时间</th>
+                <th ng-show="agentFlag">操作</th>
+                <th>来源终端</th>
+                <th ng-show="agentFlag">备注</th>
+            </tr>
+            </thead>
+            <tbody ng-if="entity != null && entity.length >0">
+            <tr ng-repeat="item in entity">
+                <td>{{$index+1}}</td>
+                <td>{{item.orderNo}}</td>
+                <td>{{item.memberName}}</td>
+                <td>{{item.agentName}}</td>
+                <td>{{item.levelName}}</td>
+                <td>{{item.depositorName}}/{{item.payMethodName}}</td>
+                <td>{{item.chargeAmount /100 | number :2}}</td>
+                <td>{{item.discountAmount /100 | number :2}}</td>
+                <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-show="agentFlag"><a>{{item.cardOwnerName==null?'-':item.cardOwnerName}}/{{item.cardNo==null?'-':item.cardNo}}</a>
+                    <!--ng-mouseenter="showChild(item)" ng-mouseleave="hideChild(item)" style="position: relative;cursor: pointer"-->
+                    <!--<div ng-show="item.flag" style="position: absolute;top: 80%;left: 0%;width: 360px;height: 120px;background: #8aaf9d;opacity: 1;z-index: 1000;border-radius: 5px;">
+                        <div class="clearfix" style="line-height: 40px; color:#fff;font-size: 14px;width: 360px;height: 40px;border-bottom: 1px solid rgba(255,255,255,0.2);text-align: left;padding-left: 10px ">银行卡详细信息</div>
+                        <div class="" style="padding:0 20px;width: 360px;">
+                            <div class="clearfix" style="line-height: 20px">
+                                <span style="float: left;width: 40%">{{item.cardOwnerName}}/{{item.bankName}}</span>
+                                <span style="float: right;">{{item.cardNo}}</span>
+                            </div>
+                            <div class="clearfix" style="line-height: 20px">
+                                <span style="float: left;width: 20%">累计入款次数：</span>
+                                <span style="float: right;">{{item.bankName}}</span>
+                            </div>
+                            <div class="clearfix" style="line-height: 20px; text-align: left;font-size: 12px">
+                                <span style="float: left;width: 20%">累计入款金额:</span>
+                                <span style="float: right;">{{item.bankAddress}}</span>
+                            </div>
+                            <div class="clearfix" style="line-height: 20px;text-align: left;font-size: 12px">
+                                <span style="float: left;width: 20%">停用金额:</span>
+                                <span style="float: right;">{{}}</span>
+                            </div>
+                        </div>
+
+                    </div>-->
+                </td>
+                <td>{{item.stateName }}</td>
+                <td ng-show="agentFlag">{{item.handlerName}}</td>
+                <td ng-show="agentFlag">{{item.modifyTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-show="agentFlag">
+                    <button class="status-button btn btn-xs btn-warning" ng-if="item.state==0"
+                            ng-click="onStatus(item,5)">锁定
+                    </button>
+                    <button class="status-button btn btn-xs btn-warning" ng-if="item.state==5"
+                            ng-click="onStatus(item,0)">解锁
+                    </button>
+                    <button class="status-button btn btn-xs btn-success" ng-if="item.state==5 "
+                            ng-click="onStatus(item,4)">同意
+                    </button>
+                    <button class="status-button btn btn-xs btn-danger" ng-if="item.state==5 "
+                            ng-click="onStatus(item,3)">拒绝
+                    </button>
+                </td>
+                <td>{{item.sourceName}}</td>
+                <td ng-show="agentFlag">{{item.remark}}</td>
+            </tr>
+            <tr>
+                <td>小计</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{summary.subAmount /100 | number :2 }}</td>
+                <td>{{summary.subDiscountAmount/100 | number :2}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{summary.totalAmount /100 | number :2 }}</td>
+                <td>{{summary.totalDiscountAmount/100 | number :2 }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+                <td ng-show="agentFlag"></td>
+            </tr>
+            </tbody>
+            <tbody ng-if="entity == null || entity.length ==0">
+            <tr>
+                <td colspan="13">暂无数据</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="widgets" ng-controller="orderOfficialEditCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="ion-ios-close-empty sn-link-close"></em>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">方案记录详情</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <div class="horizontal-scroll">
+                <table class="table table-bordered table-hover table-condensed">
+                    <tr>
+                        <td>方案编号</td>
+                        <td>{{detail.orderId}}</td>
+                        <td>彩种名称</td>
+                        <td>{{detail.lotteryName}}</td>
+                    </tr>
+                    <tr>
+                        <td>期号</td>
+                        <td>{{detail.issueAlias}}</td>
+                        <td>投注时间</td>
+                        <td>{{detail.betTimeString}}</td>
+                    </tr>
+                    <tr>
+                        <td>用户名</td>
+                        <td>{{detail.memberName}}</td>
+                        <td>所属平台</td>
+                        <td>{{detail.platInfoName}}</td>
+                    </tr>
+                    <tr>
+                        <td>来源</td>
+                        <td>{{detail.sourceString}}</td>
+                        <td>所属业主</td>
+                        <td>{{detail.ownerInfo}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="horizontal-scroll">
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead>
+                    <tr class="sortable">
+                        <th>玩法</th>
+                        <th>注数</th>
+                        <th>倍数</th>
+                        <th>投注金额</th>
+                        <th>模式</th>
+                        <th>开奖号码</th>
+                        <th>状态</th>
+                        <th>奖金</th>
+                        <th>中/投比（%）</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td style="width: 150px">{{detail.playName}}</td>
+                            <td>{{detail.betCount}}</td>
+                            <td>{{detail.multiple}}</td>
+                            <td>{{detail.betAmount/100 | number:2}}</td>
+                            <td>{{detail.moneyMode | moneyMode}}</td>
+                            <td>{{detail.winNumber}}</td>
+                            <td>{{detail.orderStatusString}}</td>
+                            <td>{{detail.payoff /100 | number:2}}</td>
+                            <td>{{detail.payoff *100 /detail.betAmount| number:2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group ng-scope">
+                            <span class="input-group-addon input-group-addon-primary addon-left"
+                                  id="basic-addon1">投注内容</span>
+                <div type="text" class="form-control with-primary-addon" style="color: #FF0000;line-height: 22px"
+                     aria-describedby="basic-addon1">{{detail.betContent}}
+                </div>
+            </div>
+            <button  ng-click="cancelOrder(detail.orderId)" type="button" class="btn btn-primary" style="float: right;" ng-if="detail.orderStatus!=4&&detail.orderStatus!=5">
+                撤销方案
+            </button>
+            <div style="clear: both;content: ''"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="widgets" ng-controller="appConfig">
+    <div ba-panel ba-panel-class="">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">APP下载地址</label>
+                <div class="col-sm-4">
+                    <input class="form-control" ng-model="entity.url" placeholder="">
+                </div>
+                <button type="button" class="btn btn-primary btn-with-icon" ng-click="onSave()"><i
+                        class="ion-android-checkmark-circle"></i>修改
+                </button>
+
+            </div>
+            <div class="form-group">
+                <!--<label class="col-sm-3 control-label"></label>-->
+                <div class="col-sm-offset-1 col-sm-4">请严格按照域名规范录入，示例：<span style="color: red">http://www.vip.com</span></div>
+            </div>
+        </form>
+    </div>
+</div>
